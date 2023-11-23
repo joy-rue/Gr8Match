@@ -10,24 +10,37 @@
 # if RA degree matches project department +30,
 # if ra interest match faculty interest (20+)
 
+# FIELD SPECIFIC INTERESTS
+Bio_interests = ['Zoology', 'Ecology', 'Forensics', 'Pharmaceuticals']
+Psych_interests = ['Child psychology', 'Neurology']
+Comp_interests = ['']
+
+
 interests = []
 department = []
 
 
 class Project:
-    def __init__(self, timeline, department, skills_R, weekly_H, stage):
+    def __init__(self, start_date, end_date, department, skills_R, weekly_H, stage, milestones):
         # Instance variables
-        self.timeline = timeline
+        self.start_date = start_date
+        self.end_date = end_date
         self.department = department
         self.skills_R = skills_R
         self.weekly_H = weekly_H
-        self.stage = stage
+        self.reseaerch_stage = stage
+        self.milestones = milestones # Will be a list of lists where the inner lists are the tasks under each milestone
+
 
 
     # Instance method
     def display_attributes(self):
         print(f"Attribute 1: {self.attribute1}")
         print(f"Attribute 2: {self.attribute2}")
+
+    
+    def update_milestone(self, ):
+        pass
 
 class Faculty_A:
     def __init__(self, availability, interest, skills, degree):
