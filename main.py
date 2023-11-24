@@ -250,3 +250,7 @@ def Gr8match(project: Project, assistants: List[FacultyA], faculty: Faculty):
         for interest in faculty.interest:
             if interest in assistant.interest:
                 score += interest_score
+
+        scores[assistant.name] = score
+
+    print(scores)
