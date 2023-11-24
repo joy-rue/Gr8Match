@@ -252,5 +252,6 @@ def Gr8match(project: Project, assistants: List[FacultyA], faculty: Faculty):
                 score += interest_score
 
         scores[assistant.name] = score
+        #This is new
 
     print(scores)
