@@ -182,7 +182,7 @@ BA_interests = [
 interests = [Bio_interests, Psych_interests, Comp_interests, BA_interests]
 departments = ["CompScience", "BusinessAdmin"]
 # assume that each interest can lead to a degree
-dep_deg = {departments[1]: Comp_interests, departments[2]: BA_interests}
+# dep_deg = {departments[1]: Comp_interests, departments[2]: BA_interests}
 degrees = [1, 2, 3, 4, 5, 6, 7, 8]
 education_level = ["bachelors", "masters", "phd", "Associates"]
 certificates = []
@@ -255,3 +255,28 @@ def Gr8match(project: Project, assistants: List[FacultyA], faculty: Faculty):
         #This is new
 
     print(scores)
+    
+    Alan_interests = ["Algorithms and Data Structures", "Artificial Intelligence (AI)", "Machine Learning", "Computer Graphics", "Human-Computer Interaction (HCI)", "Databases","Software Engineering", "Computer Networks"]
+    
+    
+# RA dummy users
+Alan = FacultyA('Alan', 'Yes', ["Algorithms and Data Structures", "Artificial Intelligence (AI)"], ["copywriting", "project management"], "Computer Science")
+Beatrice = FacultyA('Beatrice', 'Yes', ["Marketing","Finance","Human Resource Management"], ["copywriting", "project management"], "Computer Science")
+Nana = FacultyA('Nana', 'No', ["Computational Geometry","Spatial Databases","Robotic Process Automation (RPA)"], ["copywriting", "project management"], "Computer Science")
+Miriam = FacultyA('Miriam', 'No', ["Algorithms and Data Structures","Computational Geometry","Spatial Databases","Robotic Process Automation (RPA)"], ["copywriting", "project management"], "Computer Science")
+Richard = FacultyA('Richard', 'Yes', ["Computer-Aided Design (CAD)","Evolutionary Computation","Computer Forensics"], ["copywriting", "project management"], "Computer Science")
+Derrick = FacultyA('Derrick', 'Yes', ["Artificial Intelligence (AI)"], ["copywriting", "project management"], "Computer Science")
+Adwoa = FacultyA('Adwoa', 'Yes', ["Algorithms and Data Structures", "Artificial Intelligence (AI)"], ["copywriting", "project management"], "Computer Science")
+Alicia = FacultyA('Alicia', 'Yes', ["International Business","Supply Chain Management","Information Systems Management","Project Management"], ["copywriting", "project management"], "Computer Science")
+Janice = FacultyA('Janice', 'No', ["Algorithms and Data Structures", "Artificial Intelligence (AI)"], ["copywriting", "project management"], "Computer Science")
+
+RAs = [Alan, Beatrice, Nana, Miriam, Richard, Derrick, Adwoa, Alicia, Janice]
+
+# Faculty dummy users
+Jack = Faculty("Jack", ["Algorithms and Data Structures", "Artificial Intelligence (AI)", "Finance", "Computer-Aided Design (CAD)"], "Computer Science")
+
+# Dummy projects
+Project1 = Project("12-01-2024", "17-07-2024", "Computer Science", ["copywriting", "Python", "project management", "technical writing"], 30, "Data collection", ["milestone 1", "milestone 2", "milestone 3"])
+
+
+Gr8match(Project1, RAs, Jack)
