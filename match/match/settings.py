@@ -75,10 +75,19 @@ WSGI_APPLICATION = 'match.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'Ra_Matching',
+        'USER': 'root',
+        'PASSWORD': 'Trafalgarlaw1',
+        'HOST': 'localhost',   # Set to the host where your MySQL server is running
+        'PORT': '3306',        # Set to the port your MySQL server is using
     }
 }
+
+# todo: how to change to mysql
+#  migrate default tables to mysql tables,
+#  how to store env variables,
+#  generate models for db
 
 
 # Password validation
