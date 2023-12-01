@@ -79,8 +79,8 @@ DATABASES = {
         'NAME': 'Ra_Matching',
         'USER': 'root',
         'PASSWORD': 'Trafalgarlaw1',
-        'HOST': 'localhost',   # Set to the host where your MySQL server is running
-        'PORT': '3306',        # Set to the port your MySQL server is using
+        'HOST': 'localhost',
+        'PORT': '3306',
     }
 }
 
