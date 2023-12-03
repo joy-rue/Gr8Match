@@ -1,0 +1,3 @@
+I made a views folder so we could have different views files for different sets of functionalities. Thus any new views files should be made in there and imprted in the __init__.py file.
+
+The paths to any function made in a views file should be set in the app urls and then in the project urls. Both of these will be needed in the url bar in order to properly route to the page in question.

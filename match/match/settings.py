@@ -37,6 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'version1',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
@@ -69,6 +71,9 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'match.wsgi.application'
 
+import pymysql
+pymysql.install_as_MySQLdb()
+
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
@@ -76,9 +81,9 @@ WSGI_APPLICATION = 'match.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'Ra_Matching',
+        'NAME': 'GR8_db',
         'USER': 'root',
-        'PASSWORD': 'Trafalgarlaw1',
+        'PASSWORD': '',
         'HOST': 'localhost',
         'PORT': '3306',
     }
