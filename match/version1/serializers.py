@@ -3,7 +3,68 @@ from rest_framework import serializers
 
 from .models import *
 
+
+class CustomUserRegistrationSerializer(serializers.ModelSerializer):
+  department = serializers.CharField(write_only=True)
+  password = serializers.CharField(write_only=True)
+  confirm_password = serializers.CharField(write_only=True)
+ 
+  class Meta:
+    model = CustomUser
+    fields = ["id", "first_name", "last_name", "email", "role", "department", "password", "confirm_password"]
+    
+  def validate_department(self, value):
+    if not Department.objects.filter(department_name=value).exists():
+      raise serializers.ValidationError("Department does not exist!")
+    return Department.objects.get(department_name=value)
+    
+  def create(self, **validated_data):
+    return CustomUser.objects.create(validated_data)
+      
+  def save(self):
+    user = CustomUser(
+      first_name=self.validated_data["first_name"],
+      last_name=self.validated_data["last_name"],
+      email=self.validated_data["email"],
+      role=self.validated_data["role"],
+      department=self.validated_data["department"]
+    )
+    
+    password = self.validated_data["password"]
+    confirm_password = self.validated_data["confirm_password"]
+    
+    if password != confirm_password:
+      raise serializers.ValidationError("Passwords must match!")
+    else:
+      user.set_password(password)
+      user.save()
+      return user
+
+
 # Serializers for each model in the app models.py, meant to transform python objects into JSON formatted dictionaries and vice-versa
+class CustomUserLoginSerializer(serializers.ModelSerializer):
+  email = serializers.EmailField(write_only=True)
+  password = serializers.CharField(write_only=True)
+  
+  class Meta:
+    model = CustomUser
+    fields = ['email', 'password']
+    
+  def validate(self, attrs):
+    email = attrs.get("email")
+    password = attrs.get("password")
+    
+    try:
+      user = CustomUser.objects.filter(email=email).first()
+    except CustomUser.DoesNotExist:
+      raise serializers.ValidationError(f"No user with email {email} exists!")
+    
+    if not user.check_password(password):
+      raise serializers.ValidationError("Password not correct.")
+    
+    return attrs
+    
+
 class FacultySerializer(serializers.ModelSerializer):
 
   class Meta:
