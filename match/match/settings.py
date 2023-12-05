@@ -15,7 +15,6 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
@@ -26,7 +25,6 @@ SECRET_KEY = 'django-insecure-au)xhdu((r7u-%swl(n3+llo%il=1nmh&x%n-cc@1--@s+1y!w
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -72,8 +70,8 @@ TEMPLATES = [
 WSGI_APPLICATION = 'match.wsgi.application'
 
 import pymysql
-pymysql.install_as_MySQLdb()
 
+pymysql.install_as_MySQLdb()
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
@@ -81,15 +79,15 @@ pymysql.install_as_MySQLdb()
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'GR8_db',
+        'NAME': 'migrator1',
         'USER': 'root',
-        'PASSWORD': '',
+        'PASSWORD': 'Trafalgarlaw1',
         'HOST': 'localhost',
         'PORT': '3306',
     }
 }
 
-# todo: how to change to mysql
+# todo:
 #  migrate default tables to mysql tables,
 #  how to store env variables,
 #  generate models for db
@@ -113,7 +111,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
@@ -124,7 +121,6 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/

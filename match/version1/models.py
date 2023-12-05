@@ -38,24 +38,25 @@ class Faculty(models.Model):
 class RA(models.Model):
     first_name = models.CharField(max_length=20)
     last_name = models.CharField(max_length=20)
+    availability = models.BooleanField(default=True)  # Use BooleanField for true or false
     rA_id = models.AutoField(primary_key=True)
     project = models.ForeignKey(Projects, on_delete=models.CASCADE)
     department = models.ForeignKey(Department, on_delete=models.CASCADE)
     # interest_id = models.ForeignKey(Interest, on_delete=models.CASCADE)
-    
+
 class Faculty_Interest(models.Model):
     faculty = models.ForeignKey(Faculty, on_delete=models.CASCADE)
     interest = models.ForeignKey(Interest, on_delete=models.CASCADE)
-    
+
 class RA_Interest(models.Model):
     rA = models.ForeignKey(RA, on_delete=models.CASCADE)
     interest = models.ForeignKey(Interest, on_delete=models.CASCADE)
 
-    
+
 class RA_Project(models.Model):
     rA = models.ForeignKey(RA, on_delete=models.CASCADE)
     project = models.ForeignKey(Projects, on_delete=models.CASCADE)
-    
+
 class Skills(models.Model):
     skill_name = models.CharField(max_length=400)
     skills_id = models.AutoField(primary_key=True)

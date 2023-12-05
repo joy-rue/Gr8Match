@@ -12,6 +12,7 @@
 
 from typing import List
 
+
 # FIELD SPECIFIC INTERESTS
 Bio_interests = ['Zoology', 'Ecology', 'Forensics', 'Pharmaceuticals']
 Psych_interests = ['Child psychology', 'Neurology']
@@ -194,22 +195,10 @@ certificates = []
 # post list of top 3 RAs for a project to
 
 
-class Project:
-    def __init__(self, start_date, end_date, department, skills_R, weekly_H, stage, milestones):
-        # Instance variables
-        self.start_date = start_date
-        self.end_date = end_date
-        self.department = department
-        self.skills_R = skills_R
-        self.weekly_H = weekly_H
-        self.reseaerch_stage = stage
-        self.milestones = milestones  # Will be a list of lists where the inner lists are the tasks under each milestone
-
-    def update_milestone(self):
-        pass
 
 
-class FacultyA:
+
+class RA:
     def __init__(self, name, availability, interest, skills, degree):
         # Instance variables
         self.name = name
@@ -227,48 +216,19 @@ class Faculty:
         self.degree = degree
 
 
-def Gr8match(project: Project, assistants: List[FacultyA], faculty: Faculty):
-    scores = {}
-    for assistant in assistants:
-        score = 0
-        skill_score = 30 / len(project.skills_R)
-        interest_score = 20 / len(faculty.interest)
-        if not assistant.availability:
-            score -= 100
-        else:
-            score += 30
 
-        for skill in project.skills_R:
-            if skill in assistant.skills:
-                score += skill_score
-            else:
-                score -= skill_score
-
-        if assistant.degree == project.department:
-            score += 30
-
-        for interest in faculty.interest:
-            if interest in assistant.interest:
-                score += interest_score
-
-        scores[assistant.name] = score
-        #This is new
-
-    print(scores)
-    
-    Alan_interests = ["Algorithms and Data Structures", "Artificial Intelligence (AI)", "Machine Learning", "Computer Graphics", "Human-Computer Interaction (HCI)", "Databases","Software Engineering", "Computer Networks"]
     
     
 # RA dummy users
-Alan = FacultyA('Alan', 'Yes', ["Algorithms and Data Structures", "Artificial Intelligence (AI)"], ["copywriting", "project management"], "Computer Science")
-Beatrice = FacultyA('Beatrice', 'Yes', ["Marketing","Finance","Human Resource Management"], ["copywriting", "project management"], "Computer Science")
-Nana = FacultyA('Nana', 'No', ["Computational Geometry","Spatial Databases","Robotic Process Automation (RPA)"], ["copywriting", "project management"], "Computer Science")
-Miriam = FacultyA('Miriam', 'No', ["Algorithms and Data Structures","Computational Geometry","Spatial Databases","Robotic Process Automation (RPA)"], ["copywriting", "project management"], "Computer Science")
-Richard = FacultyA('Richard', 'Yes', ["Computer-Aided Design (CAD)","Evolutionary Computation","Computer Forensics"], ["copywriting", "project management"], "Computer Science")
-Derrick = FacultyA('Derrick', 'Yes', ["Artificial Intelligence (AI)"], ["copywriting", "project management"], "Computer Science")
-Adwoa = FacultyA('Adwoa', 'Yes', ["Algorithms and Data Structures", "Artificial Intelligence (AI)"], ["copywriting", "project management"], "Computer Science")
-Alicia = FacultyA('Alicia', 'Yes', ["International Business","Supply Chain Management","Information Systems Management","Project Management"], ["copywriting", "project management"], "Computer Science")
-Janice = FacultyA('Janice', 'No', ["Algorithms and Data Structures", "Artificial Intelligence (AI)"], ["copywriting", "project management"], "Computer Science")
+Alan = RA('Alan', 'Yes', ["Algorithms and Data Structures", "Artificial Intelligence (AI)"], ["copywriting", "project management"], "Computer Science")
+Beatrice = RA('Beatrice', 'Yes', ["Marketing", "Finance", "Human Resource Management"], ["copywriting", "project management"], "Computer Science")
+Nana = RA('Nana', 'No', ["Computational Geometry", "Spatial Databases", "Robotic Process Automation (RPA)"], ["copywriting", "project management"], "Computer Science")
+Miriam = RA('Miriam', 'No', ["Algorithms and Data Structures", "Computational Geometry", "Spatial Databases", "Robotic Process Automation (RPA)"], ["copywriting", "project management"], "Computer Science")
+Richard = RA('Richard', 'Yes', ["Computer-Aided Design (CAD)", "Evolutionary Computation", "Computer Forensics"], ["copywriting", "project management"], "Computer Science")
+Derrick = RA('Derrick', 'Yes', ["Artificial Intelligence (AI)"], ["copywriting", "project management"], "Computer Science")
+Adwoa = RA('Adwoa', 'Yes', ["Algorithms and Data Structures", "Artificial Intelligence (AI)"], ["copywriting", "project management"], "Computer Science")
+Alicia = RA('Alicia', 'Yes', ["International Business", "Supply Chain Management", "Information Systems Management", "Project Management"], ["copywriting", "project management"], "Computer Science")
+Janice = RA('Janice', 'No', ["Algorithms and Data Structures", "Artificial Intelligence (AI)"], ["copywriting", "project management"], "Computer Science")
 
 RAs = [Alan, Beatrice, Nana, Miriam, Richard, Derrick, Adwoa, Alicia, Janice]
 
@@ -276,7 +236,3 @@ RAs = [Alan, Beatrice, Nana, Miriam, Richard, Derrick, Adwoa, Alicia, Janice]
 Jack = Faculty("Jack", ["Algorithms and Data Structures", "Artificial Intelligence (AI)", "Finance", "Computer-Aided Design (CAD)"], "Computer Science")
 
 # Dummy projects
-Project1 = Project("12-01-2024", "17-07-2024", "Computer Science", ["copywriting", "Python", "project management", "technical writing"], 30, "Data collection", ["milestone 1", "milestone 2", "milestone 3"])
-
-
-Gr8match(Project1, RAs, Jack)
