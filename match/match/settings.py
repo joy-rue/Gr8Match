@@ -79,9 +79,9 @@ pymysql.install_as_MySQLdb()
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'migrator1',
+        'NAME': 'GR8_db',
         'USER': 'root',
-        'PASSWORD': 'Trafalgarlaw1',
+        'PASSWORD': '',
         'HOST': 'localhost',
         'PORT': '3306',
     }

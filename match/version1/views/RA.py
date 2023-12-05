@@ -2,15 +2,17 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from ..models import *
 from ..serializers import *
+from typing import List
+
 
 
 # Retireve project data in the database
 
 @api_view(['GET'])
-def RA_profile(request, ra_id):
+def RA_profile(request, ras_id):
     try:
-        # Retrieve the project from the database based on the project name
-        ra = RA.objects.get(rA_id=ra_id)
+        # Retrieve the project from the database based on the ra id
+        ra = RA.objects.get(rA_id=ras_id)
 
         # Serialize the project data using the ProjectSerializer
         serializer = RASerializer(ra)
@@ -20,4 +22,4 @@ def RA_profile(request, ra_id):
 
     except Projects.DoesNotExist:
         # Handle the case where the project with the given name does not exist
-        return Response({'error': f'RA with id {ra_id} does not exist'}, status=404)
+        return Response({'error': f'RA with id {ras_id} does not exist'}, status=404)

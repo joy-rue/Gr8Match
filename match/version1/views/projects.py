@@ -24,7 +24,7 @@ def project_detail(request, project_name):
 
 
 @api_view(['POST'])
-def project_detail(request):
+def project_detail1(request):
     # Extract data from the request (modify as needed based on your actual data structure)
     data = request.data
     title = data.get('title')
