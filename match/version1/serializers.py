@@ -94,6 +94,41 @@ class ProjectMilestoneSerializer(serializers.ModelSerializer):
     model = ProjectMilestones
     fields = ('__all__')
     
+    
+class ProjectCreationSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = Projects
+        fields = ["id", "title", "start_date", "end_date", "description"]
+        
+    def create_project(self, **validated_data):
+        return Projects.objects.create(validated_data)
+    
+    
+    def save(self):
+        
+        milestone = Milestones(
+            milestone=self.validated_data["milestone"]
+        )
+        milestone.save()
+                
+        project = Projects(
+            title=self.validated_data["title"],
+            start_date=self.validated_data["start_date"],
+            end_date=self.validated_data["end_date"],
+            description=self.validated_data["description"]
+        )
+        project.save()
+        
+        projectMilestone = ProjectMilestones(
+            milestone_complete="No",
+            milestone_id=milestone,
+            project_id=project
+        )
+        projectMilestone.save()
+        
+        return project
+    
 
 class DepartmentSerializer(serializers.ModelSerializer):
   class Meta:

@@ -1,5 +1,6 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from rest_framework import status
 from typing import List
 from ..serializers import *
 
@@ -23,38 +24,38 @@ def project_detail(request, project_name):
         return Response({'error': f'Project with name {project_name} does not exist'}, status=404)
 
 
-@api_view(['POST'])
-def create_project(request):
-    # Extract data from the request (modify as needed based on your actual data structure)
-    data = request.data
-    title = data.get('title')
-    start_date = data.get('start_date')
-    end_date = data.get('end_date')
-    description = data.get('description')
+# @api_view(['POST'])
+# def create_project(request):
+#     # Extract data from the request (modify as needed based on your actual data structure)
+#     data = request.data
+#     title = data.get('title')
+#     start_date = data.get('start_date')
+#     end_date = data.get('end_date')
+#     description = data.get('description')
 
-    # Check if a project with the same title already exists
-    existing_project = Projects.objects.filter(title=title).first()
+#     # Check if a project with the same title already exists
+#     existing_project = Projects.objects.filter(title=title).first()
 
-    if existing_project:
-        # Handle the case where the project already exists
-        serializer = ProjectSerializer(existing_project)
-        return Response({'error': f'Project with title {title} already exists', 'project': serializer.data}, status=409)
-    else:
-        # Create a new project instance
-        new_project = Projects.objects.create(
-            title=title,
-            start_date=start_date,
-            end_date=end_date,
-            description=description
-            # Add other fields as needed
-        )
+#     if existing_project:
+#         # Handle the case where the project already exists
+#         serializer = ProjectSerializer(existing_project)
+#         return Response({'error': f'Project with title {title} already exists', 'project': serializer.data}, status=409)
+#     else:
+#         # Create a new project instance
+#         new_project = Projects.objects.create(
+#             title=title,
+#             start_date=start_date,
+#             end_date=end_date,
+#             description=description
+#             # Add other fields as needed
+#         )
 
-        # Serialize the new project data using the ProjectSerializer
-        serializer = ProjectSerializer(new_project)
+#         # Serialize the new project data using the ProjectSerializer
+#         serializer = ProjectSerializer(new_project)
 
-        # Return the serialized project data as a JSON response
-        return Response({'project': serializer.data}, status=201)
-    # Projects.objects.get(project_id =  )
+#         # Return the serialized project data as a JSON response
+#         return Response({'project': serializer.data}, status=201)
+#     # Projects.objects.get(project_id =  )
 
 
 
@@ -92,3 +93,13 @@ def Gr8match(project_id: int, assistant_ids: List[int], faculty_id: int):
         scores[assistant.first_name + ' ' + assistant.last_name] = score
 
     print(scores)
+
+
+@api_view(["POST"])
+def create_project(request):
+    serializer = ProjectCreationSerializer(data=request.data)
+    if serializer.is_valid():
+        project=serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+        
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
