@@ -1,6 +1,7 @@
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.permissions import IsAuthenticated
 from typing import List
 from ..serializers import *
 
@@ -11,7 +12,7 @@ from ..serializers import *
 def project_detail(request, project_name):
     try:
         # Retrieve the project from the database based on the project name
-        project = Projects.objects.get(title=project_name)
+        project = Projects.objects.filter(title=project_name).first()
 
         # Serialize the project data using the ProjectSerializer
         serializer = ProjectSerializer(project)
@@ -96,10 +97,30 @@ def Gr8match(project_id: int, assistant_ids: List[int], faculty_id: int):
 
 
 @api_view(["POST"])
+@permission_classes([IsAuthenticated])
 def create_project(request):
-    serializer = ProjectCreationSerializer(data=request.data)
+    serializer = ProjectCreationSerializer(data=request.data, context={"request": request})
     if serializer.is_valid():
-        project=serializer.save()
+        project = serializer.save()
+        
         return Response(serializer.data, status=status.HTTP_201_CREATED)
         
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+# @api_view(["GET"])
+# @permission_classes([IsAuthenticated])
+# def get_project_details(request):
+    
+    
+    
+
+@api_view(["GET"])
+@permission_classes([IsAuthenticated])
+def get_user_detals(request):
+    try:
+        user = CustomUser.objects.get(id=request.user.id)
+    except CustomUser.DoesNotExist:
+        return Response({"error": "Not found!"})
+
+    return Response(CustomUserSerializer(user).data)

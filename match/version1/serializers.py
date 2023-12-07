@@ -63,7 +63,14 @@ class CustomUserLoginSerializer(serializers.ModelSerializer):
       raise serializers.ValidationError("Password not correct.")
     
     return attrs
-    
+  
+
+class CustomUserSerializer(serializers.ModelSerializer):
+  
+  class Meta:
+    model = CustomUser
+    fields = ["id", "first_name", "last_name", "email", "role", "department", "last_login"]
+
 
 class FacultySerializer(serializers.ModelSerializer):
 
@@ -96,39 +103,68 @@ class ProjectMilestoneSerializer(serializers.ModelSerializer):
     
     
 class ProjectCreationSerializer(serializers.ModelSerializer):
+    # milestones = ProjectMilestoneSerializer(many=True)
+    milestones = serializers.ListField(write_only=True)
+    milestone_list = serializers.SerializerMethodField("get_milestones")
     
     class Meta:
         model = Projects
-        fields = ["id", "title", "start_date", "end_date", "description"]
+        fields = ["id", "title", "start_date", "end_date", "description", "milestones", "milestone_list"]
         
     def create_project(self, **validated_data):
         return Projects.objects.create(validated_data)
     
     
     def save(self):
+      
+      # {
+      #   'project_name': 'Delasi',
+      #   'milestones': [
+      #     {
+      #       'milestone_name': 'Haha'
+      #     },
+      #     {
+      #       'milestone_name': 'Haha'
+      #     }
+      #   ]
+      # }
+      
+      project = Projects(
+          title=self.validated_data["title"],
+          start_date=self.validated_data["start_date"],
+          end_date=self.validated_data["end_date"],
+          description=self.validated_data["description"],
+          owner=self.context["request"].user
+      )
+      
+      project.save()
+      for m_stone in self.validated_data['milestones']:
         
-        milestone = Milestones(
-            milestone=self.validated_data["milestone"]
-        )
-        milestone.save()
-                
-        project = Projects(
-            title=self.validated_data["title"],
-            start_date=self.validated_data["start_date"],
-            end_date=self.validated_data["end_date"],
-            description=self.validated_data["description"]
-        )
-        project.save()
-        
+        if Milestones.objects.filter(milestone=m_stone["milestone"]).exists():
+          milestone = Milestones.objects.get(milestone=m_stone["milestone"])
+        else:
+          milestone = Milestones(
+            milestone = m_stone['milestone']
+          )
+          milestone.save()
+          print(milestone)
+                  
         projectMilestone = ProjectMilestones(
-            milestone_complete="No",
-            milestone_id=milestone,
-            project_id=project
+            milestone_complete=False,
+            milestone=milestone,
+            project=project
         )
-        projectMilestone.save()
         
-        return project
+        projectMilestone.save()
+      
+      return project
     
+    def get_milestones(self, obj):
+      milestones = list()
+      project_milestones = ProjectMilestones.objects.filter(project=Projects.objects.filter(title=self.validated_data["title"]).last())
+      for project_milestone in project_milestones:
+        milestones.append(ProjectMilestoneSerializer(project_milestone).data)
+      return milestones
 
 class DepartmentSerializer(serializers.ModelSerializer):
   class Meta:

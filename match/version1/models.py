@@ -61,6 +61,7 @@ class Projects(models.Model):
     start_date = models.DateField()
     end_date = models.DateField()
     description = models.CharField(max_length=250)
+    owner = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     # project_id = models.AutoField(primary_key=True)
 
 class Milestones(models.Model):
@@ -70,7 +71,7 @@ class Milestones(models.Model):
 class ProjectMilestones(models.Model):
     project = models.ForeignKey(Projects, on_delete=models.CASCADE)
     milestone = models.ForeignKey(Milestones, on_delete=models.CASCADE)
-    milestone_complete = models.BooleanField()
+    milestone_complete = models.BooleanField(null=False, default=False)
     # primary_key = models.ForeignKey(Projects, Milestones, primary_key=True, on_delete=models.CASCADE)
 
 
