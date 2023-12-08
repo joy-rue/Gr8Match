@@ -1,0 +1,13 @@
+.app__body{
+    width: 100vw;
+    height: 100vh;
+    background-color: #F3F2EF;
+}
+
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100px;
+    content: left;
+}
