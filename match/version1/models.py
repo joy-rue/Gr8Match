@@ -57,6 +57,7 @@ class Projects(models.Model):
     end_date = models.DateField()
     description = models.CharField(max_length=250)
     owner = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    #department = models.ForeignKey(Department, on_delete=models.CASCADE)
     # project_id = models.AutoField(primary_key=True)
 
 class Milestones(models.Model):
