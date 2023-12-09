@@ -1,12 +1,7 @@
-import React from "react";
 import ashesibanner from "./assets/ashesibanner.png";
 import groupprofile from "./components/icons/groupprofile.jpg";
 import sidebanner from "./components/icons/sidebanner.png";
-
-import email from "./components/icons/email.png";
 import { ProfileCard } from "./components/ProfileCard";
-import { IconItem } from "./components/IconItem";
-import ProgressBar from "./components/ProgressBar";
 import { ProjectHeaderContent } from "./components/ProjectHeaderContent";
 
 const MyComponent = (
@@ -30,10 +25,6 @@ export const Project = () => {
         banner={ashesibanner}
         profile={groupprofile}
         title={"Ghana Economic Index Study"}
-        // content={[
-        //   "Some quick example text to build on the card title and make up the bulk of the card's content.",
-        //   "ssdsds",
-        // ]}
         content={MyComponent}
       />
 
