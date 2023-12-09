@@ -94,14 +94,12 @@ def make_match(request):
 
 
                 project_skill_ids = list(Project_Skills.objects.filter(project=project).values_list('skills__id', flat=True))
-                print("yahhhhh")
-                print(project_skill_ids[2])
                 for skill_id in RA_Skills.objects.filter(rA_id=assistant.id).values_list('skills_id', flat=True):
                     if skill_id in project_skill_ids:
                         score += skill_score
 
-                # if CustomUser.object.get == project.department:
-                #     score += 30
+                if faculty.account.department == project.department:
+                    score += 30
 
                 Faculty_interest_ids = list(Faculty_Interest.objects.filter(faculty=faculty).values_list('interest__id', flat=True))
                 for interest_id in Faculty_interest_ids:
@@ -110,7 +108,9 @@ def make_match(request):
 
                 scores[assistant.id] = score
 
-            return JsonResponse({'scores': scores})
+            sorted_scores = dict(sorted(scores.items(), key=lambda item: item[1], reverse=True))
+            top_3 = dict(list(sorted_scores.items())[:3])
+            return JsonResponse({'scores': top_3})
         else:
             return JsonResponse({'error': serializer.errors}, status=400)
     except Exception as e:
@@ -134,7 +134,7 @@ def create_project(request):
 
 
 @api_view(["GET"])
-# @permission_classes([IsAuthenticated])
+@permission_classes([IsAuthenticated])
 def get_user_details(request):
     try:
         user = CustomUser.objects.get(id=request.user.id)
