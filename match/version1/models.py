@@ -33,7 +33,6 @@ class CustomUserManager(BaseUserManager):
 class Department(models.Model):
     department_name = models.CharField(max_length=20)
 
-
 class CustomUser(AbstractBaseUser):
     email = models.EmailField(_('email address'), unique=True)
 
@@ -51,10 +50,6 @@ class CustomUser(AbstractBaseUser):
     def __str__(self):
         return self.email
     
-    
-# Create your models here.
-
-
 
 class Projects(models.Model):
     title = models.CharField(max_length=30)

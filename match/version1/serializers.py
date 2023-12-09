@@ -158,13 +158,18 @@ class ProjectCreationSerializer(serializers.ModelSerializer):
         projectMilestone.save()
       
       return project
-    
+
     def get_milestones(self, obj):
       milestones = list()
       project_milestones = ProjectMilestones.objects.filter(project=Projects.objects.filter(title=self.validated_data["title"]).last())
       for project_milestone in project_milestones:
         milestones.append(ProjectMilestoneSerializer(project_milestone).data)
       return milestones
+
+
+class MatchingSerializer(serializers.Serializer):
+  faculty_id = serializers.IntegerField()
+  project_id = serializers.IntegerField()
 
 class DepartmentSerializer(serializers.ModelSerializer):
   class Meta:

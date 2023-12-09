@@ -1,3 +1,7 @@
+import json
+
+from django.http import JsonResponse
+from django.shortcuts import get_object_or_404
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework import status
@@ -58,43 +62,57 @@ def project_detail(request, project_name):
 #         return Response({'project': serializer.data}, status=201)
 #     # Projects.objects.get(project_id =  )
 
+@api_view(["POST"])
+def make_match(request):
+    try:
+        serializer = MatchingSerializer(data=request.data)
+        if serializer.is_valid():
+            data = serializer.validated_data
+        # Use request.data directly for JSON parsing
+        # data = request.data
+
+        # Retrieve Django model instances based on primary keys
+            project = get_object_or_404(Projects, id=data["project_id"])
+            assistants = RA.objects.all()
+            faculty = get_object_or_404(Faculty, faculty_id=data["faculty_id"])
+
+            scores = {}
+
+            for assistant in assistants:
+                score = 0
+                # print(Project_Skills.objects.filter(project=project).count())
+                skill_score = 30 / Project_Skills.objects.filter(project=project).count()
+                # print(Faculty_Interest.objects.filter(faculty=faculty).count())
+                interest_score = 20 / Faculty_Interest.objects.filter(faculty=faculty).count()
+
+                if not assistant.availability:
+                    score -= 100
+                else:
+                    score += 30
 
 
-def Gr8match(project_id: int, assistant_ids: List[int], faculty_id: int):
-    # Retrieve Django models instances based on primary keys
-    project = Projects.objects.get(project_id=project_id)
-    assistants = RA.objects.filter(rA_id__in=assistant_ids)
-    faculty = Faculty.objects.get(faculty_id=faculty_id)
+                project_skill_ids = list(Project_Skills.objects.filter(project=project).values_list('skills__id', flat=True))
+                print("yahhhhh")
+                print(project_skill_ids[2])
+                for skill_id in RA_Skills.objects.filter(rA_id=assistant.id).values_list('skills_id', flat=True):
+                    if skill_id in project_skill_ids:
+                        score += skill_score
 
-    scores = {}
+                # if CustomUser.object.get == project.department:
+                #     score += 30
 
-    for assistant in assistants:
-        score = 0
-        skill_score = 30 / project.project_skills.count()
-        interest_score = 20 / faculty.faculty_interest.count()
+                Faculty_interest_ids = list(Faculty_Interest.objects.filter(faculty=faculty).values_list('interest__id', flat=True))
+                for interest_id in Faculty_interest_ids:
+                    if interest_id in RA_Interest.objects.filter(rA_id=assistant.id).values_list('interest_id', flat=True):
+                        score += interest_score
 
-        if not assistant.availability:
-            score -= 100
+                scores[assistant.id] = score
+
+            return JsonResponse({'scores': scores})
         else:
-            score += 30
-
-        for skill in project.project_skills.all():
-            if skill in assistant.ra_skills.all():
-                score += skill_score
-            else:
-                score -= skill_score
-
-        if assistant.department == project.department:
-            score += 30
-
-        for interest in faculty.faculty_interest.all():
-            if interest in assistant.ra_interest.all():
-                score += interest_score
-
-        scores[assistant.first_name + ' ' + assistant.last_name] = score
-
-    print(scores)
-
+            return JsonResponse({'error': serializer.errors}, status=400)
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=400)
 
 @api_view(["POST"])
 @permission_classes([IsAuthenticated])
@@ -102,22 +120,20 @@ def create_project(request):
     serializer = ProjectCreationSerializer(data=request.data, context={"request": request})
     if serializer.is_valid():
         project = serializer.save()
-        
+
         return Response(serializer.data, status=status.HTTP_201_CREATED)
-        
+
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 # @api_view(["GET"])
 # @permission_classes([IsAuthenticated])
 # def get_project_details(request):
-    
-    
-    
+
 
 @api_view(["GET"])
-@permission_classes([IsAuthenticated])
-def get_user_detals(request):
+# @permission_classes([IsAuthenticated])
+def get_user_details(request):
     try:
         user = CustomUser.objects.get(id=request.user.id)
     except CustomUser.DoesNotExist:
