@@ -26,9 +26,9 @@ def RA_profile(request, ras_id):
     
     
     
-@api_view(["PUT"])
-def edit_account(request):
-    password = request.data.get("password")
+# @api_view(["PUT"])
+# def edit_account(request):
+#     password = request.data.get("password")
     
     
 
@@ -37,5 +37,6 @@ def get_all_projects(request):
     pass
 
 
-# @api_view([""])
-    
+@api_view(["GET"])
+def get_my_projects(request):
+    pass

@@ -81,17 +81,16 @@ def make_match(request):
             for assistant in assistants:
                 score = 0
                 # print(Project_Skills.objects.filter(project=project).count())
-                print("Passes here")
+                print(Project_Skills.objects.filter(project=project).count(),"ohg\n")
                 skill_score = 30 / Project_Skills.objects.filter(project=project).count()
                 # print(Faculty_Interest.objects.filter(faculty=faculty).count())
-                print("passed here 2")
+                print(Faculty_Interest.objects.filter(faculty=faculty).count(),"ohg\n")
                 interest_score = 20 / Faculty_Interest.objects.filter(faculty=faculty).count()
 
                 if not assistant.availability:
                     score -= 100
                 else:
                     score += 30
-
 
                 project_skill_ids = list(Project_Skills.objects.filter(project=project).values_list('skills__id', flat=True))
                 for skill_id in RA_Skills.objects.filter(rA_id=assistant.id).values_list('skills_id', flat=True):
@@ -144,6 +143,22 @@ def get_user_details(request):
     return Response(CustomUserSerializer(user).data)
 
 
+    """
+    Retrieve details of a milestone associated with a project.
+
+    Args:
+        request (HttpRequest): The HTTP request object.
+        project_milestone_id (int): The unique identifier of the project milestone.
+
+    Returns:
+        Response: A serialized representation of the milestone if found.
+    """
 @api_view(["GET"])
-def view_milestone(request):
-    pass
+def view_milestone(request, project_milestone_id):
+    try:
+        project_milestone = ProjectMilestones.objects.get(id=project_milestone_id)
+        milestone = project_milestone.milestone
+        serializer = MilestoneSerializer(milestone)
+        return Response(serializer.data)
+    except:
+        return Response({'error':'No such milestone'}, status=status.HTTP_404_NOT_FOUND)
