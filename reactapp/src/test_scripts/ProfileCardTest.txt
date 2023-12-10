@@ -1,0 +1,36 @@
+import "./App.css";
+import { Header } from "./components/Header";
+import { ProfileCard } from "./components/ProfileCard";
+import { ProjectHeaderContent } from "./components/ProjectHeaderContent";
+import groupprofile from "./components/icons/groupprofile.jpg";
+import ashesibanner from "./assets/ashesibanner.png";
+
+function App() {
+  const MyComponent = (
+    <ProjectHeaderContent
+      Duration={"Aug 2023 - Jun 2024"}
+      TimeLeft={"1yr 3months"}
+      Description={
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed dapibuseros eu vehicula interdum."
+      }
+      Date={"12 Aug 2023"}
+      Progress={24}
+    />
+  );
+  return (
+    <div className="app__body">
+      <Header
+        Page={
+          <ProfileCard
+            banner={ashesibanner}
+            profile={groupprofile}
+            title={"Ghana Economic Index Study"}
+            content={MyComponent}
+          />
+        }
+      />
+    </div>
+  );
+}
+
+export default App;

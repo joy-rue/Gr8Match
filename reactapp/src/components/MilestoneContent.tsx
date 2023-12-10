@@ -1,6 +1,4 @@
-import React from "react";
 import HorizontalList from "./HorizontalList";
-import ashesiblanklogo from "./icons/ashesiblanklogo.png";
 import VerticalList from "../VerticalList";
 
 interface Props {
@@ -23,26 +21,38 @@ export const MilestoneContent = ({
   return (
     <div style={{ maxWidth: "50vw" }}>
       <HorizontalList
+        spacing={10}
         items={[
           <img
             src={profile}
             alt=""
-            style={{ width: "50px", borderRadius: "50%" }}
+            style={{
+              width: "50px",
+              height: "50px",
+              borderRadius: "50%",
+              transform: "translateY(20px) ",
+            }}
           />,
           <VerticalList
+            spacing={10}
             items={[
               <HorizontalList
+                spacing={10}
                 items={[
-                  <h3>{`${title}-`}</h3>,
-                  <div>{dueDate}</div>,
-                  <div>{timeleft}</div>,
+                  <div style={{ fontWeight: "500" }}>{`${title} -`}</div>,
+                  <div style={{ fontWeight: "350" }}>{dueDate}</div>,
+                  <div style={{ color: "#0A66C2", fontWeight: "500" }}>
+                    {timeleft}
+                  </div>,
                 ]}
               />,
-              People,
+              <div style={{ fontSize: "12px" }}>
+                <HorizontalList spacing={10} items={People} />
+              </div>,
               <div
                 style={{
-                  width: "60%",
-                  fontSize: "16px", // Adjust the font size as needed
+                  width: "100%",
+                  fontSize: "12px", // Adjust the font size as needed
                   wordWrap: "break-word",
                 }}
               >
