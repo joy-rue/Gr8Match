@@ -22,12 +22,13 @@ export const ProfileCard = ({
       {" "}
       <div /**Main body*/>
         <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-          }}
+        //   style={{
+        //     display: "flex",
+        //     justifyContent: "center",
+        //     width: "60vw",
+        //   }}
         >
-          <div
+          {/* <div
             style={{
               transform: "translate(170px,80px)",
               zIndex: "2",
@@ -45,8 +46,8 @@ export const ProfileCard = ({
                 border: "3px solid white",
               }}
             />
-          </div>
-          <div className="card" style={{ width: "60%", zIndex: "1" }}>
+          </div> */}
+          <div className="card" style={{ width: "60vw", zIndex: "1" }}>
             <img src={banner} className="card-img-top" alt="..." />
             <div
               className="card-body"

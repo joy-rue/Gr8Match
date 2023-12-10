@@ -2,7 +2,7 @@ import React, { ReactNode } from "react";
 
 interface Props {
   items: ReactNode[];
-  spacing: number;
+  spacing?: "10px";
 }
 
 const VerticalList = ({ items, spacing }: Props) => {

@@ -28,9 +28,9 @@ export const Project = () => {
         content={MyComponent}
       />
 
-      <div>
+      {/* <div>
         <img src={sidebanner} alt="" /> <div>My Icon</div>
-      </div>
+      </div> */}
     </div>
   );
 };

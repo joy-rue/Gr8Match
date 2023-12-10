@@ -17,9 +17,12 @@ export const SubListCard = ({
 }: Props) => {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
 
+  // Show only the last 7 items
+  const last7Items = items.slice(-7);
+
   return (
-    <div>
-      <div className="card" style={{ width: "25vw" }}>
+    <div style={{ width: "25vw" }}>
+      <div className="card">
         <ul
           className="list-group list-group-flush"
           style={{ listStyleType: "none" }}
@@ -30,7 +33,6 @@ export const SubListCard = ({
               paddingTop: "10px",
               fontSize: "22px",
               fontWeight: "500",
-              // fontFamily: "Montserrat, sans-serif", // Set the font-family to Montserrat
             }}
           >
             {title}
@@ -42,11 +44,11 @@ export const SubListCard = ({
               justifyContent: "center",
             }}
           >
-            {items.length === 0 && (
+            {last7Items.length === 0 && (
               <p className="list-group-item">{NoItemMessage}</p>
             )}
           </li>
-          {items.map((item, index) => (
+          {last7Items.map((item, index) => (
             <li
               className="list-group-item"
               key={index}
