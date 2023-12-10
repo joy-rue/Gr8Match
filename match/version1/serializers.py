@@ -178,19 +178,6 @@ class ProjectCreationSerializer(serializers.ModelSerializer):
     
     # Store project details in project, milestones, and projectmilestone tables
     def save(self):
-      
-      # {
-      #   'project_name': 'Delasi',
-      #   'milestones': [
-      #     {
-      #       'milestone_name': 'Haha'
-      #     },
-      #     {
-      #       'milestone_name': 'Haha'
-      #     }
-      #   ]
-      # }
-      
       # Create an instance of the project model
       project = Projects(
           title=self.validated_data["title"],
@@ -239,6 +226,32 @@ class ProjectCreationSerializer(serializers.ModelSerializer):
       for project_skill in project_skills:
         skills.append(ProjectSkillSerializer(project_skill).data)
       return skills
+
+
+class TaskCreationSerialer(serializers.ModelSerializer):
+  # project_id = serializers.IntegerField()
+  # milestone_id = serializers.IntegerField()
+  
+  class Meta:
+    model = ProjectMilestoneTask
+    fields = ["task",]
+    
+  def save(self, project_milestone):
+    task = ProjectMilestoneTask(
+      project_milestone = project_milestone,
+      task = self.validated_data["task"],
+      completed = False
+    )
+    
+    task.save()
+
+    return task
+
+
+class TaskSerializer(serializers.ModelSerializer):
+  class Meta:
+    model = ProjectMilestoneTask
+    fields = ('__all__')
 
 
 class MatchingSerializer(serializers.Serializer):

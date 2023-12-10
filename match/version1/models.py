@@ -73,6 +73,13 @@ class ProjectMilestones(models.Model):
 
 
     # department_id = models.AutoField(primary_key=True)
+    
+    
+class ProjectMilestoneTask(models.Model):
+    # project = models.ForeignKey(Projects, on_delete=models.CASCADE)
+    project_milestone = models.ForeignKey(ProjectMilestones, on_delete=models.CASCADE)
+    task = models.CharField(max_length=250)
+    completed = models.BooleanField()
 
 class Interest(models.Model):
     interest_name = models.CharField(max_length=20)
