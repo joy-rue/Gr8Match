@@ -1,35 +1,27 @@
-// import { MouseEvent } from "react";
-import { useState } from "react";
+import { ReactNode, useState } from "react";
 
 interface ListgroupProps {
-  items: String[];
-  heading: String;
-  onSelectItem: (item: String) => void;
+  items: string[];
+  heading: string;
+  onSelectItem?: Function; // Make onSelectItem an optional function
 }
 
 function ListGroup({ items, heading, onSelectItem }: ListgroupProps) {
-  const [SelectedIndex, setSelectedIndex] = useState(-1);
-
-  // const handleClick = (Event: MouseEvent) => {
-  //   return console.log(Event);
-  // };
+  const [selectedIndex, setSelectedIndex] = useState<number | null>(null); // Use null instead of 0 for initial state
 
   return (
     <>
-      <h1>{heading}</h1>
-      {items.length === 0 && <p>No items found</p>}
+      {items.length === 0 && <p>{heading}</p>}
       <ul className="list-group">
         {items.map((item, index) => (
           <li
-            className={
-              SelectedIndex === index
-                ? "list-group-item active"
-                : "list-group-item"
-            }
+            className={`list-group-item ${
+              selectedIndex === index ? "active" : ""
+            }`}
             key={index}
             onClick={() => {
               setSelectedIndex(index);
-              onSelectItem(item);
+              onSelectItem?.(item); // Call onSelectItem only if it exists
             }}
           >
             {item}

@@ -1,12 +1,19 @@
-import { ElementType } from "react";
+import { ElementType, ReactNode, useRef, useEffect } from "react";
 import ashesilogo from "../assets/ashesilogo.png";
 import { Sidemenu } from "./Sidemenu";
 
 interface PageBody {
-  Page: ElementType;
+  Page: ReactNode;
 }
 
 export const Header = ({ Page }: PageBody) => {
+  const screenWidth =
+    window.innerWidth ||
+    document.documentElement.clientWidth ||
+    document.body.clientWidth;
+
+  const screencenter = screenWidth * 0.5;
+
   return (
     <div>
       <div
@@ -37,7 +44,17 @@ export const Header = ({ Page }: PageBody) => {
         <img src={ashesilogo} alt="Ashesi Logo" style={{ width: "150px" }} />
       </div>
       <Sidemenu />
-      <Page style={{ transform: "translateY(-40px)" }} />
+      <div
+        style={{
+          transform: "translate(50px, 75px)",
+          display: "flex",
+          justifyContent: "center",
+        }}
+      >
+        {Page}
+      </div>
     </div>
   );
 };
+
+//
