@@ -23,3 +23,10 @@ def RA_profile(request, ras_id):
     except Projects.DoesNotExist:
         # Handle the case where the project with the given name does not exist
         return Response({'error': f'RA with id {ras_id} does not exist'}, status=404)
+    
+    
+    
+@api_view(["PUT"])
+def edit_account(request):
+    password = request.data.get("password")
+    

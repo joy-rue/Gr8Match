@@ -1,9 +1,9 @@
-
+from django.contrib.auth.password_validation import validate_password
 from rest_framework import serializers
 
 from .models import *
 
-
+# Serializer for user registration
 class CustomUserRegistrationSerializer(serializers.ModelSerializer):
   department = serializers.CharField(write_only=True)
   password = serializers.CharField(write_only=True)
@@ -21,6 +21,7 @@ class CustomUserRegistrationSerializer(serializers.ModelSerializer):
   def create(self, **validated_data):
     return CustomUser.objects.create(validated_data)
       
+  # Store user account details in the db
   def save(self):
     user = CustomUser(
       first_name=self.validated_data["first_name"],
@@ -42,6 +43,8 @@ class CustomUserRegistrationSerializer(serializers.ModelSerializer):
 
 
 # Serializers for each model in the app models.py, meant to transform python objects into JSON formatted dictionaries and vice-versa
+
+# Serializer for user login
 class CustomUserLoginSerializer(serializers.ModelSerializer):
   email = serializers.EmailField(write_only=True)
   password = serializers.CharField(write_only=True)
@@ -54,12 +57,12 @@ class CustomUserLoginSerializer(serializers.ModelSerializer):
     email = attrs.get("email")
     password = attrs.get("password")
     
-    try:
+    try: # CHeck if the user exists
       user = CustomUser.objects.filter(email=email).first()
     except CustomUser.DoesNotExist:
       raise serializers.ValidationError(f"No user with email {email} exists!")
     
-    if not user.check_password(password):
+    if not user.check_password(password): # Check if password is correct
       raise serializers.ValidationError("Password not correct.")
     
     return attrs
@@ -71,6 +74,36 @@ class CustomUserSerializer(serializers.ModelSerializer):
     model = CustomUser
     fields = ["id", "first_name", "last_name", "email", "role", "department", "last_login"]
 
+
+class ChangePasswordSerializer(serializers.Serializer):
+  old_password = serializers.CharField(write_only=True, required=True)
+  new_password = serializers.CharField(write_only=True, required=True)
+  confirm_password = serializers.CharField(write_only=True, required=True)
+  
+  def validate_old_password(self, value):
+    user = self.context["request"].user
+    if not user.check_password(value):
+      raise serializers.ValidationError("Invalid password provided")
+    
+    return value
+  
+  def validate(self, attrs):
+    if attrs["new_password"] != attrs["confirm_password"]:
+      raise serializers.ValidationError("Confirm password and new password do not match")
+    
+    if attrs["old_password"] == attrs["new_password"]:
+      raise serializers.ValidationError("Old password cannot be used as new password")
+    
+    # validate_password(attrs["new_password"], user=self.context["request"].user)
+    return attrs
+    
+  def update(self, instance):
+    user = self.context["request"].user
+    
+    instance.set_password(self.validated_data["new_password"])
+    instance.save()
+    return instance
+    
 
 class FacultySerializer(serializers.ModelSerializer):
 
@@ -96,6 +129,32 @@ class MilestoneSerializer(serializers.ModelSerializer):
     fields = ('__all__')
     
 
+class CreateMilestoneSerializer(serializers.ModelSerializer):
+  # project_id = serializers.IntegerField()
+  class Meta:
+    model = Milestones
+    fields = ('milestone',)
+    
+  def save(self, project):
+    new_milestone = Milestones(
+      milestone = self.validated_data["milestone"]
+    )
+    
+    # if Milestones.objects.filter(milestone=new_milestone["milestones"]).exists():
+    #   return 
+    
+    new_milestone.save()
+    
+    projectMilestone = ProjectMilestones(
+      milestone_complete=False,
+      milestone=new_milestone,
+      project=project
+    )
+    
+    projectMilestone.save()
+
+    return new_milestone
+
 class ProjectMilestoneSerializer(serializers.ModelSerializer):
   class Meta:
     model = ProjectMilestones
@@ -111,10 +170,11 @@ class ProjectCreationSerializer(serializers.ModelSerializer):
         model = Projects
         fields = ["id", "title", "start_date", "end_date", "description", "milestones", "milestone_list"]
         
+    # Create an instance of the project model from validated_data
     def create_project(self, **validated_data):
         return Projects.objects.create(validated_data)
     
-    
+    # Store project details in project, milestones, and projectmilestone tables
     def save(self):
       
       # {
@@ -129,6 +189,7 @@ class ProjectCreationSerializer(serializers.ModelSerializer):
       #   ]
       # }
       
+      # Create an instance of the project model
       project = Projects(
           title=self.validated_data["title"],
           start_date=self.validated_data["start_date"],
@@ -136,10 +197,12 @@ class ProjectCreationSerializer(serializers.ModelSerializer):
           description=self.validated_data["description"],
           owner=self.context["request"].user
       )
+      print(project.owner)
       
-      project.save()
+      project.save() # Store said instance in project table
       for m_stone in self.validated_data['milestones']:
         
+        # Checking if the provided milestone already exists in the milestone table
         if Milestones.objects.filter(milestone=m_stone["milestone"]).exists():
           milestone = Milestones.objects.get(milestone=m_stone["milestone"])
         else:

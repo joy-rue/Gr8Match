@@ -1,10 +1,12 @@
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework import status
 from django.contrib.auth import authenticate
 from rest_framework.authtoken.models import Token
 from typing import List
 from ..serializers import *
+from rest_framework.permissions import IsAuthenticated
+
 
 
 @api_view(["POST"])
@@ -43,3 +45,14 @@ def login(request):
     
     token, created = Token.objects.get_or_create(user=user)
     return Response({"token": token.key}, status=status.HTTP_200_OK)
+
+
+@api_view(["PATCH"])
+@permission_classes([IsAuthenticated])
+def change_password(request, *args, **kwargs):
+    # partial = kwargs.pop("partial", False)
+    serializer = ChangePasswordSerializer(request.user, data=request.data, partial=True, context={"request": request})
+    serializer.is_valid(raise_exception = True)
+    serializer.update(request.user)
+    return Response({"success":"Password changed successfully"}, status=status.HTTP_200_OK)
+    
