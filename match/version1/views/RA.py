@@ -38,4 +38,4 @@ def get_all_projects(request):
 
 
 # @api_view([""])
-    
+

@@ -81,17 +81,16 @@ def make_match(request):
             for assistant in assistants:
                 score = 0
                 # print(Project_Skills.objects.filter(project=project).count())
-                print("Passes here")
+                print(Project_Skills.objects.filter(project=project).count(),"ohg\n")
                 skill_score = 30 / Project_Skills.objects.filter(project=project).count()
                 # print(Faculty_Interest.objects.filter(faculty=faculty).count())
-                print("passed here 2")
+                print(Faculty_Interest.objects.filter(faculty=faculty).count(),"ohg\n")
                 interest_score = 20 / Faculty_Interest.objects.filter(faculty=faculty).count()
 
                 if not assistant.availability:
                     score -= 100
                 else:
                     score += 30
-
 
                 project_skill_ids = list(Project_Skills.objects.filter(project=project).values_list('skills__id', flat=True))
                 for skill_id in RA_Skills.objects.filter(rA_id=assistant.id).values_list('skills_id', flat=True):

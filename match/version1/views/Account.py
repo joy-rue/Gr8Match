@@ -33,6 +33,36 @@ def create_account(request):
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+@api_view(["PATCH"])
+@permission_classes([IsAuthenticated])
+def add_interest(request):
+    interests = request.data.get("interests")
+    response = []
+    for interest in interests:
+        object = None
+        if Interest.objects.filter(interest_name=interest).exists():
+            if request.user.role == "Ra":
+                if not RA_Interest.objects.filter(rA=RA.objects.get(account=request.user), interest=Interest.objects.get(interest_name=interest)).exists():
+                    object = RA_Interest.objects.create(interest=Interest.objects.get(interest_name=interest),
+                                                        rA=RA.objects.get(account=request.user))
+                else:
+                    object = RA_Interest.objects.get(interest=Interest.objects.get(interest_name=interest),
+                                                        rA=RA.objects.get(account=request.user))
+
+                serializer = RAInterestSerializer(object).data
+            elif request.user.role == "Faculty":
+                if not Faculty_Interest.objects.filter(faculty=Faculty.objects.get(account=request.user),
+                                                  interest=Interest.objects.get(interest_name=interest)).exists():
+                    object = Faculty_Interest.objects.create(interest=Interest.objects.get(interest_name=interest), faculty=Faculty.objects.get(account=request.user))
+                else:
+                    object = Faculty_Interest.objects.get(interest=Interest.objects.get(interest_name=interest), faculty=Faculty.objects.get(account=request.user))
+
+                serializer = FacultyInterestSerializer(object).data
+            if object:
+                response.append(serializer)
+
+    return Response(response, status=200)
+
 # Create accounts for RA or Faculty
 @api_view(['POST'])
 def login(request):

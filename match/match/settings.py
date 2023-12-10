@@ -88,10 +88,6 @@ DATABASES = {
     }
 }
 
-# todo:
-#  migrate default tables to mysql tables,
-#  how to store env variables,
-#  generate models for db
 
 
 # Password validation

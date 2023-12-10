@@ -2,7 +2,7 @@ from django.urls import path
 from . import views
 from .views import project_detail
 from .views.RA import RA_profile
-from .views.Account import create_account, login, change_password
+from .views.Account import create_account, login, change_password, add_interest
 from .views.projects import create_project, get_user_details ,make_match
 from .views.Milestones import get_all_milestones, create_milestone, delete_milestone, create_milestone_task, get_milestone_tasks, delete_milestone_task, complete_task
 
@@ -19,6 +19,7 @@ urlpatterns = [
     path('create_project/', create_project, name='create_project'),
     path('change_password/', change_password, name='change_password'),
     path('make_match/', make_match, name='make_match'),
+    path('add_interest/', add_interest, name='add_interest'),
     path('create_account/', create_account, name='create_account'),
     path('login/', login, name='login'),
     path('project_details/<str:project_name>/', project_detail, name='project_detail'),
@@ -26,3 +27,5 @@ urlpatterns = [
 
     path('user/details/', get_user_details, name='user_details'),
 ]
+
+#todo1: make note for project "edit note"
