@@ -164,11 +164,13 @@ class ProjectMilestoneSerializer(serializers.ModelSerializer):
 class ProjectCreationSerializer(serializers.ModelSerializer):
     # milestones = ProjectMilestoneSerializer(many=True)
     milestones = serializers.ListField(write_only=True)
+    skills = serializers.ListField(write_only=True)
     milestone_list = serializers.SerializerMethodField("get_milestones")
+    skill_list = serializers.SerializerMethodField("get_skills")
     
     class Meta:
         model = Projects
-        fields = ["id", "title", "start_date", "end_date", "description", "milestones", "milestone_list"]
+        fields = ["id", "title", "start_date", "end_date", "description", "milestones", "milestone_list", "skills", "skill_list"]
         
     # Create an instance of the project model from validated_data
     def create_project(self, **validated_data):
@@ -219,6 +221,8 @@ class ProjectCreationSerializer(serializers.ModelSerializer):
         )
         
         projectMilestone.save()
+        
+        # for p_skill
       
       return project
 
@@ -228,6 +232,13 @@ class ProjectCreationSerializer(serializers.ModelSerializer):
       for project_milestone in project_milestones:
         milestones.append(ProjectMilestoneSerializer(project_milestone).data)
       return milestones
+    
+    def get_skills(self, obj):
+      skills = list()
+      project_skills = Project_Skills.objects.filter(project=Projects.objects.filter(title=self.validated_data["title"]).last())
+      for project_skill in project_skills:
+        skills.append(ProjectSkillSerializer(project_skill).data)
+      return skills
 
 
 class MatchingSerializer(serializers.Serializer):

@@ -81,8 +81,10 @@ def make_match(request):
             for assistant in assistants:
                 score = 0
                 # print(Project_Skills.objects.filter(project=project).count())
+                print("Passes here")
                 skill_score = 30 / Project_Skills.objects.filter(project=project).count()
                 # print(Faculty_Interest.objects.filter(faculty=faculty).count())
+                print("passed here 2")
                 interest_score = 20 / Faculty_Interest.objects.filter(faculty=faculty).count()
 
                 if not assistant.availability:
@@ -140,3 +142,8 @@ def get_user_details(request):
         return Response({"error": "Not found!"})
 
     return Response(CustomUserSerializer(user).data)
+
+
+@api_view(["GET"])
+def view_milestone(request):
+    pass

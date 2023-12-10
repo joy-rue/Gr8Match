@@ -30,3 +30,12 @@ def RA_profile(request, ras_id):
 def edit_account(request):
     password = request.data.get("password")
     
+    
+
+@api_view(["GET"])
+def get_all_projects(request):
+    pass
+
+
+# @api_view([""])
+    

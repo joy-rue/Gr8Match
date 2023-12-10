@@ -82,7 +82,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'GR8_db',
         'USER': 'root',
-        'PASSWORD': 'Trafalgarlaw1',
+        'PASSWORD': '',
         'HOST': 'localhost',
         'PORT': '3306',
     }
