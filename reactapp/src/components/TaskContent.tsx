@@ -21,9 +21,11 @@ export const TaskContent = ({ title, dueDate, timeLeft, completed }: Props) => {
             spacing={30}
             items={[
               <div
-                style={{ width: "520px", fontWeight: "500" }}
+                style={{ minWidth: "90%", fontWeight: "500" }}
               >{`${title} -`}</div>,
-              <div>{dueDate}</div>,
+
+              <div style={{ paddingLeft: "100px" }}>{dueDate}</div>,
+
               <div style={{ transform: "translateY(-1px)" }}>
                 {completed === true ? (
                   <li style={{ fontWeight: "600", color: "#06B217" }}>
@@ -42,6 +44,7 @@ export const TaskContent = ({ title, dueDate, timeLeft, completed }: Props) => {
                         "completed",
                       ]}
                     />
+                    ,
                   </li>
                 ) : (
                   <li style={{ fontWeight: "600", color: "#D5B02C" }}>
