@@ -36,15 +36,14 @@ export const ListCard = ({
             {title}
           </li>
           <li
+            className="list-group-item"
             style={{
               display: "flex",
               paddingLeft: "-30px",
               justifyContent: "center",
             }}
           >
-            {items.length === 0 && (
-              <p className="list-group-item">{NoItemMessage}</p>
-            )}
+            {items.length === 0 && <p>{NoItemMessage}</p>}
           </li>
           {items.map((item, index) => (
             <li

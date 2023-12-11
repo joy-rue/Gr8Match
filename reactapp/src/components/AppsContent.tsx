@@ -1,5 +1,5 @@
 import HorizontalList from "./HorizontalList";
-import VerticalList from "../VerticalList";
+import VerticalList from "./VerticalList";
 
 interface Props {
   profile: string;
