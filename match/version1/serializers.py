@@ -179,7 +179,6 @@ class ProjectCreationSerializer(serializers.ModelSerializer):
 
     # Store project details in project, milestones, and projectmilestone tables
     def save(self):
-<<<<<<< Updated upstream
       # Create an instance of the project model
       project = Projects(
           title=self.validated_data["title"],
@@ -207,29 +206,6 @@ class ProjectCreationSerializer(serializers.ModelSerializer):
             milestone_complete=False,
             milestone=milestone,
             project=project
-=======
-
-        # {
-        #   'project_name': 'Delasi',
-        #   'milestones': [
-        #     {
-        #       'milestone_name': 'Haha'
-        #     },
-        #     {
-        #       'milestone_name': 'Haha'
-        #     }
-        #   ]
-        # }
-
-        # Create an instance of the project model
-        project = Projects(
-            title=self.validated_data["title"],
-            start_date=self.validated_data["start_date"],
-            end_date=self.validated_data["end_date"],
-            description=self.validated_data["description"],
-            owner=self.context["request"].user,
-            department=self.validated_data["department"]
->>>>>>> Stashed changes
         )
         print(project.owner)
 

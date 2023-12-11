@@ -143,16 +143,16 @@ def get_user_details(request):
     return Response(CustomUserSerializer(user).data)
 
 
-    """
-    Retrieve details of a milestone associated with a project.
+"""
+Retrieve details of a milestone associated with a project.
 
-    Args:
-        request (HttpRequest): The HTTP request object.
-        project_milestone_id (int): The unique identifier of the project milestone.
+Args:
+    request (HttpRequest): The HTTP request object.
+    project_milestone_id (int): The unique identifier of the project milestone.
 
-    Returns:
-        Response: A serialized representation of the milestone if found.
-    """
+Returns:
+    Response: A serialized representation of the milestone if found.
+"""
 @api_view(["GET"])
 def view_milestone(request, project_milestone_id):
     try:
