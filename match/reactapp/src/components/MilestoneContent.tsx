@@ -37,7 +37,7 @@ export const MilestoneContent = ({
             spacing={10}
             items={[
               <HorizontalList
-                spacing={10}
+                spacing={20}
                 items={[
                   <div style={{ fontWeight: "500" }}>{`${title} -`}</div>,
                   <div style={{ fontWeight: "350" }}>{dueDate}</div>,
