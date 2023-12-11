@@ -3,9 +3,7 @@ from . import views
 from .views import project_detail
 from .views.RA import RA_profile
 from .views.Account import create_account, login, change_password, add_interest
-from .views.projects import create_project, get_user_details ,make_match
-from .views.Account import create_account, login, change_password
-from .views.projects import create_project, get_user_details ,make_match, view_milestone
+from .views.projects import create_project, get_user_details ,make_match, view_milestone, add_milestone
 from .views.Milestones import get_all_milestones, create_milestone, delete_milestone, create_milestone_task, get_milestone_tasks, delete_milestone_task, complete_task
 
 urlpatterns = [
@@ -20,6 +18,7 @@ urlpatterns = [
     path('create_milestone/<str:project_id>/', create_milestone, name='create_milestone'),
     path('get_all_milestones/', get_all_milestones, name='get_all_milestones'),
     path('create_project/', create_project, name='create_project'),
+    path('add_milestone/', add_milestone, name='add_milestone'),
     path('change_password/', change_password, name='change_password'),
     path('make_match/', make_match, name='make_match'),
     path('add_interest/', add_interest, name='add_interest'),
@@ -31,4 +30,5 @@ urlpatterns = [
     path('user/details/', get_user_details, name='user_details'),
 ]
 
-#todo1: make note for project "edit note"
+#todo: make note for project "edit note"/add note to project/create patch call/touch the serialzer
+
