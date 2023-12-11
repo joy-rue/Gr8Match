@@ -143,6 +143,22 @@ def get_user_details(request):
     return Response(CustomUserSerializer(user).data)
 
 
+    """
+    Retrieve details of a milestone associated with a project.
+
+    Args:
+        request (HttpRequest): The HTTP request object.
+        project_milestone_id (int): The unique identifier of the project milestone.
+
+    Returns:
+        Response: A serialized representation of the milestone if found.
+    """
 @api_view(["GET"])
-def view_milestone(request):
-    pass
+def view_milestone(request, project_milestone_id):
+    try:
+        project_milestone = ProjectMilestones.objects.get(id=project_milestone_id)
+        milestone = project_milestone.milestone
+        serializer = MilestoneSerializer(milestone)
+        return Response(serializer.data)
+    except:
+        return Response({'error':'No such milestone'}, status=status.HTTP_404_NOT_FOUND)
