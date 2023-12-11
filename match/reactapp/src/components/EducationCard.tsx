@@ -13,7 +13,7 @@ const ProfileTab = ({ Institution, Award, profile, Date }: Props) => {
   return (
     <div>
       <HorizontalList
-        spacing={10}
+        spacing={20}
         items={[
           <img
             src={profile}
@@ -27,10 +27,10 @@ const ProfileTab = ({ Institution, Award, profile, Date }: Props) => {
           />,
           <div>
             <VerticalList
-              spacing={10}
+              spacing={1}
               items={[
                 <div style={{ fontWeight: "600" }}>{Institution}</div>,
-                <div style={{ transform: "translateY(-5px)" }}>{Award}</div>,
+                <div>{Award}</div>,
                 <div>{Date}</div>,
               ]}
             />
