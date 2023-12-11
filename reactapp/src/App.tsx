@@ -24,8 +24,8 @@ function App() {
         Page={
           <ListCard
             items={content}
-            title={"Ethnographic Research"}
-            NoItemMessage={"You have no Tasks"}
+            title={"Team Members"}
+            NoItemMessage={"You have no team members"}
           />
         }
       />
