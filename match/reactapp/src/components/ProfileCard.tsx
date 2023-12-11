@@ -53,9 +53,16 @@ export const ProfileCard = ({
               className="card-body"
               style={{ marginLeft: "20px", marginBottom: "30px" }}
             >
-              <h5 className="card-title" style={{ marginTop: "40px" }}>
+              <div
+                className="card-title"
+                style={{
+                  marginTop: "40px",
+                  fontSize: "27px",
+                  fontWeight: "450",
+                }}
+              >
                 {title}
-              </h5>
+              </div>
               <div className="card-text">{content}</div>
               {typeof action === "string" && (
                 <a
