@@ -64,19 +64,20 @@ class Projects(models.Model):
     # project_id = models.AutoField(primary_key=True)
 
 
-class Milestones(models.Model):
-    milestone = models.CharField(max_length=100)
-    # milestone_id = models.AutoField(primary_key=True)
+
 
 
 class ProjectMilestones(models.Model):
     project = models.ForeignKey(Projects, on_delete=models.CASCADE)
-    milestone = models.ForeignKey(Milestones, on_delete=models.CASCADE)
+    milestone = models.CharField(max_length=250)
+    milestone_description = models.CharField(max_length=250)
     milestone_complete = models.BooleanField(null=False, default=False)
     # primary_key = models.ForeignKey(Projects, Milestones, primary_key=True, on_delete=models.CASCADE)
 
     # department_id = models.AutoField(primary_key=True)
-    
+class ProjectComment(models.Model):
+    project = models.ForeignKey(Projects, on_delete=models.CASCADE)
+    comment = models.CharField(max_length=250)
     
 class ProjectMilestoneTask(models.Model):
     # project = models.ForeignKey(Projects, on_delete=models.CASCADE)

@@ -97,7 +97,7 @@ def make_match(request):
                     if skill_id in project_skill_ids:
                         score += skill_score
 
-                if faculty.account.department == project.department:
+                if assistant.account.department == project.department:
                     score += 30
 
                 Faculty_interest_ids = list(Faculty_Interest.objects.filter(faculty=faculty).values_list('interest__id', flat=True))
@@ -114,6 +114,65 @@ def make_match(request):
             return JsonResponse({'error': serializer.errors}, status=400)
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=400)
+
+
+@api_view(["PATCH"])
+def add_comment(request):
+    project_id = request.data.get("project_id")
+    comments_data = request.data.get("comments", [])
+    response = []
+
+    try:
+        # Retrieve the project instance
+        project_comment_instance = ProjectComment.objects.get(project_id=project_id)
+    except ProjectComment.DoesNotExist:
+        # If the project comment doesn't exist, create a new instance
+        project_comment_instance = ProjectComment(project_id=project_id)
+
+    for comment_data in comments_data:
+        # Add each comment to the project comment instance
+        project_comment_instance.comments.append(comment_data)
+
+    # Save the updated project comment instance
+    project_comment_instance.save()
+
+    # Serialize the updated instance for the response
+    serializer = ProjectCommentSerializer(project_comment_instance)
+    response.append(serializer.data)
+
+    return Response(response, status=200)
+
+
+@api_view(["PATCH"])
+def add_milestone(request):
+    project_id = request.data.get("project_id")
+    milestones_data = request.data.get("milestones", [])
+
+    response = []
+
+    try:
+        # Retrieve the project instance
+        project_instance = Projects.objects.get(id=project_id)
+    except Projects.DoesNotExist:
+        return Response({"error": "Project not found"}, status=404)
+
+    for milestone_data in milestones_data:
+        # Extract milestone_title and milestone_description from each dictionary
+        milestone_title, milestone_description = next(iter(milestone_data.items()))
+
+        # Create a new project milestone instance
+        project_milestone_instance = ProjectMilestones.objects.create(
+            project=project_instance,
+            milestone=milestone_title,
+            milestone_description=milestone_description,
+            milestone_complete=False  # You may adjust this based on your requirements
+        )
+
+        # Serialize the project milestone instance for the response
+        serializer = ProjectMilestoneSerializer(project_milestone_instance)
+        response.append(serializer.data)
+
+    return Response(response, status=200)
 
 @api_view(["POST"])
 @permission_classes([IsAuthenticated])
@@ -154,11 +213,12 @@ Returns:
     Response: A serialized representation of the milestone if found.
 """
 @api_view(["GET"])
+#subject to changes
 def view_milestone(request, project_milestone_id):
     try:
         project_milestone = ProjectMilestones.objects.get(id=project_milestone_id)
         milestone = project_milestone.milestone
-        serializer = MilestoneSerializer(milestone)
+        serializer = ProjectMilestoneSerializer(milestone)
         return Response(serializer.data)
     except:
         return Response({'error':'No such milestone'}, status=status.HTTP_404_NOT_FOUND)

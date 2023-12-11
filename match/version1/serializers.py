@@ -1,6 +1,6 @@
 from django.contrib.auth.password_validation import validate_password
 from rest_framework import serializers
-
+from rest_framework.exceptions import ValidationError
 from .models import *
 
 
@@ -110,6 +110,7 @@ class FacultySerializer(serializers.ModelSerializer):
         model = Faculty
         fields = ('__all__')
 
+
 class RASerializer(serializers.ModelSerializer):
     class Meta:
         model = RA
@@ -122,37 +123,8 @@ class ProjectSerializer(serializers.ModelSerializer):
         fields = ('__all__')
 
 
-class MilestoneSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Milestones
-        fields = ('__all__')
 
 
-class CreateMilestoneSerializer(serializers.ModelSerializer):
-    # project_id = serializers.IntegerField()
-    class Meta:
-        model = Milestones
-        fields = ('milestone',)
-
-    def save(self, project):
-        new_milestone = Milestones(
-            milestone=self.validated_data["milestone"]
-        )
-
-        # if Milestones.objects.filter(milestone=new_milestone["milestones"]).exists():
-        #   return
-
-        new_milestone.save()
-
-        projectMilestone = ProjectMilestones(
-            milestone_complete=False,
-            milestone=new_milestone,
-            project=project
-        )
-
-        projectMilestone.save()
-
-        return new_milestone
 
 
 class ProjectMilestoneSerializer(serializers.ModelSerializer):
@@ -162,16 +134,12 @@ class ProjectMilestoneSerializer(serializers.ModelSerializer):
 
 
 class ProjectCreationSerializer(serializers.ModelSerializer):
-    # milestones = ProjectMilestoneSerializer(many=True)
-    milestones = serializers.ListField(write_only=True)
     skills = serializers.ListField(write_only=True)
-    milestone_list = serializers.SerializerMethodField("get_milestones")
     skill_list = serializers.SerializerMethodField("get_skills")
 
     class Meta:
         model = Projects
-        fields = ["id", "title", "start_date", "end_date", "description", "department", "milestones",
-                  "milestone_list", "skills", "skill_list"]
+        fields = ["id", "title", "start_date", "end_date", "description", "department", "skills", "skill_list"]
 
     # Create an instance of the project model from validated_data
     def create_project(self, **validated_data):
@@ -185,75 +153,12 @@ class ProjectCreationSerializer(serializers.ModelSerializer):
           start_date=self.validated_data["start_date"],
           end_date=self.validated_data["end_date"],
           description=self.validated_data["description"],
-          owner=self.context["request"].user
+          owner=self.context["request"].user,
+          department=self.validated_data["department"]
       )
       print(project.owner)
       
       project.save() # Store said instance in project table
-      for m_stone in self.validated_data['milestones']:
-        
-        # Checking if the provided milestone already exists in the milestone table
-        if Milestones.objects.filter(milestone=m_stone["milestone"]).exists():
-          milestone = Milestones.objects.get(milestone=m_stone["milestone"])
-        else:
-          milestone = Milestones(
-            milestone = m_stone['milestone']
-          )
-          milestone.save()
-          print(milestone)
-                  
-        projectMilestone = ProjectMilestones(
-            milestone_complete=False,
-            milestone=milestone,
-            project=project
-        )
-        print(project.owner)
-
-        project.save()  # Store said instance in project table
-
-        for m_stone in self.validated_data['milestones']:
-
-            # Checking if the provided milestone already exists in the milestone table
-            if Milestones.objects.filter(milestone=m_stone["milestone"]).exists():
-                milestone = Milestones.objects.get(milestone=m_stone["milestone"])
-            else:
-                milestone = Milestones(
-                    milestone=m_stone['milestone']
-                )
-                milestone.save()
-                print(milestone)
-
-            projectMilestone = ProjectMilestones(
-                milestone_complete=False,
-                milestone=milestone,
-                project=project
-            )
-
-            projectMilestone.save()
-
-            # for p_skill
-        for p_skill in self.validated_data['skills']:
-            if Skills.objects.filter(skill_name=p_skill).exists():
-                skill = Skills.objects.get(skill_name=p_skill)
-            else:
-                skill = Skills(skill_name=p_skill)
-                skill.save()
-
-            projectSkill = Project_Skills(
-                skills=skill,
-                project=project
-            )
-            projectSkill.save()
-
-        return project
-
-    def get_milestones(self, obj):
-        milestones = list()
-        project_milestones = ProjectMilestones.objects.filter(
-            project=Projects.objects.filter(title=self.validated_data["title"]).last())
-        for project_milestone in project_milestones:
-            milestones.append(ProjectMilestoneSerializer(project_milestone).data)
-        return milestones
 
     def get_skills(self, obj):
         skills = list()
@@ -265,34 +170,40 @@ class ProjectCreationSerializer(serializers.ModelSerializer):
 
 
 class TaskCreationSerialer(serializers.ModelSerializer):
-  # project_id = serializers.IntegerField()
-  # milestone_id = serializers.IntegerField()
-  
-  class Meta:
-    model = ProjectMilestoneTask
-    fields = ["task",]
-    
-  def save(self, project_milestone):
-    task = ProjectMilestoneTask(
-      project_milestone = project_milestone,
-      task = self.validated_data["task"],
-      completed = False
-    )
-    
-    task.save()
+    # project_id = serializers.IntegerField()
+    # milestone_id = serializers.IntegerField()
 
-    return task
+    class Meta:
+        model = ProjectMilestoneTask
+        fields = ["task", ]
+
+    def save(self, project_milestone):
+        task = ProjectMilestoneTask(
+            project_milestone=project_milestone,
+            task=self.validated_data["task"],
+            completed=False
+        )
+
+        task.save()
+
+        return task
 
 
 class TaskSerializer(serializers.ModelSerializer):
-  class Meta:
-    model = ProjectMilestoneTask
-    fields = ('__all__')
+    class Meta:
+        model = ProjectMilestoneTask
+        fields = ('__all__')
 
 
 class MatchingSerializer(serializers.Serializer):
     faculty_id = serializers.IntegerField()
     project_id = serializers.IntegerField()
+
+
+class ProjectCommentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProjectComment
+        fields = ('__all__')
 
 
 class DepartmentSerializer(serializers.ModelSerializer):
