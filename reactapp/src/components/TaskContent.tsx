@@ -44,7 +44,6 @@ export const TaskContent = ({ title, dueDate, timeLeft, completed }: Props) => {
                         "completed",
                       ]}
                     />
-                    ,
                   </li>
                 ) : (
                   <li style={{ fontWeight: "600", color: "#D5B02C" }}>

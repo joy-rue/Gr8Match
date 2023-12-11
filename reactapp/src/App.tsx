@@ -12,7 +12,7 @@ function App() {
       title={"Create research Survey You have no Tasks You have no Tasks"}
       dueDate={"22 Aug 2023"}
       // timeLeft={"2wks"}?\
-      completed={false}
+      completed={true}
     />
   );
 
