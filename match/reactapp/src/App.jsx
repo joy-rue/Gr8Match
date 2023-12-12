@@ -1,6 +1,6 @@
-import 'bootstrap/dist/css/bootstrap.min.css';
 import React, { useState } from "react";
 import Login from "./Login";
+import { AuthProvider } from './AuthContext';
 
 const App = () => {
   const [showLoginForm, setShowLoginForm] = useState(true);
@@ -11,16 +11,17 @@ const App = () => {
   };
 
   return (
-    <div>
-      {showLoginForm ? (
-        <Login onFormSwitch={handleFormSwitch} />
-      ) : (
-        // Render other components or forms based on your application logic
-        <div>
-          <h1>Welcome to My App!</h1>
-        </div>
-      )}
-    </div>
+    <AuthProvider> {/* Add AuthProvider around the entire application */}
+      <div>
+        {showLoginForm ? (
+          <Login onFormSwitch={handleFormSwitch} />
+        ) : (
+          <div>
+            <h1>Welcome to My App!</h1>
+          </div>
+        )}
+      </div>
+    </AuthProvider>
   );
 };
 

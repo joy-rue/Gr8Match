@@ -2,11 +2,12 @@ import React, { useState } from "react";
 import axios from 'axios';
 import ashesicampus from "./components/icons/ashesicampus.jpg";
 import ashesilogo from "./components/icons/ashesilogo.png";
+import { AuthProvider, useAuth } from './AuthContext';
 
 const Login = (props) => {
   const [email, setEmail] = useState("");
   const [pass, setPass] = useState("");
-  const [name, setName] = useState("");
+  const { setToken } = useAuth();  // Use the useAuth hook to get setToken function
 
   const handleSubmit = async (e) => {
     e.preventDefault(); // Prevent the default form submission
@@ -20,13 +21,14 @@ const Login = (props) => {
       // Handle the response (e.g., update state, show success message, etc.)
       const { token } = response.data;
       console.log('Token:', token);
+      setToken(token);// Set the token in the AuthContext
     } catch (error) {
       console.error('Error:', error.message);
     }
   };
 
-
   return (
+  <AuthProvider>
     <div
       style={{
         position: "relative",
@@ -97,7 +99,7 @@ const Login = (props) => {
 
 <button
         type="submit"
-        onClick={handleSubmit} 
+        onClick={handleSubmit}
         style={{
           marginTop: "20px",
           width: "30%",
@@ -125,6 +127,7 @@ const Login = (props) => {
         </div>
       </div>
     </div>
+    </AuthProvider>
   );
 };
 
