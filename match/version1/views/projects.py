@@ -119,26 +119,26 @@ def make_match(request):
 @api_view(["PATCH"])
 def add_comment(request):
     project_id = request.data.get("project_id")
-    comments_data = request.data.get("comments", [])
+    comments = request.data.get("comments", [])
     response = []
 
     try:
         # Retrieve the project instance
-        project_comment_instance = ProjectComment.objects.get(project_id=project_id)
-    except ProjectComment.DoesNotExist:
-        # If the project comment doesn't exist, create a new instance
-        project_comment_instance = ProjectComment(project_id=project_id)
+        project_instance = Projects.objects.get(id=project_id)
+    except Projects.DoesNotExist:
+        # If the project doesn't exist, return an error response
+        return Response({"error": "Project not found"}, status=404)
 
-    for comment_data in comments_data:
-        # Add each comment to the project comment instance
-        project_comment_instance.comments.append(comment_data)
+    for comment_data in comments:
+        # Create a new project comment instance
+        project_comment_instance = ProjectComment.objects.create(
+            project=project_instance,
+            comment=comment_data.get("comment", "")
+        )
 
-    # Save the updated project comment instance
-    project_comment_instance.save()
-
-    # Serialize the updated instance for the response
-    serializer = ProjectCommentSerializer(project_comment_instance)
-    response.append(serializer.data)
+        # Serialize the project comment instance for the response
+        serializer = ProjectCommentSerializer(project_comment_instance)
+        response.append(serializer.data)
 
     return Response(response, status=200)
 
