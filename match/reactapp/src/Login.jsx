@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axios from 'axios';
 import ashesicampus from "./components/icons/ashesicampus.jpg";
 import ashesilogo from "./components/icons/ashesilogo.png";
 
@@ -8,10 +9,19 @@ const Login = (props) => {
   const [name, setName] = useState("");
 
   const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log(email);
-    // Perform registration logic here
-  };
+    try {
+          const response = await axios.post('http://your-django-api-endpoint/login/', {
+            username,
+            password,
+          });
+
+          // Handle the response (e.g., update state, show success message, etc.)
+          console.log(response.data);
+        } catch (error) {
+          console.error('Error:', error.message);
+        }
+      };
+
 
   return (
     <div
