@@ -3,3 +3,4 @@ django-cors-headers
 djangorestframework
 mysql-connector-python
 pymysql
+django-filter

@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'version1',
     'rest_framework',
     'rest_framework.authtoken',
+    'django_filters'
 ]
 
 MIDDLEWARE = [
@@ -82,7 +83,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'GR8_db',
         'USER': 'root',
-        'PASSWORD': 'Trafalgarlaw1',
+        'PASSWORD': '',
         'HOST': 'localhost',
         'PORT': '3306',
     }

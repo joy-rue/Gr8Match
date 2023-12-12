@@ -6,6 +6,8 @@ from rest_framework.authtoken.models import Token
 from typing import List
 from ..serializers import *
 from rest_framework.permissions import IsAuthenticated
+from rest_flex_fields.views import FlexFieldsMixin
+from rest_framework.viewsets import ReadOnlyModelViewSet
 
 
 
@@ -85,4 +87,21 @@ def change_password(request, *args, **kwargs):
     serializer.is_valid(raise_exception = True)
     serializer.update(request.user)
     return Response({"success":"Password changed successfully"}, status=status.HTTP_200_OK)
+    
+    
+class FilterSearch(FlexFieldsMixin, ReadOnlyModelViewSet):
+    queryset = CustomUser.objects.all()
+    serializer_class = CustomUserSerializer
+    filterset_fields = ["fist_name", "last_name"]
+        
+    
+# @api_view(["GET"])
+# def search_user(request, search_pattern):
+#     try:
+#         if CustomUser.objects.filter(first_name=search_pattern).exists:
+#             searched_persons = CustomUser.objects.filter(first_name=search_pattern)
+#         elif CustomUser.objects.filter(last_name=search_pattern).exists:
+#             searched_persons = CustomUser.objects.filter(last_name=search_pattern)
+#         elif ' ' in search_pattern:
+            
     
