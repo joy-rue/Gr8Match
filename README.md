@@ -1,0 +1,8 @@
+# Technologies Used & Justification: #
+The application was separated into two main parts, the front-end, which was built using the React framework of Javascript and the back-end, which was built with Django framework from Python. Django handles server-side logic and database interactions, while React manages the client-side user interface. This separation allows for a clean and organized codebase.
+The main reason the front-end was built using React instead of an alternative like vanilla HTML is because of the  inherent benefits of its component-based architecture, which promotes modular and reusable code, making it easier to maintain and scale the application. Other benefits like the virtual DOM, Reacts declarative syntax, its affinity for single-page applications, and past experience.
+Django comes out of the pack with security services that protect against common web vulnerabilities, a simplified form of database relation with its Object-Relational Mapping and is inherently optimized for rapid development. These are great reasons to choose it over its counterparts like PHP or Flask.
+Both Django and React have huge communities that can provide support, a good ecosystem of useful libraries, and very high customization capabilities.
+Web hosting is an essential facet of web development, and Amazon Web Services shines in this field. It is highly scalable, very reliable and has a great selection of managed services like Lambda that can make deployment relatively easier and even decrease operational overhead.
+
+The template for the main functions can be found using this link: https://www.figma.com/file/nbvCTvaNo7fLqEeaUT1dyN/Research-Assistant-Matching-System?type=design&node-id=851%3A6758&mode=design&t=hf7UbEwZPMEplXoM-1 
