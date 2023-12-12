@@ -1,18 +1,27 @@
-import "bootstrap/dist/css/bootstrap.min.css";
-import "./App.css";
-import AppsContent from "./components/AppsContent";
-import Header from "./components/Header";
-import ListCard from "./components/ListCard";
-import ashesilogoblank from "./components/icons/ashesiblanklogo.png";
-import ProjectPage from "./ProjectPage";
-import { HomeHeader } from "./components/HomeHeader";
+import 'bootstrap/dist/css/bootstrap.min.css';
+import React, { useState } from "react";
+import Login from "./Login";
 
-function App() {
+const App = () => {
+  const [showLoginForm, setShowLoginForm] = useState(true);
+
+  const handleFormSwitch = (formType) => {
+    // Logic to switch between login and registration forms
+    console.log("Switching to", formType);
+  };
+
   return (
-    <div className="app__body">
-      <Header Page={HomeHeader} />
+    <div>
+      {showLoginForm ? (
+        <Login onFormSwitch={handleFormSwitch} />
+      ) : (
+        // Render other components or forms based on your application logic
+        <div>
+          <h1>Welcome to My App!</h1>
+        </div>
+      )}
     </div>
   );
-}
+};
 
 export default App;

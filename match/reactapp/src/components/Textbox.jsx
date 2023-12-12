@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { FaPaperPlane } from "react-icons/fa";
 import HorizontalList from "./HorizontalList";
 
 const Textbox = ({ onAddComment }) => {

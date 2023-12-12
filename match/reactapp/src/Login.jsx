@@ -8,19 +8,22 @@ const Login = (props) => {
   const [pass, setPass] = useState("");
   const [name, setName] = useState("");
 
-  const handleSubmit = (e) => {
-    try {
-          const response = await axios.post('http://your-django-api-endpoint/login/', {
-            username,
-            password,
-          });
+  const handleSubmit = async (e) => {
+    e.preventDefault(); // Prevent the default form submission
 
-          // Handle the response (e.g., update state, show success message, etc.)
-          console.log(response.data);
-        } catch (error) {
-          console.error('Error:', error.message);
-        }
-      };
+    try {
+      const response = await axios.post('http://127.0.0.1:8000/accounts/login/', {
+        email,
+        password: pass,
+      });
+
+      // Handle the response (e.g., update state, show success message, etc.)
+      const { token } = response.data;
+      console.log('Token:', token);
+    } catch (error) {
+      console.error('Error:', error.message);
+    }
+  };
 
 
   return (
@@ -92,20 +95,22 @@ const Login = (props) => {
             }}
           />
 
-          <button
-            type="submit"
-            style={{
-              marginTop: "20px",
-              width: "30%",
-              color: "white",
-              background: "#AD3537",
-              borderRadius: "5px",
-              borderColor: "#AD3537",
-              marginLeft: "35%", // Adjusted margin to center the button
-            }}
-          >
-            Login
-          </button>
+<button
+        type="submit"
+        onClick={handleSubmit} 
+        style={{
+          marginTop: "20px",
+          width: "30%",
+          color: "white",
+          background: "#AD3537",
+          borderRadius: "5px",
+          borderColor: "#AD3537",
+          marginLeft: "35%",
+        }}
+      >
+        Login
+      </button>
+
         </form>
         <div
           className="link-btn"
