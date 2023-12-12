@@ -1,0 +1,39 @@
+import 'bootstrap/dist/css/bootstrap.min.css';
+import "./App.css";
+import  Header from "./components/Header";
+import  ListCard from "./components/ListCard";
+import ProjectMember from "./components/ProjectMember";
+import ashesilogoblank from "./components/icons/ashesiblanklogo.png";
+
+
+function App() {
+  const descr =
+    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed dapibus eros eu vehicula interdum. Cras nec ultricies massa. Curabitur rutrum, diam id consequat consequat";
+
+  const TaskCon = (
+    <ProjectMember
+      Name={"Naruto Uzumaki"}
+      role={"Research Assistant"}
+      active={true}
+      profile={ashesilogoblank}
+    />
+  );
+
+  let content = [TaskCon, TaskCon, TaskCon];
+  // content = [];
+  return (
+    <div className="app__body">
+      <Header
+        Page={
+          <ListCard
+            items={content}
+            title={"Ethnographic Research"}
+            NoItemMessage={"You have no Tasks"}
+          />
+        }
+      />
+    </div>
+  );
+}
+
+export default App;

@@ -1,0 +1,37 @@
+import 'bootstrap/dist/css/bootstrap.min.css';
+import "./App.css";
+import  Header  from "./components/Header";
+import  ProfileCard  from "./components/ProfileCard";
+import groupprofile from "./components/icons/groupprofile.jpg";
+import ashesibanner from "./components/icons/campusbanner.png";
+import  ProfileHeaderContent  from "./components/ProfileheaderContent";
+
+function App() {
+  const MyComponent = (
+    <ProfileHeaderContent
+      Department={"Computer Science"}
+      workhours={40}
+      Description={
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed dapibus eros eu vehicula interdum. "
+      }
+      contact={"+233206252066"}
+      email={"joseph.dzagli@ashesi.edu.gh"}
+    />
+  );
+  return (
+    <div className="app__body">
+      <Header
+        Page={
+          <ProfileCard
+            banner={ashesibanner}
+            profile={groupprofile}
+            title={"Kelvin Kofi Doe"}
+            content={MyComponent}
+          />
+        }
+      />
+    </div>
+  );
+}
+
+export default App;

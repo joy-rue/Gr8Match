@@ -1,0 +1,41 @@
+import 'bootstrap/dist/css/bootstrap.min.css';
+import "./App.css";
+import EducationCard from "./components/EducationCard";
+import Header  from "./components/Header";
+import ListCard  from "./components/ListCard";
+import ashesilogoblank from "./components/icons/ashesiblanklogo.png";
+import 'bootstrap/dist/css/bootstrap.min.css';
+
+
+
+function App() {
+  const descr =
+    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed dapibus eros eu vehicula interdum. Cras nec ultricies massa. Curabitur rutrum, diam id consequat consequat";
+
+  const TaskCon = (
+    <EducationCard
+      Institution={"Ashesi University"}
+      profile={ashesilogoblank}
+      Award={"Bsc. Computer Science"}
+      Date={"20 Aug 2023"}
+    />
+  );
+
+  let content = [TaskCon, TaskCon, TaskCon];
+  // content = [];
+  return (
+    <div className="app__body">
+      <Header
+        Page={
+          <ListCard
+            items={content}
+            title={"Education"}
+            NoItemMessage={"You have no team members"}
+          />
+        }
+      />
+    </div>
+  );
+}
+
+export default App;
