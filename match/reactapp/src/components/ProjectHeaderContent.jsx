@@ -20,7 +20,6 @@ const ProjectHeaderContent = ({
         flexDirection: "column",
         width: "100%",
         maxWidth: "60vw",
-        margin: "0 auto",
         marginTop: "-14.5%",
       }}
     >
@@ -86,7 +85,12 @@ const ProjectHeaderContent = ({
                   }}
                 >
                   <ProgressBar
-                    title="Progress"
+                    title={
+                      <div style={{ fontSize: "18px", paddingBottom: "5px" }}>
+                        <span style={{ fontWeight: "600" }}>Progress : </span>
+                        {Progress}% complete
+                      </div>
+                    }
                     percentage={Progress}
                     date={Date}
                   />

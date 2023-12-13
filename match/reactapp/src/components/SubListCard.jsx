@@ -30,15 +30,14 @@ export const SubListCard = ({
             {title}
           </li>
           <li
+            className="list-group-item"
             style={{
               display: "flex",
               paddingLeft: "-30px",
               justifyContent: "center",
             }}
           >
-            {last7Items.length === 0 && (
-              <p className="list-group-item">{NoItemMessage}</p>
-            )}
+            {last7Items.length === 0 && <p>{NoItemMessage}</p>}
           </li>
           {last7Items.map((item, index) => (
             <li

@@ -1,6 +1,5 @@
 import React, { ReactNode } from "react";
 
-
 const HorizontalList = ({ items, spacing }) => {
   // Sample array of text items
 

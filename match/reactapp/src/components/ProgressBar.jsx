@@ -4,10 +4,7 @@ const ProgressBar = ({ title, percentage, date }) => {
   return (
     <div>
       <div style={{ display: "flex" }}>
-        <p>
-          <strong>{`${title}: `}</strong>
-        </p>
-        <p style={{ marginLeft: "10px" }}>{`${percentage}% Complete`}</p>
+        <div>{title}</div>
       </div>
       <div
         style={{
@@ -16,7 +13,7 @@ const ProgressBar = ({ title, percentage, date }) => {
           borderRadius: "5px",
           overflow: "hidden",
           background: "#E0DFDC",
-          transform: "TranslateY(-7px)",
+          transform: "TranslateY(5px)",
         }}
       >
         <div

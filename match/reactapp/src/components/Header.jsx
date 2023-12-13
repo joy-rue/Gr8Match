@@ -1,22 +1,16 @@
-import React, { ReactNode, useRef, useEffect } from "react";
+import React from "react";
 import ashesilogo from "./icons/ashesilogo.png";
 import { Sidemenu } from "./Sidemenu";
+import HorizontalList from "./HorizontalList";
 
 const Header = ({ Page }) => {
-  const screenWidth =
-    window.innerWidth ||
-    document.documentElement.clientWidth ||
-    document.body.clientWidth;
-
-  const screencenter = screenWidth * 0.5;
-
   return (
     <div>
       <div
         style={{
           backgroundColor: "#F3F2EF",
           width: "100%",
-          height: "100%",
+          height: "100vh", // Use viewport height
           position: "fixed",
           top: "0",
         }}
@@ -26,7 +20,7 @@ const Header = ({ Page }) => {
           top: "0",
           display: "flex",
           position: "fixed",
-          justifyContent: "space-evenly",
+          justifyContent: "center",
           paddingTop: "10px",
           paddingBottom: "10px",
           width: "100%",
@@ -37,16 +31,19 @@ const Header = ({ Page }) => {
       >
         <img src={ashesilogo} alt="Ashesi Logo" style={{ width: "150px" }} />
       </div>
-      <Sidemenu />
-      <div
-        style={{
-          transform: "translate(130px, 75px)",
-          display: "flex",
-          justifyContent: "center",
-        }}
-      >
-        {Page}
-      </div>
+      <HorizontalList
+        items={[
+          <Sidemenu />,
+          <div
+            style={{
+              minHeight: "100vh",
+              transform: "translate(-120px,10vh)",
+            }}
+          >
+            {Page}
+          </div>,
+        ]}
+      />
     </div>
   );
 };
