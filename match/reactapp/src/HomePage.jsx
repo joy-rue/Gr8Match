@@ -25,7 +25,7 @@ const HomePage = () => {
     notificationElement,
   ];
 
-//   notificationcontent = [];
+  //   notificationcontent = [];
   return (
     <Header
       Page={[
@@ -39,12 +39,24 @@ const HomePage = () => {
                   spacing={20}
                   items={[
                     <HomeHeader />,
-                    <ProjectCard
-                      title={"Berekuso standard of Living Survey k;lm"}
-                      dueDate={"22 Aug 2023"}
-                      progress={56}
-                      milestone={"Quantitative Survey.'df.df'"}
-                      timeleft={"2wks"}
+                      <HorizontalList
+                        spacing={20}
+                      items={[
+                        <ProjectCard
+                          title={"Berekuso standard of Living Survey k;lm"}
+                          dueDate={"22 Aug 2023"}
+                          progress={56}
+                          milestone={"Quantitative Survey.'df.df'"}
+                          timeleft={"2wks"}
+                        />,
+                        <ProjectCard
+                          title={"Berekuso standard of Living Survey k;lm"}
+                          dueDate={"22 Aug 2023"}
+                          progress={56}
+                          milestone={"Quantitative Survey.'df.df'"}
+                          timeleft={"2wks"}
+                        />,
+                      ]}
                     />,
                   ]}
                 />

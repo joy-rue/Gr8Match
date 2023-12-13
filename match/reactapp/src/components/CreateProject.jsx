@@ -2,6 +2,6 @@ import React from 'react'
 
 export const CreateProject = () => {
   return (
-    <div>CreateProject</div>
+    <div style={{minWidth:"28vw", height}}></div>
   )
 }

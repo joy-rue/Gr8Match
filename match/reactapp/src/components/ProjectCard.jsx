@@ -24,7 +24,8 @@ export const ProjectCard = ({
         paddingTop: "15px",
         paddingBottom: "15px",
         borderRadius: "15px",
-        width: "28vw",
+        maxWidth: "28vw",
+        minWidth: "420px",
       }}
     >
       <VerticalList
