@@ -57,12 +57,13 @@ const HomePage = () => {
                           milestone={"Quantitative Survey.'df.df'"}
                           timeleft={"2wks"}
                         />,
+                        
                       ]}
                     />,
                     <div
                       style={{
                         width: "420px",
-                        height: "200px",
+                        height: "174px",
                         backgroundColor: "white",
                         borderRadius: "15px",
                         display: "flex", // Corrected property
@@ -70,8 +71,8 @@ const HomePage = () => {
                         alignItems: "center",
                       }}
                     >
-                        <VerticalList
-                            spacing={10}
+                      <VerticalList
+                        spacing={10}
                         items={[
                           <div
                             style={{
@@ -86,9 +87,8 @@ const HomePage = () => {
                             src={addicon}
                             alt=""
                             style={{
-                                width: "40px",
-                                marginLeft:"110px"
-                             
+                              width: "40px",
+                              marginLeft: "110px",
                             }}
                           />,
                         ]}
