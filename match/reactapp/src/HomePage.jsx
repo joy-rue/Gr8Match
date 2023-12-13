@@ -7,6 +7,7 @@ import Header from "./components/Header";
 import SubListCard from "./components/SubListCard";
 import Notification from "./components/Notification";
 import { ProjectCard } from "./components/ProjectCard";
+import addicon from "./components/icons/addicon.png";
 
 const HomePage = () => {
   const notificationElement = (
@@ -39,8 +40,8 @@ const HomePage = () => {
                   spacing={20}
                   items={[
                     <HomeHeader />,
-                      <HorizontalList
-                        spacing={20}
+                    <HorizontalList
+                      spacing={20}
                       items={[
                         <ProjectCard
                           title={"Berekuso standard of Living Survey k;lm"}
@@ -58,6 +59,41 @@ const HomePage = () => {
                         />,
                       ]}
                     />,
+                    <div
+                      style={{
+                        width: "420px",
+                        height: "200px",
+                        backgroundColor: "white",
+                        borderRadius: "15px",
+                        display: "flex", // Corrected property
+                        justifyContent: "center",
+                        alignItems: "center",
+                      }}
+                    >
+                        <VerticalList
+                            spacing={10}
+                        items={[
+                          <div
+                            style={{
+                              fontSize: "30px",
+                              fontWeight: "600",
+                              color: "#CAC9CD",
+                            }}
+                          >
+                            Create New Project
+                          </div>,
+                          <img
+                            src={addicon}
+                            alt=""
+                            style={{
+                                width: "40px",
+                                marginLeft:"110px"
+                             
+                            }}
+                          />,
+                        ]}
+                      />
+                    </div>,
                   ]}
                 />
               </div>,
