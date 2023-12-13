@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import HorizontalList from "./components/HorizontalList";
 import VerticalList from "./components/VerticalList";
 import HomeHeader from "./components/HomeHeader";
@@ -9,9 +9,17 @@ import Notification from "./components/Notification";
 import { ProjectCard } from "./components/ProjectCard";
 import { useAuth } from './AuthContext';
 import { AuthProvider } from './AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 const HomePage = () => {
-const { authToken } = useAuth();
+  const { authToken, logout } = useAuth();
+  const navigate = useNavigate();
+
+    const handleLogout = () => {
+      logout();
+      navigate('/'); // Redirect to the login page
+    };
+
   const notificationElement = (
     <Notification
       title={"Onedrive Library"}
@@ -22,19 +30,16 @@ const { authToken } = useAuth();
     />
   );
 
-  let notificationcontent = [
-    notificationElement,
-    notificationElement,
-    notificationElement,
-  ];
+  const notificationContent = Array(3).fill(notificationElement);
 
-  //   notificationcontent = [];
   return (
-  <AuthProvider>
+    <AuthProvider>
       <Header
         Page={[
-          // <HomeHeader />,
-          <div style={{}}>
+          <div>
+            <button onClick={handleLogout} style={{ margin: '10px' }}>
+              Logout
+            </button>
             <HorizontalList
               spacing={20}
               items={[
@@ -52,7 +57,7 @@ const { authToken } = useAuth();
                             progress={56}
                             milestone={"Quantitative Survey.'df.df'"}
                             timeleft={"2wks"}
-                            authToken={authToken}  // Pass the token as a prop
+                            authToken={authToken}
                           />,
                           <ProjectCard
                             title={"Berekuso standard of Living Survey k;lm"}
@@ -60,7 +65,7 @@ const { authToken } = useAuth();
                             progress={56}
                             milestone={"Quantitative Survey.'df.df'"}
                             timeleft={"2wks"}
-                            authToken={authToken}  // Pass the token as a prop
+                            authToken={authToken}
                           />,
                         ]}
                       />,
@@ -82,7 +87,7 @@ const { authToken } = useAuth();
                       }}
                     />,
                     <SubListCard
-                      items={notificationcontent}
+                      items={notificationContent}
                       title={"Notifications (3)"}
                       NoItemMessage={"You have no notifications"}
                     />,
@@ -93,8 +98,8 @@ const { authToken } = useAuth();
           </div>,
         ]}
       />
-      </AuthProvider>
-    );
-  };
+    </AuthProvider>
+  );
+};
 
 export default HomePage;
