@@ -2,28 +2,33 @@ import React, { useState } from "react";
 import axios from 'axios';
 import ashesicampus from "./components/icons/ashesicampus.jpg";
 import ashesilogo from "./components/icons/ashesilogo.png";
+import { AuthProvider, useAuth } from './AuthContext';
 
 const Login = (props) => {
   const [email, setEmail] = useState("");
   const [pass, setPass] = useState("");
-  const [name, setName] = useState("");
+  const { setToken } = useAuth();  // Use the useAuth hook to get setToken function
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
+    e.preventDefault(); // Prevent the default form submission
+
     try {
-          const response = await axios.post('http://your-django-api-endpoint/login/', {
-            username,
-            password,
-          });
+      const response = await axios.post('http://127.0.0.1:8000/accounts/login/', {
+        email,
+        password: pass,
+      });
 
-          // Handle the response (e.g., update state, show success message, etc.)
-          console.log(response.data);
-        } catch (error) {
-          console.error('Error:', error.message);
-        }
-      };
-
+      // Handle the response (e.g., update state, show success message, etc.)
+      const { token } = response.data;
+      console.log('Token:', token);
+      setToken(token);// Set the token in the AuthContext
+    } catch (error) {
+      console.error('Error:', error.message);
+    }
+  };
 
   return (
+  <AuthProvider>
     <div
       style={{
         position: "relative",
@@ -92,20 +97,22 @@ const Login = (props) => {
             }}
           />
 
-          <button
-            type="submit"
-            style={{
-              marginTop: "20px",
-              width: "30%",
-              color: "white",
-              background: "#AD3537",
-              borderRadius: "5px",
-              borderColor: "#AD3537",
-              marginLeft: "35%", // Adjusted margin to center the button
-            }}
-          >
-            Login
-          </button>
+<button
+        type="submit"
+        onClick={handleSubmit}
+        style={{
+          marginTop: "20px",
+          width: "30%",
+          color: "white",
+          background: "#AD3537",
+          borderRadius: "5px",
+          borderColor: "#AD3537",
+          marginLeft: "35%",
+        }}
+      >
+        Login
+      </button>
+
         </form>
         <div
           className="link-btn"
@@ -120,6 +127,7 @@ const Login = (props) => {
         </div>
       </div>
     </div>
+    </AuthProvider>
   );
 };
 
