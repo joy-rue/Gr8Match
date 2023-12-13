@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import HorizontalList from "./components/HorizontalList";
 import VerticalList from "./components/VerticalList";
 import HomeHeader from "./components/HomeHeader";
@@ -7,8 +7,11 @@ import Header from "./components/Header";
 import SubListCard from "./components/SubListCard";
 import Notification from "./components/Notification";
 import { ProjectCard } from "./components/ProjectCard";
+import { useAuth } from './AuthContext';
+import { AuthProvider } from './AuthContext';
 
 const HomePage = () => {
+const { authToken } = useAuth();
   const notificationElement = (
     <Notification
       title={"Onedrive Library"}
@@ -27,68 +30,71 @@ const HomePage = () => {
 
   //   notificationcontent = [];
   return (
-    <Header
-      Page={[
-        // <HomeHeader />,
-        <div style={{}}>
-          <HorizontalList
-            spacing={20}
-            items={[
-              <div>
+  <AuthProvider>
+      <Header
+        Page={[
+          // <HomeHeader />,
+          <div style={{}}>
+            <HorizontalList
+              spacing={20}
+              items={[
+                <div>
+                  <VerticalList
+                    spacing={20}
+                    items={[
+                      <HomeHeader />,
+                      <HorizontalList
+                        spacing={20}
+                        items={[
+                          <ProjectCard
+                            title={"Berekuso standard of Living Survey k;lm"}
+                            dueDate={"22 Aug 2023"}
+                            progress={56}
+                            milestone={"Quantitative Survey.'df.df'"}
+                            timeleft={"2wks"}
+                            authToken={authToken}  // Pass the token as a prop
+                          />,
+                          <ProjectCard
+                            title={"Berekuso standard of Living Survey k;lm"}
+                            dueDate={"22 Aug 2023"}
+                            progress={56}
+                            milestone={"Quantitative Survey.'df.df'"}
+                            timeleft={"2wks"}
+                            authToken={authToken}  // Pass the token as a prop
+                          />,
+                        ]}
+                      />,
+                    ]}
+                  />
+                </div>,
                 <VerticalList
                   spacing={20}
                   items={[
-                    <HomeHeader />,
-                      <HorizontalList
-                        spacing={20}
-                      items={[
-                        <ProjectCard
-                          title={"Berekuso standard of Living Survey k;lm"}
-                          dueDate={"22 Aug 2023"}
-                          progress={56}
-                          milestone={"Quantitative Survey.'df.df'"}
-                          timeleft={"2wks"}
-                        />,
-                        <ProjectCard
-                          title={"Berekuso standard of Living Survey k;lm"}
-                          dueDate={"22 Aug 2023"}
-                          progress={56}
-                          milestone={"Quantitative Survey.'df.df'"}
-                          timeleft={"2wks"}
-                        />,
-                      ]}
+                    <img
+                      src={sidebanner}
+                      alt=""
+                      style={{
+                        width: "25vw",
+                        paddingLeft: "1.2vw",
+                        paddingRight: "1.2vw",
+                        backgroundColor: "white",
+                        borderRadius: "10px",
+                      }}
+                    />,
+                    <SubListCard
+                      items={notificationcontent}
+                      title={"Notifications (3)"}
+                      NoItemMessage={"You have no notifications"}
                     />,
                   ]}
-                />
-              </div>,
-              <VerticalList
-                spacing={20}
-                items={[
-                  <img
-                    src={sidebanner}
-                    alt=""
-                    style={{
-                      width: "25vw",
-                      paddingLeft: "1.2vw",
-                      paddingRight: "1.2vw",
-                      backgroundColor: "white",
-                      borderRadius: "10px",
-                    }}
-                  />,
-                  <SubListCard
-                    items={notificationcontent}
-                    title={"Notifications (3)"}
-                    NoItemMessage={"You have no notifications"}
-                  />,
-                ]}
-              />,
-            ]}
-          />
-          ,
-        </div>,
-      ]}
-    />
-  );
-};
+                />,
+              ]}
+            />
+          </div>,
+        ]}
+      />
+      </AuthProvider>
+    );
+  };
 
 export default HomePage;

@@ -6,10 +6,11 @@ import { AuthProvider } from './AuthContext';
 
 function App() {
   return (
-
+    <AuthProvider>
     <div className="app__body">
       <HomePage />
     </div>
+    </AuthProvider>
   );
 }
 
