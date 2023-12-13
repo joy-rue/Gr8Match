@@ -9,22 +9,16 @@ from rest_framework.permissions import IsAuthenticated
 from ..serializers import *
 
 
-# Retireve project data in the database
-
 @api_view(['GET'])
 def project_detail(request, project_name):
     try:
-        # Retrieve the project from the database based on the project name
         project = Projects.objects.filter(title=project_name).first()
 
-        # Serialize the project data using the ProjectSerializer
         serializer = ProjectSerializer(project)
 
-        # Return the serialized project data as a JSON response
         return Response({'project': serializer.data})
 
     except Projects.DoesNotExist:
-        # Handle the case where the project with the given name does not exist
         return Response({'error': f'Project with name {project_name} does not exist'}, status=404)
 
 
@@ -70,7 +64,6 @@ def make_match(request):
         # Use request.data directly for JSON parsing
         # data = request.data
 
-        # Retrieve Django model instances based on primary keys
             project = get_object_or_404(Projects, id=data["project_id"])
             assistants = RA.objects.all()
             faculty = get_object_or_404(Faculty, faculty_id=data["faculty_id"])
@@ -119,6 +112,7 @@ def make_match(request):
 def add_comment(request):
     project_id = request.data.get("project_id")
     comments = request.data.get("comments", [])
+    comments = request.data.get("comments", [])
     response = []
 
     try:
@@ -150,24 +144,20 @@ def add_milestone(request):
     response = []
 
     try:
-        # Retrieve the project instance
         project_instance = Projects.objects.get(id=project_id)
     except Projects.DoesNotExist:
         return Response({"error": "Project not found"}, status=404)
 
     for milestone_data in milestones_data:
-        # Extract milestone_title and milestone_description from each dictionary
         milestone_title, milestone_description = next(iter(milestone_data.items()))
 
-        # Create a new project milestone instance
         project_milestone_instance = ProjectMilestones.objects.create(
             project=project_instance,
             milestone=milestone_title,
             milestone_description=milestone_description,
-            milestone_complete=False  # You may adjust this based on your requirements
+            milestone_complete=False 
         )
 
-        # Serialize the project milestone instance for the response
         serializer = ProjectMilestoneSerializer(project_milestone_instance)
         response.append(serializer.data)
 
@@ -201,16 +191,6 @@ def get_user_details(request):
     return Response(CustomUserSerializer(user).data)
 
 
-"""
-Retrieve details of a milestone associated with a project.
-
-Args:
-    request (HttpRequest): The HTTP request object.
-    project_milestone_id (int): The unique identifier of the project milestone.
-
-Returns:
-    Response: A serialized representation of the milestone if found.
-"""
 @api_view(["GET"])
 #subject to changes
 def view_milestone(request, project_milestone_id):

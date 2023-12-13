@@ -8,6 +8,8 @@ from ..serializers import *
 from rest_framework.permissions import IsAuthenticated
 from rest_flex_fields.views import FlexFieldsMixin
 from rest_framework.viewsets import ReadOnlyModelViewSet
+from rest_framework.views import APIView
+from rest_framework.parsers import MultiPartParser, FormParser
 
 
 
@@ -104,4 +106,15 @@ class FilterSearch(FlexFieldsMixin, ReadOnlyModelViewSet):
 #             searched_persons = CustomUser.objects.filter(last_name=search_pattern)
 #         elif ' ' in search_pattern:
             
+
+class UploadPicture(APIView):
+    parser_classes = [MultiPartParser, FormParser]
     
+    def update_picture(self, request, format=None):
+        print(request.data)
+        serializer = UploadPhotoSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
