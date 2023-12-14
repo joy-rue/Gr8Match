@@ -9,9 +9,15 @@ import ProjectCardList from "./components/ProjectCardList";
 import Notification from "./components/Notification";
 import NotificationsList from "./components/NotificationsList";
 import SubBanner from "./components/SubBanner";
+<<<<<<< Updated upstream
 import ProjectCard from "./components/ProjectCard";
 import sidebanner from "./components/icons/sidebanner.png"
 import Cookies from "js-cookie";
+=======
+import  ProjectCard from "./components/ProjectCard";
+import { useAuth } from './AuthContext';
+import { AuthProvider } from './AuthContext';
+>>>>>>> Stashed changes
 import { useNavigate } from 'react-router-dom';
 
 // const ProtectedProject = ({ token }) => {
