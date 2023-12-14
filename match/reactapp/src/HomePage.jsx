@@ -4,14 +4,25 @@ import VerticalList from "./components/VerticalList";
 import HomeHeader from "./components/HomeHeader";
 import Header from "./Header";
 import SubListCard from "./components/SubListCard";
-import ProjectCard from "./components/ProjectCard";
 import addicon from "./components/icons/addicon.png";
 import ProjectCardList from "./components/ProjectCardList";
 import Notification from "./components/Notification";
 import NotificationsList from "./components/NotificationsList";
 import SubBanner from "./components/SubBanner";
+import { ProjectCard } from "./components/ProjectCard";
+import { useAuth } from './AuthContext';
+import { AuthProvider } from './AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 const HomePage = () => {
+  const { authToken, logout } = useAuth();
+  const navigate = useNavigate();
+
+    const handleLogout = () => {
+      logout();
+      navigate('/'); // Redirect to the login page
+    };
+
   const notificationElement = (
     <Notification
       key="notification"
@@ -23,11 +34,7 @@ const HomePage = () => {
     />
   );
 
-  let notificationcontent = [
-    notificationElement,
-    notificationElement,
-    notificationElement,
-  ];
+  const notificationContent = Array(3).fill(notificationElement);
 
   const createproject = (
     <div
@@ -76,7 +83,74 @@ const HomePage = () => {
       progress={16}
       milestone={"Quantitative Survey dfdf'"}
       timeleft={"2wks"}
-    />
+    />);
+  return (
+    <AuthProvider>
+      <Header
+        Page={[
+          <div>
+            <button onClick={handleLogout} style={{ margin: '10px' }}>
+              Logout
+            </button>
+            <HorizontalList
+              spacing={20}
+              items={[
+                <div>
+                  <VerticalList
+                    spacing={20}
+                    items={[
+                      <HomeHeader />,
+                      <HorizontalList
+                        spacing={20}
+                        items={[
+                          <ProjectCard
+                            title={"Berekuso standard of Living Survey k;lm"}
+                            dueDate={"22 Aug 2023"}
+                            progress={56}
+                            milestone={"Quantitative Survey.'df.df'"}
+                            timeleft={"2wks"}
+                            authToken={authToken}
+                          />,
+                          <ProjectCard
+                            title={"Berekuso standard of Living Survey k;lm"}
+                            dueDate={"22 Aug 2023"}
+                            progress={56}
+                            milestone={"Quantitative Survey.'df.df'"}
+                            timeleft={"2wks"}
+                            authToken={authToken}
+                          />,
+                        ]}
+                      />,
+                    ]}
+                  />
+                </div>,
+                <VerticalList
+                  spacing={20}
+                  items={[
+                    <img
+                      src={sidebanner}
+                      alt=""
+                      style={{
+                        width: "25vw",
+                        paddingLeft: "1.2vw",
+                        paddingRight: "1.2vw",
+                        backgroundColor: "white",
+                        borderRadius: "10px",
+                      }}
+                    />,
+                    <SubListCard
+                      items={notificationContent}
+                      title={"Notifications (3)"}
+                      NoItemMessage={"You have no notifications"}
+                    />,
+                  ]}
+                />,
+              ]}
+            />
+          </div>,
+        ]}
+      />
+    </AuthProvider>
   );
   const sampleCards = [sampleCard, sampleCard, sampleCard, createproject];
 

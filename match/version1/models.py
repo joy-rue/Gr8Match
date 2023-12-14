@@ -34,6 +34,9 @@ class CustomUserManager(BaseUserManager):
 class Department(models.Model):
     department_name = models.CharField(max_length=20)
 
+def upload_to(instance, filename):
+    return 'accounts/{filename}'.format(filename=filename)
+
 
 class CustomUser(AbstractBaseUser):
     email = models.EmailField(_('email address'), unique=True)
@@ -42,6 +45,7 @@ class CustomUser(AbstractBaseUser):
     last_name = models.CharField(max_length=60)
     role = models.CharField(max_length=150)
     department = models.ForeignKey(Department, on_delete=models.CASCADE)
+    image = models.ImageField(_("image"), upload_to=upload_to, default='accounts/default.png')
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ('first_name', 'last_name', 'role', 'department')
@@ -60,11 +64,6 @@ class Projects(models.Model):
     department = models.ForeignKey(Department, on_delete=models.CASCADE, related_name='projects')
     owner = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     active = models.BooleanField(default=True)
-    # department_id = models.ForeignKey(Department, on_delete=models.CASCADE)
-    # project_id = models.AutoField(primary_key=True)
-
-
-
 
 
 class ProjectMilestones(models.Model):
@@ -72,15 +71,13 @@ class ProjectMilestones(models.Model):
     milestone = models.CharField(max_length=250)
     milestone_description = models.CharField(max_length=250)
     milestone_complete = models.BooleanField(null=False, default=False)
-    # primary_key = models.ForeignKey(Projects, Milestones, primary_key=True, on_delete=models.CASCADE)
 
-    # department_id = models.AutoField(primary_key=True)
+    
 class ProjectComment(models.Model):
     project = models.ForeignKey(Projects, on_delete=models.CASCADE)
     comment = models.CharField(max_length=250)
     
 class ProjectMilestoneTask(models.Model):
-    # project = models.ForeignKey(Projects, on_delete=models.CASCADE)
     project_milestone = models.ForeignKey(ProjectMilestones, on_delete=models.CASCADE)
     task = models.CharField(max_length=250)
     completed = models.BooleanField()
@@ -95,36 +92,18 @@ class MilestoneTaskSerializer(models.Model):
 
 class Interest(models.Model):
     interest_name = models.CharField(max_length=20)
-    # interest_id = models.AutoField(primary_key=True)
 
-
-# class Accounts(models.Model):
-#     first_name = models.CharField(max_length=60)
-#     last_name = models.CharField(max_length=60)
-#     email = models.EmailField(_('email address'), unique=True)
-#     department = models.ForeignKey(Department, on_delete=models.CASCADE)
-#     role = models.CharField(max_length=10)
-# account_id = models.AutoField(primary_key=True)
 
 class Faculty(models.Model):
-    # first_name = models.CharField(max_length=20)
-    # last_name = models.CharField(max_length=20)
     faculty_id = models.AutoField(primary_key=True)
     project = models.ForeignKey(Projects, on_delete=models.CASCADE)
     account = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
-    # department = models.ForeignKey(Department, on_delete=models.CASCADE)
-    # interest_id = models.ForeignKey(Interest, on_delete=models.CASCADE)
 
 
 class RA(models.Model):
-    # first_name = models.CharField(max_length=20)
-    # last_name = models.CharField(max_length=20)
     availability = models.BooleanField(default=True)  # Use BooleanField for true or false
-    # rA_id = models.AutoField(primary_key=True)
     project = models.ForeignKey(Projects, on_delete=models.CASCADE)
-    # department = models.ForeignKey(Department, on_delete=models.CASCADE)
     account = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
-    # interest_id = models.ForeignKey(Interest, on_delete=models.CASCADE)
 
 
 class Faculty_Interest(models.Model):
@@ -140,11 +119,13 @@ class RA_Interest(models.Model):
 class RA_Project(models.Model):
     rA = models.ForeignKey(RA, on_delete=models.CASCADE)
     project = models.ForeignKey(Projects, on_delete=models.CASCADE)
+    status = models.CharField(max_length=20)
+    owner = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    feedback = models.CharField(max_length=500)
 
 
 class Skills(models.Model):
     skill_name = models.CharField(max_length=400)
-    # skills_id = models.AutoField(primary_key=True)
 
 
 class Project_Skills(models.Model):

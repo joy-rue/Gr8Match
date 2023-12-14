@@ -7,6 +7,7 @@ import ProjectPage from "./ProjectPage";
 import ExplorePage from "./ExplorePage";
 import Login from "./Login";
 
+
 function App() {
   return (
     <BrowserRouter>
@@ -21,6 +22,6 @@ function App() {
       </div>
     </BrowserRouter>
   );
-}
+};
 
 export default App;

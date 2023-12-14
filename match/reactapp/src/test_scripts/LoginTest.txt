@@ -1,6 +1,9 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import React, { useState } from "react";
 import Login from "./Login";
+import HomePage from "./HomePage";
+import { AuthProvider } from './AuthContext';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 const App = () => {
   const [showLoginForm, setShowLoginForm] = useState(true);
@@ -11,16 +14,13 @@ const App = () => {
   };
 
   return (
-    <div>
-      {showLoginForm ? (
-        <Login onFormSwitch={handleFormSwitch} />
-      ) : (
-        // Render other components or forms based on your application logic
-        <div>
-          <h1>Welcome to My App!</h1>
-        </div>
-      )}
-    </div>
+    <AuthProvider>
+      <Router>
+        <Routes>
+          <Route path="/" element={showLoginForm ? <Login onFormSwitch={handleFormSwitch} /> : <HomePage />} />
+        </Routes>
+      </Router>
+    </AuthProvider>
   );
 };
 
