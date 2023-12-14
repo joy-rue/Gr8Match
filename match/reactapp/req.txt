@@ -1,0 +1,9 @@
+react
+react-dom
+react-router-dom
+axios
+js-cookie
+
+
+./components/icons/ashesicampus.jpg
+./components/icons/ashesilogo.png

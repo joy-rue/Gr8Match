@@ -6,6 +6,8 @@ import HomePage from "./HomePage";
 import ProjectPage from "./ProjectPage";
 import ExplorePage from "./ExplorePage";
 import Login from "./Login";
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+
 
 
 function App() {

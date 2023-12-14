@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import HorizontalList from "./components/HorizontalList";
 import VerticalList from "./components/VerticalList";
 import HomeHeader from "./components/HomeHeader";
@@ -10,17 +10,30 @@ import Notification from "./components/Notification";
 import NotificationsList from "./components/NotificationsList";
 import SubBanner from "./components/SubBanner";
 import { ProjectCard } from "./components/ProjectCard";
-import { useAuth } from './AuthContext';
-import { AuthProvider } from './AuthContext';
+import Cookies from "js-cookie";
 import { useNavigate } from 'react-router-dom';
 
+const ProtectedProject = ({ token }) => {
+  if (!token) {
+    const navigate = useNavigate();
+    navigate("/project");
+    return navigate("/login"); // Redirect if not authorized
+  }
+
+  return <ProjectPage/>; // Render ProjectPage if authorized
+};
+
 const HomePage = () => {
-  const { authToken, logout } = useAuth();
-  const navigate = useNavigate();
+    const navigate = useNavigate();
+    const token = Cookies.get("token"); // Get token from cookies
+
+      if (!token) {
+        return null; // Don't render HomePage if not authorized
+      }
 
     const handleLogout = () => {
       logout();
-      navigate('/'); // Redirect to the login page
+      navigate('/Login'); // Redirect to the login page
     };
 
   const notificationElement = (
@@ -85,7 +98,7 @@ const HomePage = () => {
       timeleft={"2wks"}
     />);
   return (
-    <AuthProvider>
+
       <Header
         Page={[
           <div>
@@ -109,7 +122,6 @@ const HomePage = () => {
                             progress={56}
                             milestone={"Quantitative Survey.'df.df'"}
                             timeleft={"2wks"}
-                            authToken={authToken}
                           />,
                           <ProjectCard
                             title={"Berekuso standard of Living Survey k;lm"}
@@ -117,7 +129,7 @@ const HomePage = () => {
                             progress={56}
                             milestone={"Quantitative Survey.'df.df'"}
                             timeleft={"2wks"}
-                            authToken={authToken}
+
                           />,
                         ]}
                       />,
@@ -150,7 +162,7 @@ const HomePage = () => {
           </div>,
         ]}
       />
-    </AuthProvider>
+
   );
   const sampleCards = [sampleCard, sampleCard, sampleCard, createproject];
 

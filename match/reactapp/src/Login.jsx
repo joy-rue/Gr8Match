@@ -1,32 +1,54 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import ashesicampus from "./components/icons/ashesicampus.jpg";
 import ashesilogo from "./components/icons/ashesilogo.png";
-import { AuthProvider, useAuth } from './AuthContext';
-import { useNavigate, Routes, Route } from 'react-router-dom';
-import HomePage from './HomePage'; // Import HomePage
+import { useNavigate, Routes, Route } from "react-router-dom";
+import HomePage from "./HomePage"; // Import HomePage
+import Cookies from "js-cookie";
+
+const ProtectedHome = ({ token }) => {
+  const navigate = useNavigate();
+
+  return <HomePage/>; // Render HomePage if authorized
+};
 
 const Login = (props) => {
   const [email, setEmail] = useState("");
   const [pass, setPass] = useState("");
-  const { setToken } = useAuth();
   const navigate = useNavigate();
+
+  // Move useEffect inside Login component
+  useEffect(() => {
+    setupAxiosInterceptors();
+  }, []);
+
+  function setupAxiosInterceptors() {
+    axios.interceptors.request.use((config) => {
+      const token = Cookies.get("token");
+      if (token) {
+        config.headers.Authorization = `token ${token}`;
+      }
+      return config;
+    });
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      const response = await axios.post('http://127.0.0.1:8000/accounts/login/', {
-        email,
-        password: pass,
-      });
-
-      const { token } = response.data;
-      console.log('Token:', token);
-      setToken(token);
+      const response = await axios.post(
+        "http://127.0.0.1:8000/accounts/login/",
+        {
+          email,
+          password: pass,
+        }
+      );
+      // Extract token from response data
+      Cookies.set("token", response.data.token, { secure: true, httpOnly: true });
       navigate("/home");
-
     } catch (error) {
-      console.error('Error:', error.message);
+      console.error("Error:", error.message);
+      // Implement proper error handling here
     }
   };
 
@@ -100,7 +122,7 @@ const Login = (props) => {
           </div>
         }
       />
-      <Route path="/home" element={<HomePage />} />
+      <Route path="/home" element={<ProtectedHome navigate={navigate} token={Cookies.get("token")} />} />
     </Routes>
   );
 };
