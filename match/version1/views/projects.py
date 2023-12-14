@@ -1,5 +1,4 @@
 import json
-
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 from rest_framework.decorators import api_view, permission_classes
@@ -7,9 +6,13 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from ..serializers import *
+from django.contrib.auth import authenticate
+from rest_framework.permissions import IsAuthenticated
+
 
 
 @api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def project_detail(request, project_name):
     try:
         project = Projects.objects.filter(title=project_name).first()
@@ -56,6 +59,7 @@ def project_detail(request, project_name):
 #     # Projects.objects.get(project_id =  )
 
 @api_view(["POST"])
+@permission_classes([IsAuthenticated])
 def make_match(request):
     try:
         serializer = MatchingSerializer(data=request.data)
@@ -109,6 +113,7 @@ def make_match(request):
 
 
 @api_view(["PATCH"])
+@permission_classes([IsAuthenticated])
 def add_comment(request):
     project_id = request.data.get("project_id")
     comments = request.data.get("comments", [])
@@ -137,6 +142,7 @@ def add_comment(request):
 
 
 @api_view(["PATCH"])
+@permission_classes([IsAuthenticated])
 def add_milestone(request):
     project_id = request.data.get("project_id")
     milestones_data = request.data.get("milestones", [])
@@ -192,6 +198,7 @@ def get_user_details(request):
 
 
 @api_view(["GET"])
+@permission_classes([IsAuthenticated])
 #subject to changes
 def view_milestone(request, project_milestone_id):
     try:
@@ -204,6 +211,7 @@ def view_milestone(request, project_milestone_id):
     
 # Work on this
 @api_view(["PATCH"])
+@permission_classes([IsAuthenticated])
 def ra_give_feedback(request, project_id, ra_id):
     if ra_project.status != "Completed":
         try:

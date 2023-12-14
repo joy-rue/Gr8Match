@@ -1,4 +1,4 @@
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from ..models import *
 from ..serializers import *
@@ -9,6 +9,9 @@ import json
 from django.shortcuts import get_object_or_404
 from django.db.models import Prefetch
 from rest_framework import status
+from django.contrib.auth import authenticate
+from rest_framework.permissions import IsAuthenticated
+
 
 
 def get_ra_details(ra_id):
@@ -25,6 +28,7 @@ def get_ra_details(ra_id):
 
 
 @api_view(["GET"])
+@permission_classes([IsAuthenticated])
 def get_all_RAs(request):
     try:
         RAs = RA.objects.select_related('account').all()
@@ -56,6 +60,7 @@ def get_all_RAs(request):
     
     
 @api_view(["GET"])
+@permission_classes([IsAuthenticated])
 def get_project_applications(request, faculty_id):
     print("Pressure")
     pending_ra_projects = RA_Project.objects.filter(
@@ -83,6 +88,7 @@ def get_project_applications(request, faculty_id):
 
 
 @api_view(["PATCH"])
+@permission_classes([IsAuthenticated])
 def accept_application(request, project_id, account_id, faculty_id):
     try:
         ra = RA.objects.get(account_id=account_id)
@@ -101,6 +107,7 @@ def accept_application(request, project_id, account_id, faculty_id):
     
     
 @api_view(["GET"])
+@permission_classes([IsAuthenticated])
 def get_faculty_projects(request, owner_id):
     try:
         projects = Projects.objects.filter(owner_id=owner_id)
@@ -111,6 +118,7 @@ def get_faculty_projects(request, owner_id):
     
 
 @api_view(["POST"])
+@permission_classes([IsAuthenticated])
 def request_ra(request, project_id, account_id, owner_id):
     # print(account_id)
     # try:

@@ -7,6 +7,7 @@ from ..serializers import *
 
 
 @api_view(["GET"])
+@permission_classes([IsAuthenticated])
 def get_all_milestones(request):
     try:
         milestones = Milestones.objects.all()
@@ -17,6 +18,7 @@ def get_all_milestones(request):
     
 
 @api_view(["POST"])
+@permission_classes([IsAuthenticated])
 def create_milestone(request, project_id):
     project = Projects.objects.get(id=project_id)
     serializer = CreateMilestoneSerializer(data=request.data)
@@ -27,6 +29,7 @@ def create_milestone(request, project_id):
 
 
 @api_view(["DELETE"])
+@permission_classes([IsAuthenticated])
 def delete_milestone(request, projectmilestone_id):
     try:
         project_milestone = ProjectMilestones.objects.get(id=projectmilestone_id)
@@ -37,6 +40,7 @@ def delete_milestone(request, projectmilestone_id):
 
 
 @api_view(["POST"])
+@permission_classes([IsAuthenticated])
 def create_milestone_task(request, project_milestone_id):
     project_milestone = ProjectMilestones.objects.get(id=project_milestone_id)
     
@@ -48,6 +52,7 @@ def create_milestone_task(request, project_milestone_id):
 
 
 @api_view(["GET"])
+@permission_classes([IsAuthenticated])
 def get_milestone_tasks(request, project_milestone_id):
     try: 
         tasks = ProjectMilestoneTask.objects.filter(project_milestone_id=project_milestone_id)
@@ -58,6 +63,7 @@ def get_milestone_tasks(request, project_milestone_id):
 
 
 @api_view(["DELETE"])
+@permission_classes([IsAuthenticated])
 def delete_milestone_task(request, project_milestone_task):
     try:
         milestone_task = ProjectMilestoneTask.objects.get(id=project_milestone_task)
@@ -68,6 +74,7 @@ def delete_milestone_task(request, project_milestone_task):
 
 
 @api_view(["PATCH"])
+@permission_classes([IsAuthenticated])
 def complete_task(request, project_milestone_task):
     milestone_task = ProjectMilestoneTask.objects.get(id=project_milestone_task)
     print(request.data["completed"])
