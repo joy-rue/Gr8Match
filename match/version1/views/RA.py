@@ -4,6 +4,10 @@ from rest_framework.response import Response
 from ..serializers import *
 from typing import List
 from rest_framework import status
+from django.contrib.auth import authenticate
+from rest_framework.permissions import IsAuthenticated
+
+
 
 
 
@@ -26,6 +30,7 @@ from rest_framework import status
 #         return Response({'error': f'RA with id {ras_id} does not exist'}, status=404)
     
 @api_view(["GET"])
+@permission_classes([IsAuthenticated])
 def get_ra_details(request, ra_id):
   try:
     ra = RA.objects.get(pk=ra_id)
@@ -44,6 +49,7 @@ def get_ra_details(request, ra_id):
     
 
 @api_view(["GET"])
+@permission_classes([IsAuthenticated])
 def get_all_projects(request):
     try:
         projects = Projects.objects.all()
@@ -54,6 +60,7 @@ def get_all_projects(request):
 
 
 @api_view(["POST"])
+@permission_classes([IsAuthenticated])
 def apply_for_project(request, project_id, ra_id,):
     serializer = ProjectApplicationSerializer(data=request.data)
     if serializer.is_valid():
@@ -88,6 +95,7 @@ def get_my_projects(request, user_id):
 
 
 @api_view(["PATCH"])
+@permission_classes([IsAuthenticated])
 def accept_request(request, ra_id, project_id):
     try:
         ra_project = RA_Project.objects.get(rA_id=ra_id, project_id=project_id)
