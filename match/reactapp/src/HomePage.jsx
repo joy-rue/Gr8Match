@@ -9,27 +9,28 @@ import ProjectCardList from "./components/ProjectCardList";
 import Notification from "./components/Notification";
 import NotificationsList from "./components/NotificationsList";
 import SubBanner from "./components/SubBanner";
-import { ProjectCard } from "./components/ProjectCard";
+import ProjectCard from "./components/ProjectCard";
+import sidebanner from "./components/icons/sidebanner.png"
 import Cookies from "js-cookie";
 import { useNavigate } from 'react-router-dom';
 
-const ProtectedProject = ({ token }) => {
-  if (!token) {
-    const navigate = useNavigate();
-    navigate("/ProjectPage");
-    return navigate("/Login"); // Redirect if not authorized
-  }
-
-  return <ProjectPage/>; // Render ProjectPage if authorized
-};
+// const ProtectedProject = ({ token }) => {
+//   if (!token) {
+//     const navigate = useNavigate();
+//     navigate("/ProjectPage");
+//     return navigate("/Login"); // Redirect if not authorized
+//   }
+//
+//   return <ProjectPage/>; // Render ProjectPage if authorized
+// };
 
 const HomePage = () => {
-    const navigate = useNavigate();
-    const token = Cookies.get("token"); // Get token from cookies
-
-      if (!token) {
-        return null; // Don't render HomePage if not authorized
-      }
+//     const navigate = useNavigate();
+//     const token = Cookies.get("token"); // Get token from cookies
+//
+//       if (!token) {
+//         return null; // Don't render HomePage if not authorized
+//       }
 
     const handleLogout = () => {
       logout();

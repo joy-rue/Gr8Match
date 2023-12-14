@@ -45,7 +45,7 @@ const Login = (props) => {
       );
       // Extract token from response data
       Cookies.set("token", response.data.token, { secure: true, httpOnly: true });
-      navigate("/home");
+      navigate("/");
     } catch (error) {
       console.error("Error:", error.message);
       // Implement proper error handling here
@@ -122,7 +122,7 @@ const Login = (props) => {
           </div>
         }
       />
-      <Route path="/home" element={<ProtectedHome navigate={navigate} token={Cookies.get("token")} />} />
+      <Route path="/" element={<ProtectedHome navigate={navigate} token={Cookies.get("token")} />} />
     </Routes>
   );
 };
