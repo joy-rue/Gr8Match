@@ -121,6 +121,7 @@ class RA_Project(models.Model):
     project = models.ForeignKey(Projects, on_delete=models.CASCADE)
     status = models.CharField(max_length=20)
     owner = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    feedback = models.CharField(max_length=500)
 
 
 class Skills(models.Model):

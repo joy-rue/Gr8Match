@@ -1,10 +1,10 @@
 from django.urls import path
 from . import views
 # from .views import project_detail
-from .views.faculty import get_all_RAs, get_project_applications, accept_application, get_faculty_projects
-from .views.RA import get_ra_details, get_all_projects, apply_for_project, get_my_projects
+from .views.faculty import get_all_RAs, get_project_applications, accept_application, get_faculty_projects, request_ra
+from .views.RA import get_ra_details, get_all_projects, apply_for_project, get_my_projects, accept_request
 from .views.Account import create_account, login, change_password, add_interest, UploadPicture
-from .views.projects import create_project, get_user_details ,make_match, view_milestone, add_milestone, project_detail
+from .views.projects import create_project, get_user_details ,make_match, view_milestone, add_milestone, project_detail, ra_give_feedback
 from .views.projects import create_project, get_user_details ,make_match, add_comment
 from .views.Account import create_account, login, change_password, FilterSearch
 from .views.projects import create_project, get_user_details ,make_match, view_milestone
@@ -43,6 +43,9 @@ urlpatterns = [
     path('accept_application/<str:project_id>/<str:account_id>/<str:faculty_id>/', accept_application, name='accept_application'),
     path('get_my_projects/<str:user_id>/', get_my_projects, name='get_my_projects'),
     path('get_faculty_projects/<str:owner_id>/', get_faculty_projects, name='get_faculty_projects'),
+    path('request_ra/<str:project_id>/<str:account_id>/<str:owner_id>/', request_ra, name='request_ra'),
+    path('accept_request/<str:ra_id>/<str:project_id>/', accept_request, name='accept_request'),
+    path('ra_give_feedback/<str:project_id>/<str:ra_id>/', ra_give_feedback, name='ra_giv_feedback'),
 
     path('user/details/', get_user_details, name='user_details'),
 ]

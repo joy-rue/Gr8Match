@@ -201,3 +201,16 @@ def view_milestone(request, project_milestone_id):
         return Response(serializer.data)
     except:
         return Response({'error':'No such milestone'}, status=status.HTTP_404_NOT_FOUND)
+    
+# Work on this
+@api_view(["PATCH"])
+def ra_give_feedback(request, project_id, ra_id):
+    if ra_project.status != "Completed":
+        try:
+            ra_project = RA_Project.objects.get(project_id=project_id, rA_id=ra_id)
+            ra_project.feedback = request.data.get("feedback")
+            ra_project.save()
+            
+            return Response({"Success":"Feedback provided"}, status=status.HTTP_202_ACCEPTED)
+        except RA_Project.DoesNotExist:
+            return Response({"Error":"Record does not exist"}, status=status.HTTP_404_NOT_FOUND)

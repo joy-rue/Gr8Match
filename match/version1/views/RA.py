@@ -85,3 +85,15 @@ def get_my_projects(request, user_id):
         })
 
     return Response({"Succes":project_details})
+
+
+@api_view(["PATCH"])
+def accept_request(request, ra_id, project_id):
+    try:
+        ra_project = RA_Project.objects.get(rA_id=ra_id, project_id=project_id)
+        ra_project.status = "Accepted"
+        ra_project.save()
+        
+        return Response({"Success":"Now working on project"}, status=status.HTTP_202_ACCEPTED)
+    except RA_Project.DoesNotExist:
+        return Response({"Error":"Record does not exist"}, status=status.HTTP_404_NOT_FOUND)

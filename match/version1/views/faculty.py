@@ -108,3 +108,33 @@ def get_faculty_projects(request, owner_id):
         return Response({'projects':serializer.data})
     except Projects.DoesNotExist:
         return Response({'error':'No projects available'})
+    
+
+@api_view(["POST"])
+def request_ra(request, project_id, account_id, owner_id):
+    # print(account_id)
+    # try:
+        # Get the RA and owner associated with the provided IDs
+        ra = RA.objects.get(account_id=account_id)
+        owner = CustomUser.objects.get(pk=owner_id)
+
+        # Check if the RA already has a record for this project (avoid duplicates)
+        existing_project = RA_Project.objects.filter(project_id=project_id, rA_id=ra.pk).exists()
+        if existing_project:
+            raise ValueError("RA already requested this project.")
+            
+        # Create a new RA_Project record with requested status and owner information
+        new_request = RA_Project.objects.create(
+            rA_id=ra.pk,
+            project_id=project_id,
+            status="Requested",
+            owner_id=owner.pk
+        )
+
+        return Response({"Success":"Request made for RA"})
+    # except RA.DoesNotExist:
+    #     # Handle cases where RA or owner not found
+    #     return Response({"Error":"Request couldn't be made"})
+    # except ValueError as error:
+    #     # Handle duplicate request error
+    #     return False
