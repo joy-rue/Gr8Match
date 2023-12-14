@@ -16,8 +16,8 @@ import { useNavigate } from 'react-router-dom';
 const ProtectedProject = ({ token }) => {
   if (!token) {
     const navigate = useNavigate();
-    navigate("/project");
-    return navigate("/login"); // Redirect if not authorized
+    navigate("/ProjectPage");
+    return navigate("/Login"); // Redirect if not authorized
   }
 
   return <ProjectPage/>; // Render ProjectPage if authorized
