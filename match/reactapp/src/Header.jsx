@@ -1,7 +1,7 @@
 import React from "react";
-import ashesilogo from "./icons/ashesilogo.png";
-import { Sidemenu } from "./Sidemenu";
-import HorizontalList from "./HorizontalList";
+import ashesilogo from "./components/icons/ashesilogo.png";
+import { Sidemenu } from "./components/Sidemenu";
+import HorizontalList from "./components/HorizontalList";
 
 const Header = ({ Page }) => {
   return (
@@ -33,10 +33,14 @@ const Header = ({ Page }) => {
       </div>
       <HorizontalList
         items={[
-          <Sidemenu />,
+          <Sidemenu key="sidemenu" />,
           <div
+            key="page"
             style={{
+              width: "60vw",
               minHeight: "100vh",
+              // marginLeft: "-120px",
+              // marginTop: "10vh",
               transform: "translate(-120px,10vh)",
             }}
           >

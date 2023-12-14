@@ -1,14 +1,12 @@
 import HorizontalList from "./HorizontalList";
-import { IconItem } from "./IconItem";
+import IconItem from "./IconItem";
 import VerticalList from "./VerticalList";
 import clockicon from "./icons/clockicon.png";
-
 
 const WorKExperience = ({
   profile,
   title,
   dueDate,
-  timeleft,
   People,
   workhours,
   description,

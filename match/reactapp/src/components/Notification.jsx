@@ -1,5 +1,6 @@
 import React from "react";
 import VerticalList from "./VerticalList";
+import SubBanner from "./SubBanner";
 
 const Notification = ({ title, text, date }) => {
   return (
@@ -10,7 +11,6 @@ const Notification = ({ title, text, date }) => {
           <div style={{ fontWeight: "500" }}>{title}</div>,
           <div
             style={{
-              //   width: "60%",
               fontSize: "12px", // Adjust the font size as needed
               wordWrap: "break-word",
             }}
@@ -19,7 +19,6 @@ const Notification = ({ title, text, date }) => {
           </div>,
           <div
             style={{
-              // width: "60%",
               fontSize: "12px",
               fontWeight: "400",
             }}

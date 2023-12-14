@@ -10,11 +10,11 @@ export const SubListCard = ({
   const [selectedIndex, setSelectedIndex] = useState(null);
 
   // Show only the last 7 items
-  const last7Items = items.slice(-7);
+  const last7Items = (items.slice(-7));
 
   return (
     <div style={{ width: "25vw" }}>
-      <div className="card">
+      <div className="card" style={{ margin: "0" }}>
         <ul
           className="list-group list-group-flush"
           style={{ listStyleType: "none" }}

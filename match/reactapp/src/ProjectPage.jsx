@@ -1,6 +1,6 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import AppsContent from "./components/AppsContent";
-import Header from "./components/Header";
+import Header from "./Header";
 import ListCard from "./components/ListCard";
 import ashesilogoblank from "./components/icons/ashesiblanklogo.png";
 import sidebanner from "./components/icons/sidebanner.png";

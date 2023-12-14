@@ -2,7 +2,38 @@ import React from "react";
 import banner from "./icons/campusbanner.png";
 import HorizontalList from "./HorizontalList";
 
-const HomeHeader = () => {
+const HomeHeader = ({ title, date, spacing }) => {
+  const header = (
+    <div
+      style={{
+        fontSize: "2.5vw",
+        marginLeft: "20px",
+        marginBottom: "-30px",
+        transform: "translateY(7.7vw)",
+      }}
+    >
+      <HorizontalList
+        items={[
+          <div
+            style={{
+              fontWeight: "600",
+              margin: 0,
+            }}
+          >
+            {title}
+          </div>,
+          <div
+            style={{
+              fontWeight: 300,
+              marginLeft: `${spacing}`,
+            }}
+          >
+            {date}
+          </div>,
+        ]}
+      />
+    </div>
+  );
   return (
     <div
       className="image-container"
@@ -37,36 +68,7 @@ const HomeHeader = () => {
           borderBottom: "0.8vw solid white",
         }}
       >
-        <div
-          style={{
-            fontSize: "2.5vw",
-            marginLeft: "20px",
-            marginBottom: "-30px",
-            transform: "translateY(7.7vw)",
-          }}
-        >
-          <HorizontalList
-            items={[
-              <h1
-                style={{
-                  fontSize: "2.5vw",
-                  margin: 0,
-                }}
-              >
-                My Projects
-              </h1>,
-              <div
-                style={{
-                  fontWeight: 300,
-                  fontSize: "2.5vw",
-                  marginLeft: "30vw",
-                }}
-              >
-                {"22 Aug 2023"}
-              </div>,
-            ]}
-          />
-        </div>
+        {header}
       </div>
     </div>
   );
