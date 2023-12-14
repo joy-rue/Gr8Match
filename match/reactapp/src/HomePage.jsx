@@ -9,16 +9,11 @@ import ProjectCardList from "./components/ProjectCardList";
 import Notification from "./components/Notification";
 import NotificationsList from "./components/NotificationsList";
 import SubBanner from "./components/SubBanner";
-<<<<<<< Updated upstream
 import ProjectCard from "./components/ProjectCard";
-import sidebanner from "./components/icons/sidebanner.png"
-import Cookies from "js-cookie";
-=======
-import  ProjectCard from "./components/ProjectCard";
-import { useAuth } from './AuthContext';
-import { AuthProvider } from './AuthContext';
->>>>>>> Stashed changes
-import { useNavigate } from 'react-router-dom';
+import { useAuth } from "./AuthContext";
+import { AuthProvider } from "./AuthContext";
+import { useNavigate } from "react-router-dom";
+import sidebanner from "./components/icons/sidebanner.png";
 
 // const ProtectedProject = ({ token }) => {
 //   if (!token) {
@@ -31,17 +26,12 @@ import { useNavigate } from 'react-router-dom';
 // };
 
 const HomePage = () => {
-//     const navigate = useNavigate();
-//     const token = Cookies.get("token"); // Get token from cookies
-//
-//       if (!token) {
-//         return null; // Don't render HomePage if not authorized
-//       }
-
-    const handleLogout = () => {
-      logout();
-      navigate('/Login'); // Redirect to the login page
-    };
+  //     const navigate = useNavigate();
+  //     const token = Cookies.get("token"); // Get token from cookies
+  //
+  //       if (!token) {
+  //         return null; // Don't render HomePage if not authorized
+  //       }
 
   const notificationElement = (
     <Notification
@@ -103,73 +93,68 @@ const HomePage = () => {
       progress={16}
       milestone={"Quantitative Survey dfdf'"}
       timeleft={"2wks"}
-    />);
+    />
+  );
   return (
-
-      <Header
-        Page={[
-          <div>
-            <button onClick={handleLogout} style={{ margin: '10px' }}>
-              Logout
-            </button>
-            <HorizontalList
-              spacing={20}
-              items={[
-                <div>
-                  <VerticalList
-                    spacing={20}
-                    items={[
-                      <HomeHeader />,
-                      <HorizontalList
-                        spacing={20}
-                        items={[
-                          <ProjectCard
-                            title={"Berekuso standard of Living Survey k;lm"}
-                            dueDate={"22 Aug 2023"}
-                            progress={56}
-                            milestone={"Quantitative Survey.'df.df'"}
-                            timeleft={"2wks"}
-                          />,
-                          <ProjectCard
-                            title={"Berekuso standard of Living Survey k;lm"}
-                            dueDate={"22 Aug 2023"}
-                            progress={56}
-                            milestone={"Quantitative Survey.'df.df'"}
-                            timeleft={"2wks"}
-
-                          />,
-                        ]}
-                      />,
-                    ]}
-                  />
-                </div>,
+    <Header
+      Page={[
+        <div>
+          <HorizontalList
+            spacing={20}
+            items={[
+              <div>
                 <VerticalList
                   spacing={20}
                   items={[
-                    <img
-                      src={sidebanner}
-                      alt=""
-                      style={{
-                        width: "25vw",
-                        paddingLeft: "1.2vw",
-                        paddingRight: "1.2vw",
-                        backgroundColor: "white",
-                        borderRadius: "10px",
-                      }}
-                    />,
-                    <SubListCard
-                      items={notificationContent}
-                      title={"Notifications (3)"}
-                      NoItemMessage={"You have no notifications"}
+                    <HomeHeader />,
+                    <HorizontalList
+                      spacing={20}
+                      items={[
+                        <ProjectCard
+                          title={"Berekuso standard of Living Survey k;lm"}
+                          dueDate={"22 Aug 2023"}
+                          progress={56}
+                          milestone={"Quantitative Survey.'df.df'"}
+                          timeleft={"2wks"}
+                        />,
+                        <ProjectCard
+                          title={"Berekuso standard of Living Survey k;lm"}
+                          dueDate={"22 Aug 2023"}
+                          progress={56}
+                          milestone={"Quantitative Survey.'df.df'"}
+                          timeleft={"2wks"}
+                        />,
+                      ]}
                     />,
                   ]}
-                />,
-              ]}
-            />
-          </div>,
-        ]}
-      />
-
+                />
+              </div>,
+              <VerticalList
+                spacing={20}
+                items={[
+                  <img
+                    src={sidebanner}
+                    alt=""
+                    style={{
+                      width: "25vw",
+                      paddingLeft: "1.2vw",
+                      paddingRight: "1.2vw",
+                      backgroundColor: "white",
+                      borderRadius: "10px",
+                    }}
+                  />,
+                  <SubListCard
+                    items={notificationContent}
+                    title={"Notifications (3)"}
+                    NoItemMessage={"You have no notifications"}
+                  />,
+                ]}
+              />,
+            ]}
+          />
+        </div>,
+      ]}
+    />
   );
   const sampleCards = [sampleCard, sampleCard, sampleCard, createproject];
 
