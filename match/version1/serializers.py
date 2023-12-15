@@ -53,7 +53,7 @@ class CustomUserLoginSerializer(serializers.ModelSerializer):
         email = attrs.get("email")
         password = attrs.get("password")
 
-        try:  
+        try:
             user = CustomUser.objects.filter(email=email).first()
         except CustomUser.DoesNotExist:
             raise serializers.ValidationError(f"No user with email {email} exists!")
@@ -67,7 +67,7 @@ class CustomUserLoginSerializer(serializers.ModelSerializer):
 class CustomUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
-        fields = ["id", "first_name", "last_name", "email", "role", "department", "last_login",]
+        fields = ["id", "first_name", "last_name", "email", "role", "department", "last_login", ]
 
 
 class ChangePasswordSerializer(serializers.Serializer):
@@ -99,19 +99,20 @@ class ChangePasswordSerializer(serializers.Serializer):
         instance.save()
         return instance
 
+
 class UploadPhotoSerializer(serializers.Serializer):
     photo = serializers.ImageField(write_only=True, required=True)
-    
+
     def validate_file_extension(image):
         if not image.name.lower().endswith(".png"):
             raise ValidationError("Only PNG files allowed")
         return image
-    
+
     def update(self, instance):
         user = self.context["request"].user
         uploaded_image = self.request.FILES["photo"]
         filename = uploaded_image.name
-        
+
         instance.image = filename
         instance.save()
         return instance
@@ -136,17 +137,16 @@ class ProjectSerializer(serializers.ModelSerializer):
 
 
 class ProjectApplicationSerializer(serializers.Serializer):
-    
+
     def save(self, ra_id, project_id):
         ra_project = RA_Project(
             status="Pending",
             project_id=project_id,
             rA_id=ra_id
         )
-        
+
         ra_project.save()
         return ra_project
-
 
 
 class ProjectMilestoneSerializer(serializers.ModelSerializer):
@@ -157,47 +157,29 @@ class ProjectMilestoneSerializer(serializers.ModelSerializer):
 
 class ProjectCreationSerializer(serializers.ModelSerializer):
     skills = serializers.ListField(write_only=True)
-    skill_list = serializers.SerializerMethodField("get_skills")
 
     class Meta:
         model = Projects
-        fields = ["id", "title", "start_date", "end_date", "description", "department", "skills", "skill_list"]
+        fields = ["owner", "title", "start_date", "end_date", "description", "department", "skills"]
 
-    def create_project(self, **validated_data):
-        return Projects.objects.create(validated_data)
+    def create(self, validated_data):
+        # Store skills in context
+        self.context["skills"] = validated_data.pop("skills")
 
-    def get_skills(self, obj):
-        skills = list()
-        project_skills = Project_Skills.objects.filter(
-            project=Projects.objects.filter(title=self.validated_data["title"]).last())
-        for project_skill in project_skills:
-            skills.append(ProjectSkillSerializer(project_skill).data)
-        return skills
-    
-    def save(self):
-      project = Projects(
-          title=self.validated_data["title"],
-          start_date=self.validated_data["start_date"],
-          end_date=self.validated_data["end_date"],
-          description=self.validated_data["description"],
-          owner=self.context["request"].user,
-          department=self.validated_data["department"]
-      )
-      
-      project.save() 
-      
-      for skill_dict in self.validated_data["skills"]:
+        project = Projects.objects.create(**validated_data)
+
+        # Access skills from context and create ProjectSkills objects
+        for skill_name in self.context["skills"]:
             try:
-                skill_name = skill_dict["skill"]
-                skill_obj = Skills.objects.get(skill_name=skill_name)
+                skill = Skills.objects.get(skill_name=skill_name)
+                Project_Skills.objects.create(project=project, skills=skill)
             except Skills.DoesNotExist:
-                continue
-            Project_Skills.objects.create(project=project, skills=skill_obj)
-      print(project.owner)
-      
+                pass
+
+        return project
 
 
-class TaskCreationSerialer(serializers.ModelSerializer):
+class TaskCreationSerializer(serializers.ModelSerializer):
     # project_id = serializers.IntegerField()
     # milestone_id = serializers.IntegerField()
 

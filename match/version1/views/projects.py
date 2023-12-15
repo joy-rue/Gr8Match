@@ -213,7 +213,7 @@ def view_milestone(request, project_milestone_id):
 @api_view(["PATCH"])
 @permission_classes([IsAuthenticated])
 def ra_give_feedback(request, project_id, ra_id):
-    if ra_project.status != "Completed":
+    if RA_Project.status != "Completed":
         try:
             ra_project = RA_Project.objects.get(project_id=project_id, rA_id=ra_id)
             ra_project.feedback = request.data.get("feedback")
