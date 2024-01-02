@@ -8,7 +8,6 @@ import ExplorePage from "./ExplorePage";
 import Login from "./Login";
 
 
-
 function App() {
   return (
     <BrowserRouter>
@@ -26,5 +25,3 @@ function App() {
 };
 
 export default App;
-
-

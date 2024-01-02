@@ -49,7 +49,7 @@ def get_ra_details(request, ra_id):
     
 
 @api_view(["GET"])
-@permission_classes([IsAuthenticated])
+# @permission_classes([IsAuthenticated])
 def get_all_projects(request):
     try:
         projects = Projects.objects.all()

@@ -14,13 +14,12 @@ const App = () => {
   };
 
   return (
-    <AuthProvider>
+
       <Router>
         <Routes>
           <Route path="/" element={showLoginForm ? <Login onFormSwitch={handleFormSwitch} /> : <HomePage />} />
         </Routes>
       </Router>
-    </AuthProvider>
   );
 };
 

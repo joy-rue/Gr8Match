@@ -1,0 +1,21 @@
+.card-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.card {
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  margin: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.card.left {
+  margin-right: auto; /* Push the card to the left */
+}
+
+.app {
+  padding-left: 1px;
+  padding-right: 1px;
+}
