@@ -33,7 +33,7 @@ const ExplorePage = () => {
       const milestoneElement = (
         <ApplytoProject
           profile={ashesilogoblank}
-          title={"Participant Sampling"}
+          title={"Exploring Participant Sampling In Berekuso"}
           dueDate={"20th Aug 2023 - 23 Jun 2024"}
           timeleft={"2wks"}
           People={people}

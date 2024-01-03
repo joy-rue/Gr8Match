@@ -56,7 +56,7 @@ const ApplytoProject = ({
                 <HorizontalList
                   spacing={30}
                   items={[
-                    <div style={{ fontWeight: "500" }}>{title} </div>,
+                    <div style={{ fontSize:"22px", fontWeight: "500" }}>{title} </div>,
                     <div
                       style={{
                         position: "absolute",
