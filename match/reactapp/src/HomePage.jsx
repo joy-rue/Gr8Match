@@ -17,28 +17,53 @@ import { AuthProvider } from "./AuthContext";
 import { useNavigate } from "react-router-dom";
 import sidebanner from "./components/icons/sidebanner.png";
 
-
-
 const HomePage = () => {
+  const [projects, setData] = useState([]);
 
-
-    const [projects, setData] = useState([]);
-
-    useEffect(() => {
-      const fetchData = async () => {
-        try {
-          const response = await fetch(
-            "http://127.0.0.1:8000/ra/get_all_projects/"
-          );
-          const result = await response.json();
-          setData(result);
-        } catch (error) {
-          console.error("Error fetching data:", error);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          "http://127.0.0.1:8000/ra/get_all_projects/"
+        );
+        if (response.ok) {
+          const responseData = await response.json();
+          console.log(responseData); // Corrected: Use console.log instead of console
+          setData(JSON.parse(responseData.projects));
         }
-      };
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
 
-      fetchData();
-    }, []);
+    fetchData();
+  }, []);
+
+  //   useEffect(() => {
+  //     const fetchData = async () => {
+  //       try {
+  //         // Make an API request using fetch
+  //         // Replace 'YOUR_API_ENDPOINT' with your actual API endpoint
+  //         // const response = await fetch('YOUR_API_ENDPOINT');
+
+  //         // If using Axios:
+  //         const response = await axios.get(
+  //           "http://127.0.0.1:8000/ra/get_all_projects/"
+  //         );
+
+  //         // Assuming the response contains an array
+  //         const data = response.data;
+
+  //         const p_data = await response.json();
+  //         console.log(p_data);
+  //         // Set the array in the state
+  //         setData(p_data);
+  //       } catch (error) {
+  //         console.error("Error fetching data:", error);
+  //       }
+  //     };
+  //     fetchData();
+  //   }, []);
 
   const notificationElement = (
     <Notification
@@ -57,13 +82,9 @@ const HomePage = () => {
     <Link
       to="/createproject"
       style={{
-        width: "420px",
-        maxHeight: "174px",
-        backgroundColor: "white",
-        borderRadius: "15px",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
+        textDecoration: "none" /* Remove underline */,
+        color: "inherit",
+        fontWeight: "inherit",
       }}
     >
       <div
@@ -106,27 +127,35 @@ const HomePage = () => {
       </div>
     </Link>
   );
-;
-
   const [dataList, setDataList] = useState([
     { id: 1, title: "Item 1", milestone: "milestone 1" },
-    { id: 2, title: "Item 2", milestone: "milestone 2" },
+    // { id: 2, title: "Item 2", milestone: "milestone 2" },
     { id: 3, title: "Item 3", milestone: "milestone 3" },
   ]);
 
-  const cards =
-    projects &&
-      projects.map((item, index) => (
-        <ProjectCard
-          key={item.id}
-          title={item.title}
-          dueDate={"22 Aug 2023"}
-          progress={16}
-          milestone={"milestone 3"}
-          timeleft={"2wks"}
-        />
-      ))
-  ;
+  dataList;
+
+  // console.log(JSON.parse(projects));
+  console.log(projects);
+  console.log(dataList);
+
+  // const projectsArray = JSON.parse(projects);
+  // projects;
+  // const cards = (
+  //   <div>
+  //     {projects &&
+  //       projects.map((item) => (
+  //         <ProjectCard
+  //           key={item.id}
+  //           title={item.title}
+  //           dueDate={"22 Aug 2023"}
+  //           progress={16}
+  //           milestone={"milestone 3"}
+  //           timeleft={"2wks"}
+  //         />
+  //       ))}
+  //   </div>
+  // );
   return (
     <div>
       <Header
@@ -145,7 +174,22 @@ const HomePage = () => {
                         date={"22 Aug 2023"}
                         spacing={"30vw"}
                       />,
-                      <ProjectCardList cards={cards} />,
+                      <ProjectCardList
+                        cards={[
+                          ...(dataList &&
+                            dataList.map((item) => (
+                              <ProjectCard
+                                key={item.id}
+                                title={item.title}
+                                dueDate={"22 Aug 2023"}
+                                progress={16}
+                                milestone={"milestone 3"}
+                                timeleft={"2wks"}
+                              />
+                            ))),
+                          createproject,
+                        ]}
+                      />,
                     ]}
                   />
                 </div>,

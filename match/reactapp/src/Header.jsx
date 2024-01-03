@@ -39,9 +39,8 @@ const Header = ({ Page }) => {
             style={{
               width: "60vw",
               minHeight: "100vh",
-              marginLeft: "240px", // Adjusted margin to accommodate Sidemenu width
-              marginTop: "10vh",
-              transform: "translate(-120px,10vh)",
+              marginLeft: "-120px",
+              transform: "translateY(10vh)",
             }}
           >
             {Page}
