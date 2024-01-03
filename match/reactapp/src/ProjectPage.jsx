@@ -16,7 +16,9 @@ import Notification from "./components/Notification";
 import Textbox from "./components/Textbox";
 import { TeamEnrollment } from "./components/TeamEnrollment";
 import Cookies from "js-cookie";
-import { useNavigate, Routes, Route } from "react-router-dom";
+import { useNavigate, Routes, Route, Link } from "react-router-dom";
+import editIcon from "./components/icons/editIcon.png";
+
 
 const ProjectPage = () => {
   const appsElement = (
@@ -126,7 +128,31 @@ const ProjectPage = () => {
                     }
                     profile={groupprofile}
                     Date={"12 Aug 2023"}
-                    title={"Ghana Economic Index Study for people with special abilities "}
+                    title={
+                      <div
+                        style={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                        }}
+                      >
+                        <div style={{ maxWidth: "90%" }}>
+                          {
+                            "Ghana Economic Index Study for people with special abilities "
+                          }
+                        </div>
+                        <Link to="/editproject">
+                          <img
+                            src={editIcon}
+                            alt=""
+                            style={{
+                              width: "28px",
+                              marginRight: "20px",
+                              transform: "translateY(-10px)",
+                            }}
+                          />
+                        </Link>
+                      </div>
+                    }
                     Progress={24}
                     banner={ashesibanner}
                   />,

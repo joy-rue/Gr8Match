@@ -19,7 +19,7 @@ const ProfileHeaderContent = ({
           display: "flex",
           flex: "column",
           left: "0",
-          marginTop: "15px",
+          marginTop: "5px",
         }}
       >
         <div style={{ width: "60%" }}>

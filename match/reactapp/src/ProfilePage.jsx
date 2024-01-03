@@ -3,6 +3,7 @@ import AppsContent from "./components/AppsContent";
 import Header from "./Header";
 import ListCard from "./components/ListCard";
 import ashesilogoblank from "./components/icons/ashesiblanklogo.png";
+import editIcon from "./components/icons/editIcon.png";
 import sidebanner from "./components/icons/sidebanner.png";
 import VerticalList from "./components/VerticalList";
 import ProjectHeaderContent from "./components/ProjectHeaderContent";
@@ -22,6 +23,7 @@ import WorKExperience from "./components/WorkExperience";
 import EducationCard from "./components/EducationCard";
 import SearchBox from "./components/SearchBox";
 import ProfileTab from "./components/ProfileTab";
+import { Link } from "react-router-dom";
 
 const ProfilePage = () => {
   const appsElement = (
@@ -159,7 +161,27 @@ const ProfilePage = () => {
                     }
                     profile={myprofile}
                     Date={"12 Aug 2023"}
-                    title={"Kelvin Kofi Doe"}
+                    title={
+                      <div
+                        style={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                        }}
+                      >
+                        <div>{"Kelvin Kofi Doe"}</div>
+                        <Link to="/editprofile">
+                          <img
+                            src={editIcon}
+                            alt=""
+                            style={{
+                              width: "28px",
+                              marginRight: "20px",
+                              transform: "translateY(-10px)",
+                            }}
+                          />
+                        </Link>
+                      </div>
+                    }
                     banner={ashesibanner}
                   />,
 

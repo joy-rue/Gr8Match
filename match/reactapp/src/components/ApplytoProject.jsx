@@ -56,7 +56,9 @@ const ApplytoProject = ({
                 <HorizontalList
                   spacing={30}
                   items={[
-                    <div style={{ fontSize:"22px", fontWeight: "500" }}>{title} </div>,
+                    <div style={{ fontSize: "22px", fontWeight: "500" }}>
+                      {title}{" "}
+                    </div>,
                     <div
                       style={{
                         position: "absolute",
@@ -66,13 +68,14 @@ const ApplytoProject = ({
                     >
                       <button
                         style={{
+                          border: "none",
                           borderRadius: "5px",
                           width: "100px",
                           marginRight: "10px",
                           padding: "5px 10px",
                           fontWeight: "600",
                           backgroundColor: "#AD3537",
-                          color:"white",
+                          color: "white",
                         }}
                         onClick={handleApplyClick}
                       >

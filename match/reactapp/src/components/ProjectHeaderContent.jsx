@@ -90,7 +90,7 @@ const ProjectHeaderContent = ({
                   style={{
                     marginLeft: "40px",
                     width: "200px",
-                    transform: "translate(-10%,-40%)",
+                    transform: "translate(-10%,-15%)",
                   }}
                 >
                   <ProgressBar

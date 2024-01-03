@@ -10,6 +10,9 @@ import ProfilePage from "./ProfilePage";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import  CreateProject from "./CreateProject";
+import EditProfile from "./EditProfile";
+import EditProject from "./EditProject";
+
 
 function App() {
   const [selectedDate, setSelectedDate] = useState(null);
@@ -28,6 +31,8 @@ function App() {
           <Route path="/project" element={<ProjectPage />} />
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/createproject" element={<CreateProject />} />
+          <Route path="/editproject" element={<EditProject />} />
+          <Route path="/editprofile" element={<EditProfile />} />
 
           {/* Add other routes as needed */}
         </Routes>
