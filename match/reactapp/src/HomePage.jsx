@@ -39,31 +39,7 @@ const HomePage = () => {
     fetchData();
   }, []);
 
-  //   useEffect(() => {
-  //     const fetchData = async () => {
-  //       try {
-  //         // Make an API request using fetch
-  //         // Replace 'YOUR_API_ENDPOINT' with your actual API endpoint
-  //         // const response = await fetch('YOUR_API_ENDPOINT');
-
-  //         // If using Axios:
-  //         const response = await axios.get(
-  //           "http://127.0.0.1:8000/ra/get_all_projects/"
-  //         );
-
-  //         // Assuming the response contains an array
-  //         const data = response.data;
-
-  //         const p_data = await response.json();
-  //         console.log(p_data);
-  //         // Set the array in the state
-  //         setData(p_data);
-  //       } catch (error) {
-  //         console.error("Error fetching data:", error);
-  //       }
-  //     };
-  //     fetchData();
-  //   }, []);
+ 
 
   const notificationElement = (
     <Notification
@@ -82,7 +58,7 @@ const HomePage = () => {
     <Link
       to="/createproject"
       style={{
-        textDecoration: "none" /* Remove underline */,
+        textDecoration: "none" ,
         color: "inherit",
         fontWeight: "inherit",
       }}
@@ -135,27 +111,7 @@ const HomePage = () => {
 
   dataList;
 
-  // console.log(JSON.parse(projects));
-  console.log(projects);
-  console.log(dataList);
 
-  // const projectsArray = JSON.parse(projects);
-  // projects;
-  // const cards = (
-  //   <div>
-  //     {projects &&
-  //       projects.map((item) => (
-  //         <ProjectCard
-  //           key={item.id}
-  //           title={item.title}
-  //           dueDate={"22 Aug 2023"}
-  //           progress={16}
-  //           milestone={"milestone 3"}
-  //           timeleft={"2wks"}
-  //         />
-  //       ))}
-  //   </div>
-  // );
   return (
     <div>
       <Header
