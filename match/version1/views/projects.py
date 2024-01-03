@@ -25,6 +25,8 @@ def project_detail(request, project_name):
         return Response({'error': f'Project with name {project_name} does not exist'}, status=404)
 
 
+
+
 # @api_view(['POST'])
 # def create_project(request):
 #     # Extract data from the request (modify as needed based on your actual data structure)

@@ -11,7 +11,6 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import  CreateProject from "./CreateProject";
 
-
 function App() {
   const [selectedDate, setSelectedDate] = useState(null);
 
@@ -38,6 +37,3 @@ function App() {
 };
 
 export default App;
-
-
-

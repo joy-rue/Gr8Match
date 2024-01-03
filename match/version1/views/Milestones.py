@@ -10,7 +10,7 @@ from ..serializers import *
 @permission_classes([IsAuthenticated])
 def get_all_milestones(request):
     try:
-        milestones = Milestones.objects.all()
+        milestones = Milestone.objects.all()
         serializer = MilestoneSerializer(milestones, many=True)
         return Response({'milestones': serializer.data})
     except Milestones.DoesNotExist:

@@ -1,0 +1,14 @@
+{
+  "hosting": {
+    "rewrites": [ {
+      "source": "**",
+      "destination": "/src/Login.js"
+    } ],
+    "public": "build",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ]
+  }
+}
