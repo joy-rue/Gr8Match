@@ -39,9 +39,9 @@ const Header = ({ Page }) => {
             style={{
               width: "60vw",
               minHeight: "100vh",
-              // marginLeft: "-120px",
+              marginLeft: "-120px",
               // marginTop: "10vh",
-              transform: "translate(-120px,10vh)",
+              transform: "translateY(10vh)",
             }}
           >
             {Page}

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 import HorizontalList from "./components/HorizontalList";
 import VerticalList from "./components/VerticalList";
 import HomeHeader from "./components/HomeHeader";
@@ -7,6 +8,7 @@ import SubListCard from "./components/SubListCard";
 import addicon from "./components/icons/addicon.png";
 import ProjectCardList from "./components/ProjectCardList";
 import Notification from "./components/Notification";
+import { Link } from "react-router-dom";
 import NotificationsList from "./components/NotificationsList";
 import SubBanner from "./components/SubBanner";
 import ProjectCard from "./components/ProjectCard";
@@ -15,23 +17,53 @@ import { AuthProvider } from "./AuthContext";
 import { useNavigate } from "react-router-dom";
 import sidebanner from "./components/icons/sidebanner.png";
 
-// const ProtectedProject = ({ token }) => {
-//   if (!token) {
-//     const navigate = useNavigate();
-//     navigate("/ProjectPage");
-//     return navigate("/Login"); // Redirect if not authorized
-//   }
-//
-//   return <ProjectPage/>; // Render ProjectPage if authorized
-// };
-
 const HomePage = () => {
-  //     const navigate = useNavigate();
-  //     const token = Cookies.get("token"); // Get token from cookies
-  //
-  //       if (!token) {
-  //         return null; // Don't render HomePage if not authorized
+  const [projects, setData] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          "http://127.0.0.1:8000/ra/get_all_projects/"
+        );
+        if (response.ok) {
+          const responseData = await response.json();
+          console.log(responseData); // Corrected: Use console.log instead of console
+          setData(JSON.parse(responseData.projects));
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  //   useEffect(() => {
+  //     const fetchData = async () => {
+  //       try {
+  //         // Make an API request using fetch
+  //         // Replace 'YOUR_API_ENDPOINT' with your actual API endpoint
+  //         // const response = await fetch('YOUR_API_ENDPOINT');
+
+  //         // If using Axios:
+  //         const response = await axios.get(
+  //           "http://127.0.0.1:8000/ra/get_all_projects/"
+  //         );
+
+  //         // Assuming the response contains an array
+  //         const data = response.data;
+
+  //         const p_data = await response.json();
+  //         console.log(p_data);
+  //         // Set the array in the state
+  //         setData(p_data);
+  //       } catch (error) {
+  //         console.error("Error fetching data:", error);
   //       }
+  //     };
+  //     fetchData();
+  //   }, []);
 
   const notificationElement = (
     <Notification
@@ -47,117 +79,83 @@ const HomePage = () => {
   const notificationContent = Array(3).fill(notificationElement);
 
   const createproject = (
-    <div
-      key="createProject"
+    <Link
+      to="/createproject"
       style={{
-        width: "420px",
-        height: "174px",
-        backgroundColor: "white",
-        borderRadius: "15px",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
+        textDecoration: "none" /* Remove underline */,
+        color: "inherit",
+        fontWeight: "inherit",
       }}
     >
-      <VerticalList
-        spacing={10}
-        items={[
-          <div
-            key="createProjectText"
-            style={{
-              fontSize: "30px",
-              fontWeight: "600",
-              color: "#CAC9CD",
-            }}
-          >
-            Create New Project
-          </div>,
-          <img
-            key="addIcon"
-            src={addicon}
-            alt=""
-            style={{
-              width: "40px",
-              marginLeft: "110px",
-            }}
-          />,
-        ]}
-      />
-    </div>
+      <div
+        key="createProject"
+        style={{
+          width: "420px",
+          minHeight: "174px",
+          backgroundColor: "white",
+          borderRadius: "15px",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <VerticalList
+          spacing={10}
+          items={[
+            <div
+              key="createProjectText"
+              style={{
+                marginTop: "20px",
+                fontSize: "30px",
+                fontWeight: "600",
+                color: "#CAC9CD",
+              }}
+            >
+              Create New Project
+            </div>,
+            <img
+              key="addIcon"
+              src={addicon}
+              alt=""
+              style={{
+                width: "40px",
+                marginLeft: "110px",
+              }}
+            />,
+          ]}
+        />
+      </div>
+    </Link>
   );
-  const sampleCard = (
-    <ProjectCard
-      key="sampleCard"
-      title={"Berekuso standard of Living Survey k;lm"}
-      dueDate={"22 Aug 2023"}
-      progress={16}
-      milestone={"Quantitative Survey dfdf'"}
-      timeleft={"2wks"}
-    />
-  );
-  return (
-    <Header
-      Page={[
-        <div>
-          <HorizontalList
-            spacing={20}
-            items={[
-              <div>
-                <VerticalList
-                  spacing={20}
-                  items={[
-                    <HomeHeader />,
-                    <HorizontalList
-                      spacing={20}
-                      items={[
-                        <ProjectCard
-                          title={"Berekuso standard of Living Survey k;lm"}
-                          dueDate={"22 Aug 2023"}
-                          progress={56}
-                          milestone={"Quantitative Survey.'df.df'"}
-                          timeleft={"2wks"}
-                        />,
-                        <ProjectCard
-                          title={"Berekuso standard of Living Survey k;lm"}
-                          dueDate={"22 Aug 2023"}
-                          progress={56}
-                          milestone={"Quantitative Survey.'df.df'"}
-                          timeleft={"2wks"}
-                        />,
-                      ]}
-                    />,
-                  ]}
-                />
-              </div>,
-              <VerticalList
-                spacing={20}
-                items={[
-                  <img
-                    src={sidebanner}
-                    alt=""
-                    style={{
-                      width: "25vw",
-                      paddingLeft: "1.2vw",
-                      paddingRight: "1.2vw",
-                      backgroundColor: "white",
-                      borderRadius: "10px",
-                    }}
-                  />,
-                  <SubListCard
-                    items={notificationContent}
-                    title={"Notifications (3)"}
-                    NoItemMessage={"You have no notifications"}
-                  />,
-                ]}
-              />,
-            ]}
-          />
-        </div>,
-      ]}
-    />
-  );
-  const sampleCards = [sampleCard, sampleCard, sampleCard, createproject];
+  const [dataList, setDataList] = useState([
+    { id: 1, title: "Item 1", milestone: "milestone 1" },
+    // { id: 2, title: "Item 2", milestone: "milestone 2" },
+    { id: 3, title: "Item 3", milestone: "milestone 3" },
+  ]);
 
+  dataList;
+
+  // console.log(JSON.parse(projects));
+  console.log(projects);
+  console.log(dataList);
+
+  // const projectsArray = JSON.parse(projects);
+  // projects;
+  // const cards = (
+  //   <div>
+  //     {projects &&
+  //       projects.map((item) => (
+  //         <ProjectCard
+  //           key={item.id}
+  //           title={item.title}
+  //           dueDate={"22 Aug 2023"}
+  //           progress={16}
+  //           milestone={"milestone 3"}
+  //           timeleft={"2wks"}
+  //         />
+  //       ))}
+  //   </div>
+  // );
   return (
     <div>
       <Header
@@ -174,11 +172,23 @@ const HomePage = () => {
                         key="homeHeader"
                         title={"My Projects"}
                         date={"22 Aug 2023"}
-                        spacing={"27vw"}
+                        spacing={"30vw"}
                       />,
                       <ProjectCardList
-                        key="projectCardList"
-                        cards={sampleCards}
+                        cards={[
+                          ...(dataList &&
+                            dataList.map((item) => (
+                              <ProjectCard
+                                key={item.id}
+                                title={item.title}
+                                dueDate={"22 Aug 2023"}
+                                progress={16}
+                                milestone={"milestone 3"}
+                                timeleft={"2wks"}
+                              />
+                            ))),
+                          createproject,
+                        ]}
                       />,
                     ]}
                   />
@@ -196,7 +206,7 @@ const HomePage = () => {
                             <SubBanner />,
                             <SubListCard
                               // key="subListCard"
-                              items={notificationcontent}
+                              items={notificationContent}
                               title={"Notifications (3)"}
                               NoItemMessage={"You have no notifications"}
                             />,

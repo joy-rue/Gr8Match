@@ -15,8 +15,15 @@ import SubListCard from "./components/SubListCard";
 import Notification from "./components/Notification";
 import Textbox from "./components/Textbox";
 import { TeamEnrollment } from "./components/TeamEnrollment";
+import ProfileHeaderContent from "./components/ProfileheaderContent";
+import ProfileHeader from "./components/ProfileHeader";
+import myprofile from "./components/icons/myprofile.png";
+import WorKExperience from "./components/WorkExperience";
+import EducationCard from "./components/EducationCard";
+import SearchBox from "./components/SearchBox";
+import ProfileTab from "./components/ProfileTab";
 
-const ProjectPage = () => {
+const ProfilePage = () => {
   const appsElement = (
     <AppsContent
       profile={ashesilogoblank}
@@ -49,15 +56,14 @@ const ProjectPage = () => {
   ];
 
   const TaskCon = (
-    <ProjectMember
+    <ProfileTab
       Name={"Naruto Uzumaki"}
       role={"Research Assistant"}
-      active={true}
       profile={ashesilogoblank}
     />
   );
 
-  let teammembers = [TaskCon, TaskCon, TaskCon];
+  let teammembers = [];
 
   const content = [milestoneElement, milestoneElement, milestoneElement];
 
@@ -71,11 +77,7 @@ const ProjectPage = () => {
     />
   );
 
-  const notificationcontent = [
-    notificationElement,
-    notificationElement,
-    notificationElement,
-  ];
+  const notificationcontent = [];
 
   const commentElement = (
     <Notification
@@ -106,6 +108,33 @@ const ProjectPage = () => {
 
   const teamroles = ["Faculty", "Research Assistant 1", "Research Assistant 2"];
 
+  const WorkExperienceitem = (
+    <WorKExperience
+      profile={ashesilogoblank}
+      title={"Participant Sampling"}
+      dueDate={"20th August 2023"}
+      timeleft={"2wks"}
+      People={["Clark Kent", "Superman", "Naruto Uzumaki"]}
+      description={
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed dapibus eros eu vehicula interdum. Cras nec ultricies massa. Curabitur rutrum, diam id consequat consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed dapibus eros eu vehicula interdum. Cras nec ultricies massa. Curabitur rutrum, diam id consequat consequat"
+      }
+      workhours={40}
+    />
+  );
+
+  const EducationCon = (
+    <EducationCard
+      Institution={"Ashesi University"}
+      profile={ashesilogoblank}
+      Award={"Bsc. Computer Science"}
+      Date={"20 Aug 2023"}
+    />
+  );
+
+  const EducationContent = [];
+
+  const WorkExperiencecontent = [];
+
   return (
     <div>
       <Header
@@ -116,37 +145,43 @@ const ProjectPage = () => {
               <VerticalList
                 spacing={20}
                 items={[
-                  <ProjectHeaderContent
-                    Duration={"Aug 2023 - Jun 2024"}
-                    TimeLeft={"1yr 3months"}
+                  <ProfileHeader
                     Description={
-                      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed dapibuseros eu vicula interdum.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed dapibuseros eu vehicula interdum."
+                      <ProfileHeaderContent
+                        Department={"Computer Science"}
+                        workhours={40}
+                        Description={
+                          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed dapibus eros eu vehicula interdum. "
+                        }
+                        contact={"+233206252066"}
+                        email={"joseph.dzagli@ashesi.edu.gh"}
+                      />
                     }
-                    profile={groupprofile}
+                    profile={myprofile}
                     Date={"12 Aug 2023"}
-                    title={"Ghana Economic Index Study for people with special abilities "}
-                    Progress={24}
+                    title={"Kelvin Kofi Doe"}
                     banner={ashesibanner}
                   />,
+
                   <ListCard
-                    items={appscontent}
-                    title={"Apps"}
-                    NoItemMessage={"You have no Apps"}
+                    items={WorkExperiencecontent}
+                    title={"Work Experience"}
+                    NoItemMessage={"You have no work experience"}
                   />,
                   <ListCard
-                    items={milestonecontent}
-                    title={"Milestone"}
-                    NoItemMessage={"You have no milestones"}
+                    items={EducationContent}
+                    title={"Education"}
+                    NoItemMessage={"You have no education"}
                   />,
                   <ListCard
-                    items={teammembers}
-                    title={"Team"}
-                    NoItemMessage={"You have no Tasks"}
+                    items={[]}
+                    title={"Skills"}
+                    NoItemMessage={"You have no skills"}
                   />,
                   <ListCard
-                    items={teamroles}
-                    title={"Roles"}
-                    NoItemMessage={"No team roles defined"}
+                    items={[]}
+                    title={"Interests"}
+                    NoItemMessage={"You have no interests"}
                   />,
                 ]}
               />,
@@ -171,16 +206,25 @@ const ProjectPage = () => {
                     NoItemMessage={"You have no notifications"}
                   />,
                   <SubListCard
-                    items={commentcontent}
-                    title={"Comments"}
-                    NoItemMessage={"No comments have been made"}
-                    footer={<Textbox />}
+                    items={teammembers}
+                    title={
+                      <VerticalList
+                        spacing={10}
+                        items={[
+                          <div>People you may know</div>,
+                          <div>
+                            <SearchBox />
+                          </div>,
+                        ]}
+                      />
+                    }
+                    NoItemMessage={"No profiles found"}
                   />,
-                  <SubListCard
-                    items={enrollmentlist}
-                    title={"Team Enrollment Requests"}
-                    NoItemMessage={"No enrollment requests placed"}
-                  />,
+                  //   <SubListCard
+                  //     items={enrollmentlist}
+                  //     title={"Team Enrollment Requests"}
+                  //     NoItemMessage={"No enrollment requests placed"}
+                  //   />,
                 ]}
               />,
             ]}
@@ -191,4 +235,4 @@ const ProjectPage = () => {
   );
 };
 
-export default ProjectPage;
+export default ProfilePage;

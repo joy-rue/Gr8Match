@@ -7,7 +7,7 @@ const ProfileTab = ({ Name, role, profile }) => {
   return (
     <div>
       <HorizontalList
-        spacing={10}
+        spacing={15}
         items={[
           <img
             src={profile}
@@ -21,7 +21,7 @@ const ProfileTab = ({ Name, role, profile }) => {
           />,
           <div>
             <VerticalList
-              spacing={10}
+              spacing={5}
               items={[
                 <div style={{ fontWeight: "600" }}>{Name}</div>,
                 <div style={{ transform: "translateY(-5px)" }}>{role}</div>,

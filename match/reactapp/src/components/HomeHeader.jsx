@@ -9,10 +9,11 @@ const HomeHeader = ({ title, date, spacing }) => {
         fontSize: "2.5vw",
         marginLeft: "20px",
         marginBottom: "-30px",
-        transform: "translateY(7.7vw)",
+        transform: "translateY(15.7vh)",
       }}
     >
       <HorizontalList
+        // spacing={spacing}
         items={[
           <div
             style={{
@@ -25,7 +26,7 @@ const HomeHeader = ({ title, date, spacing }) => {
           <div
             style={{
               fontWeight: 300,
-              marginLeft: `${spacing}`,
+              marginLeft: spacing,
             }}
           >
             {date}

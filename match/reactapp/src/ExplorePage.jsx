@@ -59,7 +59,7 @@ const ExplorePage = () => {
                   <HomeHeader
                     title={"Explore Projects"}
                     date={"22 Aug 2023"}
-                    spacing={"23vw"}
+                    spacing={"25vw"}
                   />,
                   <VerticalList spacing={20} items={content} />,
                 ]}

@@ -30,7 +30,7 @@ from rest_framework.permissions import IsAuthenticated
 #         return Response({'error': f'RA with id {ras_id} does not exist'}, status=404)
     
 @api_view(["GET"])
-@permission_classes([IsAuthenticated])
+# @permission_classes([IsAuthenticated])
 def get_ra_details(request, ra_id):
   try:
     ra = RA.objects.get(pk=ra_id)
@@ -49,7 +49,7 @@ def get_ra_details(request, ra_id):
     
 
 @api_view(["GET"])
-@permission_classes([IsAuthenticated])
+# @permission_classes([IsAuthenticated])
 def get_all_projects(request):
     try:
         projects = Projects.objects.all()
