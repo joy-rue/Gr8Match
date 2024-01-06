@@ -1,0 +1,17 @@
+import React, { useState } from "react";
+import ProjectCardList from "./components/ProjectCardList";
+import ProjectCard from "./components/ProjectCard";
+import MilestonePage from "./MilestonePage";
+
+const Test = () => {
+
+
+  return (
+    <div>
+        <MilestonePage/>
+
+    </div>
+  );
+};
+
+export default Test;

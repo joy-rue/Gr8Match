@@ -65,7 +65,7 @@ const ProfilePage = () => {
     />
   );
 
-  let teammembers = [];
+  let teammembers = [TaskCon, TaskCon, TaskCon];
 
   const content = [milestoneElement, milestoneElement, milestoneElement];
 
@@ -108,10 +108,11 @@ const ProfilePage = () => {
     enrollmentrequests,
   ];
 
-  const teamroles = ["Faculty", "Research Assistant 1", "Research Assistant 2"];
+  const teamroles = ["Faculty", "Research Assistant  1", "Research Assistant 2"];
 
   const WorkExperienceitem = (
     <WorKExperience
+      active={true}
       profile={ashesilogoblank}
       title={"Participant Sampling"}
       dueDate={"20th August 2023"}
@@ -133,9 +134,13 @@ const ProfilePage = () => {
     />
   );
 
-  const EducationContent = [];
+  const EducationContent = [EducationCon, EducationCon, EducationCon];
 
-  const WorkExperiencecontent = [];
+  const WorkExperiencecontent = [
+    WorkExperienceitem,
+    WorkExperienceitem,
+    WorkExperienceitem,
+  ];
 
   return (
     <div>

@@ -1,18 +1,21 @@
 import React, { useState } from "react";
 import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
-const DateInput = ({ placeholdertxt }) => {
+const DateInput = ({ placeholdertxt, handleDateChange }) => {
   const [selectedDate, setSelectedDate] = useState(null);
 
-  const handleDateChange = (date) => {
+  const handleChange = (date) => {
     setSelectedDate(date);
+    // Pass the selected date back to the parent component
+    handleDateChange(date);
   };
 
   return (
     <div>
       <DatePicker
         selected={selectedDate}
-        onChange={handleDateChange}
+        onChange={handleChange}
         placeholderText={placeholdertxt}
         dateFormat="MM/dd/yyyy"
         required

@@ -1,74 +1,132 @@
-import React, { useState } from "react";
+import React, {
+  useState,
+  useEffect,
+  forwardRef,
+  useImperativeHandle,
+} from "react";
+import HorizontalList from "./HorizontalList";
 
-// interface Props {
-//   items: ReactNode[];
-//   title: string;
-//   NoItemMessage: string;
-//   onSelectItem?: Function;
-//   footer?: ReactNode;
-// }
+const ListCard = forwardRef(
+  (
+    {
+      items,
+      title,
+      NoItemMessage,
+      footer,
+      onSelectItem,
+      showCheckbox,
+      submitOperation,
+    },
+    ref
+  ) => {
+    const [checkedItems, setCheckedItems] = useState([]);
 
-const ListCard = ({ items, title, NoItemMessage, footer, onSelectItem }) => {
-  const [selectedIndex, setSelectedIndex] = useState(null);
+    useEffect(() => {
+      // Reset checkedItems when showCheckbox changes
+      if (!showCheckbox) {
+        setCheckedItems([]);
+      }
+    }, [showCheckbox]);
 
-  return (
-    <div>
-      <div className="card" style={{ width: "60vw" }}>
-        <ul
-          className="list-group list-group-flush"
-          style={{ listStyleType: "none" }}
-        >
-          <li
-            style={{
-              paddingLeft: "30px",
-              paddingTop: "10px",
-              fontSize: "22px",
-              fontWeight: "500",
-            }}
+    const handleCheckboxChange = (index) => {
+      const updatedCheckedItems = [...checkedItems];
+      updatedCheckedItems[index] = !updatedCheckedItems[index];
+      setCheckedItems(updatedCheckedItems);
+    };
+
+    const handlePrintCheckedItems = () => {
+      const checkedItemIndices = checkedItems.reduce(
+        (indices, isChecked, index) => {
+          if (isChecked) {
+            indices.push(index);
+          }
+          return indices;
+        },
+        []
+      );
+
+      const checkedItemsToPrint = checkedItemIndices.map(
+        (index) => items[index]
+      );
+      console.log("Checked Items:", checkedItemsToPrint);
+      submitOperation(checkedItemsToPrint);
+    };
+
+    useImperativeHandle(ref, () => ({
+      handlePrintCheckedItems,
+    }));
+
+    return (
+      <div>
+        <div className="card" style={{ width: "60vw", marginLeft: "0px" }}>
+          <ul
+            className="list-group list-group-flush"
+            style={{ listStyleType: "none" }}
           >
-            {title}
-          </li>
-          <li
-            className="list-group-item"
-            style={{
-              display: "flex",
-              paddingLeft: "-30px",
-              justifyContent: "center",
-            }}
-          >
-            {items.length === 0 && <p>{NoItemMessage}</p>}
-          </li>
-          {items.map((item, index) => (
             <li
-              className="list-group-item"
-              key={index}
-              onClick={() => {
-                setSelectedIndex(index);
-                onSelectItem?.(item);
-              }}
               style={{
-                padding: "10px",
-                cursor: "pointer",
                 paddingLeft: "30px",
+                paddingTop: "10px",
+                fontSize: "22px",
+                fontWeight: "500",
               }}
             >
-              {item}
+              {title}
             </li>
-          ))}
-          <li
-            className="list-group-item"
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              padding: "15px",
-            }}
-          >
-            {footer}
-          </li>
-        </ul>
+            <li
+              className="list-group-item"
+              style={{
+                display: "flex",
+                paddingLeft: "-30px",
+                justifyContent: "center",
+              }}
+            >
+              {items.length === 0 && <p>{NoItemMessage}</p>}
+            </li>
+            {items.map((item, index) => (
+              <li
+                className="list-group-item"
+                key={index}
+                onClick={() => {
+                  onSelectItem?.(item);
+                  showCheckbox && handleCheckboxChange(index);
+                }}
+                style={{
+                  padding: "10px",
+                  cursor: "pointer",
+                  paddingLeft: "30px",
+                  display: "flex",
+                  alignItems: "center",
+                }}
+              >
+                <div>
+                  {showCheckbox && (
+                    <input
+                      type="checkbox"
+                      checked={checkedItems[index] || false}
+                      onChange={() => handleCheckboxChange(index)}
+                      style={{ marginRight: "10px" }}
+                    />
+                  )}
+                </div>
+                <div style={{width:"100%"}}>{item}</div>
+              </li>
+            ))}
+            <li
+              className="list-group-item"
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                padding: "15px",
+              }}
+            >
+              {footer}
+            </li>
+          </ul>
+        </div>
       </div>
-    </div>
-  );
-};
+    );
+  }
+);
 
 export default ListCard;

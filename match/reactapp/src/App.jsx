@@ -12,14 +12,12 @@ import "react-datepicker/dist/react-datepicker.css";
 import  CreateProject from "./CreateProject";
 import EditProfile from "./EditProfile";
 import EditProject from "./EditProject";
+import ExampleComponent from "./doodle";
+import Test from "./Test";
+
 
 
 function App() {
-  const [selectedDate, setSelectedDate] = useState(null);
-
-  const handleDateChange = (date) => {
-    setSelectedDate(date);
-  };
 
   return (
     <BrowserRouter>
@@ -33,6 +31,8 @@ function App() {
           <Route path="/createproject" element={<CreateProject />} />
           <Route path="/editproject" element={<EditProject />} />
           <Route path="/editprofile" element={<EditProfile />} />
+          <Route path="/doodle" element={<ExampleComponent />} />
+          <Route path="/Test" element={<Test />} />
 
           {/* Add other routes as needed */}
         </Routes>

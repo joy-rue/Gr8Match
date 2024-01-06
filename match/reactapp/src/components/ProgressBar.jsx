@@ -13,7 +13,7 @@ const ProgressBar = ({ title, percentage, date }) => {
           borderRadius: "5px",
           overflow: "hidden",
           background: "#E0DFDC",
-          transform: "TranslateY(5px)",
+          transform: "TranslateY(-3px)",
         }}
       >
         <div
