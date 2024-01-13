@@ -19,13 +19,117 @@ import { TeamEnrollment } from "./components/TeamEnrollment";
 import ProfileHeaderContent from "./components/ProfileheaderContent";
 import ProfileHeader from "./components/ProfileHeader";
 import myprofile from "./components/icons/myprofile.png";
-import WorKExperience from "./components/WorkExperience";
+import WorkExperience from "./components/WorkExperience";
 import EducationCard from "./components/EducationCard";
 import SearchBox from "./components/SearchBox";
 import ProfileTab from "./components/ProfileTab";
 import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import AddWorkExperience from "./components/AddWorkExperience";
+import ModListCard from "./components/ModListCard";
+import PopUpForm from "./components/PopUpForm";
+import AddEducation from "./components/AddEducation";
+import AddSkill from "./components/AddSkill";
+import AddInterest from "./components/AddInterest";
 
 const ProfilePage = () => {
+  const [PopForm, setPopForm] = useState(null);
+  const [PopUpOpen, setPopUpOpen] = useState(false);
+  const [PopUpFormHeader, setPopUpFormHeader] = useState("");
+
+
+    const handleSkillPopUpForm = () => {
+      setPopUpOpen(true);
+      setPopUpFormHeader("Add Skill");
+      setPopForm(<AddSkill handleAddSkill={addSkill} />);
+    };
+
+    const deleteSkill = (checkedItems) => {
+      console.log("delete Skill");
+      console.log(`delete Skill: ${checkedItems}`);
+    };
+
+    const addSkill = (Skill) => {
+      console.log("add Skill");
+      console.log(`add Skill: ${Skill}`);
+      setPopUpOpen(false);
+    };
+
+  
+      const handleInterestPopUpForm = () => {
+        setPopUpOpen(true);
+        setPopUpFormHeader("Add Interest");
+        setPopForm(<AddInterest handleAddInterest={addInterest} />);
+      };
+
+      const deleteInterest = (checkedItems) => {
+        console.log("delete Interest");
+        console.log(`delete Interest: ${checkedItems}`);
+      };
+
+      const addInterest = (Interest) => {
+        console.log("add Interest");
+        console.log(`add Interest: ${Interest}`);
+        setPopUpOpen(false);
+      };
+
+
+
+    const handleEducationPopUpForm = () => {
+      setPopUpOpen(true);
+      setPopUpFormHeader("Add Education");
+      setPopForm(<AddEducation handleAddEducation={addEducation} />);
+    };
+
+    const deleteEducation = (checkedItems) => {
+      console.log("delete Education");
+      console.log(`delete Education: ${checkedItems}`);
+    };
+
+    const addEducation = (Institution, dateAwarded, Certification) => {
+      console.log("add Education");
+      console.log(`Institution: ${Institution}`);
+      console.log(`dateAwarded: ${dateAwarded}`);
+      console.log(`Certification: ${Certification}`);
+      setPopUpOpen(false);
+    };
+
+
+  const OnPopUpClose = () => {
+    setPopUpOpen(false);
+  };
+
+  const handleWorkExperiencePopUpForm = () => {
+    setPopUpOpen(true);
+    setPopUpFormHeader("Add Work Experience");
+    setPopForm(
+      <AddWorkExperience handleAddWorkExperience={addWorkExperience} />
+    );
+  };
+
+  const deleteWorkExperience = (checkedItems) => {
+    console.log("delete WorkExperience");
+    console.log(`delete WorkExperience: ${checkedItems}`);
+  };
+
+  const addWorkExperience = (
+    WorkExperience,
+    startDate,
+    endDate,
+    description,
+    teamMember,
+    workhours
+  ) => {
+    console.log("add WorkExperience");
+    console.log(`WorkExperience: ${WorkExperience}`);
+    console.log(`startDate: ${startDate}`);
+    console.log(`endDate: ${endDate}`);
+    console.log(`description: ${description}`);
+    console.log(`Team: ${teamMember}`);
+    console.log(`Workhours: ${workhours}`);
+    setPopUpOpen(false);
+  };
+
   const appsElement = (
     <AppsContent
       profile={ashesilogoblank}
@@ -108,10 +212,14 @@ const ProfilePage = () => {
     enrollmentrequests,
   ];
 
-  const teamroles = ["Faculty", "Research Assistant  1", "Research Assistant 2"];
+  const teamroles = [
+    "Faculty",
+    "Research Assistant  1",
+    "Research Assistant 2",
+  ];
 
   const WorkExperienceitem = (
-    <WorKExperience
+    <WorkExperience
       active={true}
       profile={ashesilogoblank}
       title={"Participant Sampling"}
@@ -144,6 +252,12 @@ const ProfilePage = () => {
 
   return (
     <div>
+      <PopUpForm
+        isOpen={PopUpOpen}
+        title={PopUpFormHeader}
+        PopUpForm={PopForm}
+        onClose={OnPopUpClose}
+      />
       <Header
         Page={
           <HorizontalList
@@ -190,25 +304,37 @@ const ProfilePage = () => {
                     banner={ashesibanner}
                   />,
 
-                  <ListCard
+                  <ModListCard
                     items={WorkExperiencecontent}
                     title={"Work Experience"}
                     NoItemMessage={"You have no work experience"}
+                    handleAddOperation={addWorkExperience}
+                    handleDeleteOperation={deleteWorkExperience}
+                    handleAddIconClick={handleWorkExperiencePopUpForm}
                   />,
-                  <ListCard
+                  <ModListCard
                     items={EducationContent}
                     title={"Education"}
                     NoItemMessage={"You have no education"}
+                    handleAddOperation={addEducation}
+                    handleDeleteOperation={deleteEducation}
+                    handleAddIconClick={handleEducationPopUpForm}
                   />,
-                  <ListCard
+                  <ModListCard
                     items={[]}
-                    title={"Skills"}
-                    NoItemMessage={"You have no skills"}
+                    title={"Skill"}
+                    NoItemMessage={"You have no skill"}
+                    handleAddOperation={addSkill}
+                    handleDeleteOperation={deleteSkill}
+                    handleAddIconClick={handleSkillPopUpForm}
                   />,
-                  <ListCard
+                  <ModListCard
                     items={[]}
                     title={"Interests"}
                     NoItemMessage={"You have no interests"}
+                    handleAddOperation={addInterest}
+                    handleDeleteOperation={deleteInterest}
+                    handleAddIconClick={handleInterestPopUpForm}
                   />,
                 ]}
               />,

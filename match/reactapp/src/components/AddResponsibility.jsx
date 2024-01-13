@@ -1,17 +1,19 @@
 import React, { useState } from "react";
 
-const AddInterest = ({ handleAddInterest }) => {
-  const [Interest, setInterest] = useState("");
 
-  const handleInterestChange = (e) => {
-    setInterest(e.target.value);
+const AddResponsibility = ({ handleAddResponsibility }) => {
+  const [Responsibility, setResponsibility] = useState("");
+
+
+  const handleResponsibilityChange = (e) => {
+    setResponsibility(e.target.value);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     // You can handle form submission logic here
-    console.log("Interest:", Interest);
-    handleAddInterest(Interest);
+    console.log("Responsibility:", Responsibility);
+    handleAddResponsibility(Responsibility);
   };
 
   return (
@@ -25,23 +27,21 @@ const AddInterest = ({ handleAddInterest }) => {
           borderRadius: "10px",
         }}
       >
-        <input
-          type="text"
-          placeholder="Interest"
-          value={Interest}
-          onChange={handleInterestChange}
+        <textarea
+          value={Responsibility}
+          placeholder="Responsibility - 50 words max"
+          onChange={handleResponsibilityChange}
           required
           style={{
-            border: "none",
-            borderBottom: "1px solid #7E7E7E",
             borderRadius: "5px",
+            borderBottom: "1px solid #7E7E7E",
+            height: "100px",
             outline: "none", // Optional: Remove the input focus border
             width: "100%", // Optional: Make the input full-width
             marginBottom: "30px",
             padding: "5px", // Optional: Add some padding
           }}
         />
-
         <button
           type="submit"
           style={{
@@ -54,11 +54,11 @@ const AddInterest = ({ handleAddInterest }) => {
             padding: "8px",
           }}
         >
-          Add Interest
+          Add Responsibility
         </button>
       </form>
     </div>
   );
 };
 
-export default AddInterest;
+export default AddResponsibility;

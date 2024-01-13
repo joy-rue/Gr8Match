@@ -7,6 +7,7 @@ const MilestoneContent = ({
   title,
   dueDate,
   timeleft,
+  Iscompleted,
   People,
   description,
 }) => {
@@ -33,8 +34,12 @@ const MilestoneContent = ({
                 items={[
                   <div style={{ fontWeight: "500" }}>{`${title} -`}</div>,
                   <div style={{ fontWeight: "350" }}>{dueDate}</div>,
-                  <div style={{ color: "#0A66C2", fontWeight: "500" }}>
-                    {timeleft}
+                  <div style={{ fontWeight: "500" }}>
+                    {Iscompleted ? (
+                      <div style={{ color: "#06B217" }}>Completed</div>
+                    ) : (
+                      <div style={{ color: "#0A66C2" }}>{timeleft}</div>
+                    )}
                   </div>,
                 ]}
               />,

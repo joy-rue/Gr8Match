@@ -22,6 +22,7 @@ const DateInput = ({ placeholdertxt, handleDateChange }) => {
         customInput={
           <input
             style={{
+              overflow: "visible",
               border: "none",
               borderRadius: "5px",
               borderBottom: "1px solid #7E7E7E",

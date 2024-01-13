@@ -1,17 +1,25 @@
 import React, { useState } from "react";
+import DateInput from "./DateInput";
 
-const AddInterest = ({ handleAddInterest }) => {
-  const [Interest, setInterest] = useState("");
+const AddTask = ({ handleAddTask }) => {
+  const [Task, setTask] = useState("");
+  const [DueDate, setDueDate] = useState(null);
 
-  const handleInterestChange = (e) => {
-    setInterest(e.target.value);
+  const handleDueDateChange = (date) => {
+    setDueDate(date);
+    // Additional logic if needed
+  };
+
+  const handleTaskChange = (e) => {
+    setTask(e.target.value);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     // You can handle form submission logic here
-    console.log("Interest:", Interest);
-    handleAddInterest(Interest);
+    console.log("Project Name:", Task);
+    console.log("Start Date:", DueDate);
+    handleAddTask(Task, DueDate);
   };
 
   return (
@@ -27,9 +35,9 @@ const AddInterest = ({ handleAddInterest }) => {
       >
         <input
           type="text"
-          placeholder="Interest"
-          value={Interest}
-          onChange={handleInterestChange}
+          placeholder="Task"
+          value={Task}
+          onChange={handleTaskChange}
           required
           style={{
             border: "none",
@@ -41,6 +49,13 @@ const AddInterest = ({ handleAddInterest }) => {
             padding: "5px", // Optional: Add some padding
           }}
         />
+
+        <div style={{ marginRight: "40px", marginBottom: "20px" }}>
+          <DateInput
+            placeholdertxt="Due Date"
+            handleDateChange={handleDueDateChange}
+          />
+        </div>
 
         <button
           type="submit"
@@ -54,11 +69,11 @@ const AddInterest = ({ handleAddInterest }) => {
             padding: "8px",
           }}
         >
-          Add Interest
+          Add Task
         </button>
       </form>
     </div>
   );
 };
 
-export default AddInterest;
+export default AddTask;

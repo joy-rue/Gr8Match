@@ -3,7 +3,7 @@ import HorizontalList from "./HorizontalList";
 import DateInput from "./DateInput";
 import closeIcon from "./icons/closeIcon.png";
 
-const AddApp = () => {
+const AddApp = ({handleAddApp}) => {
   const [AppName, setAppName] = useState("");
   const [description, setDescription] = useState("");
   const [Link, setLink] = useState("");
@@ -23,9 +23,10 @@ const AddApp = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     // You can handle form submission logic here
-    console.log("Project Name:", AppName);
+    console.log("App Name:", AppName);
     console.log("Description:", description);
     console.log("Link:", Link);
+    handleAddApp(AppName, description, Link);
   };
 
   return (

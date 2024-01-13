@@ -16,6 +16,7 @@ const ListCard = forwardRef(
       onSelectItem,
       showCheckbox,
       submitOperation,
+      isViewAll,
     },
     ref
   ) => {
@@ -34,7 +35,7 @@ const ListCard = forwardRef(
       setCheckedItems(updatedCheckedItems);
     };
 
-    const handlePrintCheckedItems = () => {
+    const handlePrintCheckedItems = (action) => {
       const checkedItemIndices = checkedItems.reduce(
         (indices, isChecked, index) => {
           if (isChecked) {
@@ -45,16 +46,19 @@ const ListCard = forwardRef(
         []
       );
 
-      const checkedItemsToPrint = checkedItemIndices.map(
+      const checkedItemsList = checkedItemIndices.map(
         (index) => items[index]
       );
-      console.log("Checked Items:", checkedItemsToPrint);
-      submitOperation(checkedItemsToPrint);
+      // console.log("Checked Items:", checkedItemsList);
+      submitOperation(checkedItemsList,action);
     };
 
     useImperativeHandle(ref, () => ({
       handlePrintCheckedItems,
     }));
+
+    // Determine the number of items to display based on isViewAll
+    const displayItems = isViewAll ? items : items.slice(0, 7);
 
     return (
       <div>
@@ -83,7 +87,7 @@ const ListCard = forwardRef(
             >
               {items.length === 0 && <p>{NoItemMessage}</p>}
             </li>
-            {items.map((item, index) => (
+            {displayItems.map((item, index) => (
               <li
                 className="list-group-item"
                 key={index}
@@ -109,7 +113,7 @@ const ListCard = forwardRef(
                     />
                   )}
                 </div>
-                <div style={{width:"100%"}}>{item}</div>
+                <div style={{ width: "100%" }}>{item}</div>
               </li>
             ))}
             <li

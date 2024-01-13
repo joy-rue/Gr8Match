@@ -3,10 +3,9 @@ import HorizontalList from "./HorizontalList";
 import DateInput from "./DateInput";
 import closeIcon from "./icons/closeIcon.png";
 
-const AddWorkExperience = ({handleAddWorkExperience}) => {
-  const [WorkExperience, setWorkExperience] = useState("");
+const AddMilestone = ({handleAddMilestone}) => {
+  const [Title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [workhours, setWorkHours] = useState("");
   const [teamMember, setTeamMember] = useState([""]);
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
@@ -27,8 +26,8 @@ const AddWorkExperience = ({handleAddWorkExperience}) => {
     setTeamMember(newTeamMember);
   };
 
-    const addTeamMember = () => {
-    setTeamMember([...teamMember, ""]); 
+  const addTeamMember = () => {
+    setTeamMember([...teamMember, ""]);
   };
 
   const removeTeamMember = (index) => {
@@ -37,47 +36,23 @@ const AddWorkExperience = ({handleAddWorkExperience}) => {
     setTeamMember(newTeamMember);
   };
 
-  const handleWorkExperienceChange = (e) => {
-    setWorkExperience(e.target.value);
+  const handleTitleChange = (e) => {
+    setTitle(e.target.value);
   };
 
   const handleDescriptionChange = (e) => {
     setDescription(e.target.value);
   };
 
-  const handleWorkHoursChange = (e) => {
-    let inputValue = e.target.value;
-
-    // Ensure the input is a non-negative integer within the desired range (1 to 40)
-    if (/^\d*$/.test(inputValue) && inputValue >= 1 && inputValue <= 40) {
-      setWorkHours(inputValue);
-    } else if (
-      inputValue === "" ||
-      (inputValue.length === 1 && /^\d$/.test(inputValue))
-    ) {
-      // Allow the input to be empty or a single digit
-      setWorkHours(inputValue);
-    }
-  };
-
   const handleSubmit = (e) => {
     e.preventDefault();
     // You can handle form submission logic here
-    console.log("Project Name:", WorkExperience);
+    console.log("Milestone Name:", Title);
     console.log("Start Date:", startDate);
     console.log("End Date:", endDate);
     console.log("Description:", description);
     console.log("Team:", teamMember);
-    console.log("Team:", workhours);
-
-    handleAddWorkExperience(
-      WorkExperience,
-      startDate,
-      endDate,
-      description,
-      teamMember,
-      workhours
-    );
+    handleAddMilestone(Title, startDate, endDate, description, teamMember);
   };
 
   return (
@@ -93,9 +68,9 @@ const AddWorkExperience = ({handleAddWorkExperience}) => {
       >
         <input
           type="text"
-          placeholder="Work Experience - 10 words max"
-          value={WorkExperience}
-          onChange={handleWorkExperienceChange}
+          placeholder="Milestone Title - 10 words max"
+          value={Title}
+          onChange={handleTitleChange}
           required
           style={{
             border: "none",
@@ -109,7 +84,7 @@ const AddWorkExperience = ({handleAddWorkExperience}) => {
         />
         <HorizontalList
           items={[
-            <div style={{ marginRight: "50px" }}>
+            <div style={{ marginRight: "50px", marginBottom: "30px" }}>
               <DateInput
                 placeholdertxt="Start Date"
                 handleDateChange={handleStartDateChange}
@@ -121,37 +96,6 @@ const AddWorkExperience = ({handleAddWorkExperience}) => {
                 handleDateChange={handleEndDateChange}
               />
             </div>,
-            <HorizontalList
-              spacing={5}
-              items={[
-                <input
-                  type="text" // Using type text to allow better control over input validation
-                  id="integerInput"
-                  name="integerInput"
-                  value={workhours}
-                  placeholder="Work Hours"
-                  onChange={handleWorkHoursChange}
-                  style={{
-                    border: "none",
-                    borderBottom: "1px solid #7E7E7E",
-                    borderRadius: "5px",
-                    outline: "none", // Optional: Remove the input focus border
-                    width: "100px", // Optional: Make the input full-width
-                    marginBottom: "30px",
-                    padding: "5px", // Optional: Add some padding
-                  }}
-                />,
-                <div
-                  style={{
-                    color: "#0A66C2",
-                    fontWeight: "500",
-                    transform: "translateY(10px)",
-                  }}
-                >
-                  hrs/wk
-                </div>,
-              ]}
-            />,
           ]}
         />
 
@@ -238,11 +182,11 @@ const AddWorkExperience = ({handleAddWorkExperience}) => {
             padding: "8px",
           }}
         >
-          Add Work Experience
+          Add Milestone
         </button>
       </form>
     </div>
   );
 };
 
-export default AddWorkExperience;
+export default AddMilestone;

@@ -6,14 +6,15 @@ const HomeHeader = ({ title, date, spacing }) => {
   const header = (
     <div
       style={{
-        fontSize: "2.5vw",
+        fontSize: "30px",
+        minWidth:"880px",
         marginLeft: "20px",
         marginBottom: "-30px",
         transform: "translateY(15.7vh)",
       }}
     >
       <HorizontalList
-        // spacing={spacing}
+        spacing={spacing}
         items={[
           <div
             style={{
@@ -40,7 +41,7 @@ const HomeHeader = ({ title, date, spacing }) => {
       className="image-container"
       style={{
         position: "relative",
-        width: "60vw",
+        width: "880px",
         margin: "0 auto", // Center the container horizontally
         borderRadius: "10px",
         boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)",

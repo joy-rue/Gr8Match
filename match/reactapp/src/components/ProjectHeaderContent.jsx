@@ -37,14 +37,14 @@ const ProjectHeaderContent = ({
             flex: "1", // Take 1/3 of the available vertical space
           }}
         >
-          <img
+          {banner && <img
             src={banner}
             className="card-img-top"
-            alt="Banner"
+            alt=""
             style={{
               width: "100%",
             }}
-          />
+          />}
         </div>
 
         {/* Content */}

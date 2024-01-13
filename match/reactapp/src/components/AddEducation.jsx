@@ -3,7 +3,7 @@ import HorizontalList from "./HorizontalList";
 import DateInput from "./DateInput";
 import closeIcon from "./icons/closeIcon.png";
 
-const AddEducation = () => {
+const AddEducation = ({handleAddEducation}) => {
   const [Institution, setInstitution] = useState("");
   const [Certification, setCertification] = useState("");
   const [dateAwarded, setdateAwarded] = useState(null);
@@ -24,11 +24,13 @@ const AddEducation = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     // You can handle form submission logic here
-    console.log("Project Name:", Institution);
+    console.log("Institution Name:", Institution);
     console.log("Start Date:", dateAwarded);
     console.log("Certification:", Certification);
+    handleAddEducation(Institution, dateAwarded, Certification);
   };
 
+  
   return (
     <div>
       <form

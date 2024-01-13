@@ -1,17 +1,17 @@
 import React, { useState } from "react";
 
-const AddInterest = ({ handleAddInterest }) => {
-  const [Interest, setInterest] = useState("");
+const AddMemberRole = ({ handleAddMemberRole }) => {
+  const [MemberRole, setMemberRole] = useState("");
 
-  const handleInterestChange = (e) => {
-    setInterest(e.target.value);
+  const handleMemberRoleChange = (e) => {
+    setMemberRole(e.target.value);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    handleAddMemberRole(MemberRole);
     // You can handle form submission logic here
-    console.log("Interest:", Interest);
-    handleAddInterest(Interest);
+    console.log("Member Role:", MemberRole);
   };
 
   return (
@@ -27,9 +27,9 @@ const AddInterest = ({ handleAddInterest }) => {
       >
         <input
           type="text"
-          placeholder="Interest"
-          value={Interest}
-          onChange={handleInterestChange}
+          placeholder="Member Role"
+          value={MemberRole}
+          onChange={handleMemberRoleChange}
           required
           style={{
             border: "none",
@@ -54,11 +54,11 @@ const AddInterest = ({ handleAddInterest }) => {
             padding: "8px",
           }}
         >
-          Add Interest
+          Add Member Role
         </button>
       </form>
     </div>
   );
 };
 
-export default AddInterest;
+export default AddMemberRole;

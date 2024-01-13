@@ -11,66 +11,67 @@ import { Sidebar, Menu, MenuItem, sidebarClasses } from "react-pro-sidebar";
 
 export const Sidemenu = () => {
   return (
-      <Sidebar
-        rootStyles={{
-          [`.${sidebarClasses.container}`]: {
-            position: "fixed",
-            top: "0",
-            height: "100vh",
-            display: "flex",
-            justifyContent: "space-evenly",
-            flexDirection: "column",
-            width: "100px",
-            backgroundColor: "rgba(255, 255, 255, 0)",
-          },
+    <Sidebar
+      rootStyles={{
+        [`.${sidebarClasses.container}`]: {
+          position: "fixed",
+          top: "0",
+          height: "100vh",
+          display: "flex",
+          justifyContent: "space-evenly",
+          flexDirection: "column",
+          width: "100px",
+          backgroundColor: "rgba(255, 255, 255, 0)",
+          zIndex: "1003",
+        },
+      }}
+    >
+      <div
+        style={{
+          marginTop: "15px",
+          backgroundColor: "white",
+          height: "82vh",
+          display: "flex",
+          justifyContent: "space-evenly",
+          flexDirection: "column",
+          borderTopRightRadius: "10px",
+          borderBottomRightRadius: "10px",
         }}
       >
-        <div
-          style={{
-            marginTop: "15px",
-            backgroundColor: "white",
-            height: "82vh",
-            display: "flex",
-            justifyContent: "space-evenly",
-            flexDirection: "column",
-            borderTopRightRadius: "10px",
-            borderBottomRightRadius: "10px",
-          }}
-        >
-          <Menu>
+        <Menu>
+          <MenuItem style={{ paddingBottom: "40px", paddingTop: "50px" }}>
             <Link to="/">
-              <MenuItem style={{ paddingBottom: "40px", paddingTop: "50px" }}>
-                <NavOption Icon={home} title={"Home"} />
-              </MenuItem>
+              <NavOption Icon={home} title={"Home"} />
             </Link>
+          </MenuItem>
+          <MenuItem style={{ paddingBottom: "40px", paddingTop: "50px" }}>
             <Link to="/explore">
-              <MenuItem style={{ paddingBottom: "40px", paddingTop: "50px" }}>
-                <NavOption Icon={explore} title={"Explore"} />
-              </MenuItem>
+              <NavOption Icon={explore} title={"Explore"} />
             </Link>
-            {/* Add other links as needed */}
+          </MenuItem>
+          {/* Add other links as needed */}
+          <MenuItem style={{ paddingBottom: "40px", paddingTop: "50px" }}>
             <Link to="/todo">
-              <MenuItem style={{ paddingBottom: "40px", paddingTop: "50px" }}>
-                <NavOption Icon={todo} title={"To-do"} />
-              </MenuItem>
+              <NavOption Icon={todo} title={"To-do"} />
             </Link>
+          </MenuItem>
+          <MenuItem style={{ paddingBottom: "40px", paddingTop: "50px" }}>
             <Link to="/profile">
-              <MenuItem style={{ paddingBottom: "40px", paddingTop: "50px" }}>
-                <NavOption Icon={profile} title={"Profile"} />
-              </MenuItem>
+              <NavOption Icon={profile} title={"Profile"} />
             </Link>
+          </MenuItem>
+          <MenuItem style={{ paddingBottom: "40px", paddingTop: "50px" }}>
             <Link to="/help">
-              <MenuItem style={{ paddingBottom: "40px", paddingTop: "50px" }}>
-                <NavOption Icon={help} title={"Help"} />
-              </MenuItem>
+              <NavOption Icon={help} title={"Help"} />
             </Link>
+          </MenuItem>
+          <MenuItem style={{ paddingBottom: "40px", paddingTop: "50px" }}>
             <Link to="/login">
-              <MenuItem style={{ paddingBottom: "40px", paddingTop: "50px" }}>
-                <NavOption Icon={logout} title={"Logout"} />
-              </MenuItem>
+              <NavOption Icon={logout} title={"Logout"} />
             </Link>
-          </Menu>
-        </div>
-      </Sidebar>
+          </MenuItem>
+        </Menu>
+      </div>
+    </Sidebar>
   );
 };

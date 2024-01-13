@@ -20,24 +20,24 @@ import sidebanner from "./components/icons/sidebanner.png";
 const HomePage = () => {
   const [projects, setData] = useState([]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch(
-          "http://127.0.0.1:8000/ra/get_all_projects/"
-        );
-        if (response.ok) {
-          const responseData = await response.json();
-          console.log(responseData); // Corrected: Use console.log instead of console
-          setData(JSON.parse(responseData.projects));
-        }
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const response = await fetch(
+  //         "http://127.0.0.1:8000/ra/get_all_projects/"
+  //       );
+  //       if (response.ok) {
+  //         const responseData = await response.json();
+  //         console.log(responseData); // Corrected: Use console.log instead of console
+  //         setData(JSON.parse(responseData.projects));
+  //       }
+  //     } catch (error) {
+  //       console.error("Error fetching data:", error);
+  //     }
+  //   };
 
-    fetchData();
-  }, []);
+  //   fetchData();
+  // }, []);
 
  
 
@@ -128,7 +128,7 @@ const HomePage = () => {
                         key="homeHeader"
                         title={"My Projects"}
                         date={"22 Aug 2023"}
-                        spacing={"30vw"}
+                        spacing={"450px"}
                       />,
                       <ProjectCardList
                         cards={[

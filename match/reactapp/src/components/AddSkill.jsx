@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const AddSkill = () => {
+const AddSkill = ({ handleAddSkill }) => {
   const [Skill, setSkill] = useState("");
 
   const handleSkillChange = (e) => {
@@ -9,9 +9,12 @@ const AddSkill = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    handleAddSkill(Skill);
     // You can handle form submission logic here
-    console.log("Project Name:", Skill);
+    console.log("Skill:", Skill);
   };
+
+
 
   return (
     <div>
