@@ -19,7 +19,6 @@ import UpcomingTask from "./components/UpcomingTask";
 import PendingTasks from "./components/PendingTasks";
 
 const RAMilestonePage = () => {
-
   const notificationElement = (
     <Notification
       title={"Onedrive Library"}
@@ -48,18 +47,16 @@ const RAMilestonePage = () => {
 
   const commentcontent = [commentElement, commentElement, commentElement];
 
+  const Task = (
+    <TaskContent
+      title={"Create research Survey You have no Tasks You have no Tasks"}
+      dueDate={"22 Aug 2023"}
+      dateCompleted={"1 Dec 2023"}
+      completed={true}
+    />
+  );
 
-    
-      const Task = (
-        <TaskContent
-          title={"Create research Survey You have no Tasks You have no Tasks"}
-          dueDate={"22 Aug 2023"}
-          dateCompleted={"1 Dec 2023"}
-          completed={true}
-        />
-      );
-
-      let content = [Task, Task, Task];
+  let content = [Task, Task, Task];
 
   return (
     <div>
@@ -108,10 +105,9 @@ const RAMilestonePage = () => {
                     // Progress={24}
                     banner={ashesibanner}
                   />,
-                  <UpcomingTask
-                  />,
+                  <UpcomingTask />,
 
-                  <PendingTasks/>,
+                  <PendingTasks />,
                   <ListCard
                     items={content}
                     title={"Completed Tasks"}

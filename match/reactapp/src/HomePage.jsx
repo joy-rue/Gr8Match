@@ -39,7 +39,6 @@ const HomePage = () => {
   //   fetchData();
   // }, []);
 
- 
 
   const notificationElement = (
     <Notification
@@ -58,7 +57,7 @@ const HomePage = () => {
     <Link
       to="/createproject"
       style={{
-        textDecoration: "none" ,
+        textDecoration: "none",
         color: "inherit",
         fontWeight: "inherit",
       }}
@@ -73,7 +72,9 @@ const HomePage = () => {
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
+          cursor: "pointer",
         }}
+        // onClick={handleCreateProjectClick}
       >
         <VerticalList
           spacing={10}
@@ -111,7 +112,6 @@ const HomePage = () => {
 
   dataList;
 
-
   return (
     <div>
       <Header
@@ -127,8 +127,7 @@ const HomePage = () => {
                       <HomeHeader
                         key="homeHeader"
                         title={"My Projects"}
-                        date={"22 Aug 2023"}
-                        spacing={"450px"}
+                        spacing={"470px"}
                       />,
                       <ProjectCardList
                         cards={[

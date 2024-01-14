@@ -55,6 +55,7 @@ const EditProject = () => {
     console.log("Start Date:", startDate);
     console.log("End Date:", endDate);
     console.log("Description:", description);
+    window.location.href = "/project";
   };
 
   return (
@@ -70,7 +71,7 @@ const EditProject = () => {
                   key="homeHeader"
                   title={"Edit Project"}
                   date={"22 Aug 2023"}
-                  spacing={"27vw"}
+                  spacing={"470px"}
                 />,
                 <form
                   onSubmit={handleSubmit}

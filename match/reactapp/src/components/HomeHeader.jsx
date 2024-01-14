@@ -6,8 +6,8 @@ const HomeHeader = ({ title, date, spacing }) => {
   const header = (
     <div
       style={{
-        fontSize: "30px",
-        minWidth:"880px",
+        fontSize: "35px",
+        minWidth: "880px",
         marginLeft: "20px",
         marginBottom: "-30px",
         transform: "translateY(15.7vh)",
@@ -30,7 +30,7 @@ const HomeHeader = ({ title, date, spacing }) => {
               marginLeft: spacing,
             }}
           >
-            {date}
+            {new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
           </div>,
         ]}
       />

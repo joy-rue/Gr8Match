@@ -183,7 +183,6 @@ const ApproveTask = () => {
           </div>
         }
         NoItemMessage="No items available"
-        footer={"Footer content"}
         showCheckbox={check}
         submitOperation={handleSubmitOperation}
         ref={submitRef}

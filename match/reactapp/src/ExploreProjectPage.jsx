@@ -20,8 +20,10 @@ import { useNavigate, Routes, Route, Link } from "react-router-dom";
 import editIcon from "./components/icons/editIcon.png";
 import IconItem from "./components/IconItem";
 import clockicon from "./components/icons/clockicon.png";
+import React, { useState } from "react";
 
 const ExploreProjectPage = () => {
+  const [applicationStatus, setApplicationStatus] = useState("pending");
   const workhours = 40;
   const appsElement =
     "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed dapibus eros eu vehicula interdum. Cras nec ultricies massa. Curabitur rutrum, diam id consequat consequat";
@@ -46,6 +48,14 @@ const ExploreProjectPage = () => {
       date={"11:23 - Aug 2023"}
     />
   );
+
+  const handleApplyClick = () => {
+    // Toggle between "Apply" and "Pending" when the button is clicked
+    setApplicationStatus((prevStatus) =>
+      prevStatus === "pending" ? "applied" : "pending"
+    );
+    // Additional logic can be added here, such as making an API call to submit the application
+  };
 
   const commentcontent = [commentElement, commentElement, commentElement];
 
@@ -82,6 +92,7 @@ const ExploreProjectPage = () => {
                           <div
                             style={{
                               marginTop: "20px",
+                              fontWeight:"500"
                             }}
                           >
                             {"Research Associate"}
@@ -97,17 +108,27 @@ const ExploreProjectPage = () => {
                                 "Ghana Economic Index Study for people with special abilities "
                               }
                             </div>
-                            <Link to="/editproject">
-                              <img
-                                src={editIcon}
-                                alt=""
-                                style={{
-                                  width: "28px",
-                                  marginRight: "20px",
-                                  transform: "translateY(-10px)",
-                                }}
-                              />
-                            </Link>
+                            <button
+                              style={{
+                                border: "none",
+                                borderRadius: "5px",
+                                width: "100px",
+                                marginRight: "10px",
+                                padding: "5px 10px",
+                                fontWeight: "600",
+                                backgroundColor: "#AD3537",
+                                color: "white",
+                                textDecoration: "none" /* Remove underline */,
+                                fontSize: "18px",
+                                marginTop: "-20px",
+                                height:"40px"
+                              }}
+                              onClick={handleApplyClick}
+                            >
+                              {applicationStatus === "applied"
+                                ? "Applied"
+                                : "Apply"}
+                            </button>
                           </div>,
                         ]}
                       />
@@ -138,7 +159,6 @@ const ExploreProjectPage = () => {
                     profile={groupprofile}
                     People={["Clark Kent", "Superman", "Naruto Uzumaki"]}
                     Date={"12 Aug 2023"}
-                    Progress={24}
                     banner={ashesibanner}
                   />,
 

@@ -143,7 +143,6 @@ const FacultyCompletedTask = () => {
           </div>
         }
         NoItemMessage="No Task Completed"
-        footer={"Footer content"}
         showCheckbox={check}
         submitOperation={handleSubmitOperation}
         ref={submitRef}

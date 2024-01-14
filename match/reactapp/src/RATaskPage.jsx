@@ -1,37 +1,25 @@
 import "bootstrap/dist/css/bootstrap.min.css";
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect, useRef } from "react";
 import Header from "./Header";
 import VerticalList from "./components/VerticalList";
-import ProjectHeaderContent from "./components/ProjectHeaderContent";
 import Notification from "./components/Notification";
 import HorizontalList from "./components/HorizontalList";
 import SubListCard from "./components/SubListCard";
-import IconItem from "./components/IconItem";
-import AddResponsibility from "./components/AddResponsibility";
 import PopUpForm from "./components/PopUpForm";
 
 import submitIcon from "./components/icons/submitIcon.png";
 import sidebanner from "./components/icons/sidebanner.png";
-import ashesibanner from "./components/icons/campusbanner.png";
 import editIcon from "./components/icons/editIcon.png";
-import publishIcon from "./components/icons/publishIcon.png";
-import adduserIcon from "./components/icons/adduserIcon.png";
 import cancela from "./components/icons/cancela.png";
 import cancelb from "./components/icons/cancelb.png";
 import cancelc from "./components/icons/cancelc.png";
 import deleteIcon from "./components/icons/deleteIcon.png";
-import clockicon from "./components/icons/clockicon.png";
-import AddRequirement from "./components/AddRequirement";
-import disapproveIcon from "./components/icons/withdrawIcon.png";
-import approveIcon from "./components/icons/approveIcon.png";
 import withdrawIcon from "./components/icons/withdrawIcon.png";
-import republishIcon from "./components/icons/republishIcon.png";
 import Textbox from "./components/Textbox";
 import CommentList from "./components/CommentList";
 import AddTask from "./components/AddTask";
 
-const TaskPage = () => {
+const RATaskPage = () => {
   const workhours = 40;
   const [state, setState] = useState("In Progress");
   const [stateColor, setStateColor] = useState("#F4CF0A");
@@ -46,6 +34,9 @@ const TaskPage = () => {
   const [PopUpOpen, setPopUpOpen] = useState(false);
   const [PopUpFormHeader, setPopUpFormHeader] = useState("");
   const commentUser = "User2";
+    const chatboxRef = useRef(null);
+
+
 
   const comments = [
     {
@@ -97,7 +88,23 @@ const TaskPage = () => {
       time: "11:30 AM",
       message: "This comment is in months.",
     },
-  ];
+  ]; 
+  
+    useEffect(() => {
+      // Scroll to the bottom when the component mounts
+      scrollToBottom();
+    }, []);
+
+    const scrollToBottom = () => {
+      if (chatboxRef.current) {
+        chatboxRef.current.scrollIntoView({
+          behavior: "smooth",
+          block: "end",
+          inline: "nearest",
+        });
+      }
+    };
+
 
   const notificationElement = (
     <Notification
@@ -468,7 +475,11 @@ const TaskPage = () => {
           padding: "10px",
         }}
       >
-        <CommentList comments={comments} commentUser={commentUser} />
+        <CommentList
+          ref={chatboxRef}
+          comments={comments}
+          commentUser={commentUser}
+        />
       </div>
       <div
         style={{
@@ -527,4 +538,4 @@ const TaskPage = () => {
   );
 };
 
-export default TaskPage;
+export default RATaskPage;

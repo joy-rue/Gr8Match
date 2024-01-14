@@ -31,7 +31,7 @@ import Textbox from "./components/Textbox";
 import CommentList from "./components/CommentList";
 import AddTask from "./components/AddTask";
 
-const TaskPage = () => {
+const RFTaskPage = () => {
   const workhours = 40;
   const [state, setState] = useState("In Progress");
   const [stateColor, setStateColor] = useState("#F4CF0A");
@@ -431,7 +431,7 @@ const TaskPage = () => {
   const handleEditTaskPopUpForm = () => {
     setPopUpFormHeader("Edit Task");
     setPopUpOpen(true);
-    setPopForm(<AddTask handleAddTask={editTask} />);
+    setPopForm(<AddTask- handleAddTask={editTask} />);
   };
 
   const editTask = (Task) => {
@@ -590,4 +590,4 @@ const TaskPage = () => {
   );
 };
 
-export default TaskPage;
+export default RFTaskPage;

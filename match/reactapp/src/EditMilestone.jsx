@@ -7,34 +7,59 @@ import SubBanner from "./components/SubBanner";
 import SubListCard from "./components/SubListCard";
 import VerticalList from "./components/VerticalList";
 import React, { useState } from "react";
+import closeIcon from "./components/icons/closeIcon.png";
 
-const CreateProject = () => {
-  const [projectName, setProjectName] = useState("");
-  const [Department, setDepartment] = useState("");
-  const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("");
+const EditMilestone = () => {
+  const [Title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const [teamMember, setTeamMember] = useState([""]);
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
 
-  const handleProjectNameChange = (e) => {
-    setProjectName(e.target.value);
+  const handleStartDateChange = (date) => {
+    setStartDate(date);
+    // Additional logic if needed
   };
 
-  const handleDepartmentChange = (e) => {
-    setDepartment(e.target.value);
+  const handleEndDateChange = (date) => {
+    setEndDate(date);
+    // Additional logic if needed
   };
 
-  const handleStartDateChange = (e) => {
-    setStartDate(e.target.value);
+  const handleTeamChange = (index, value) => {
+    const newTeamMember = [...teamMember];
+    newTeamMember[index] = value;
+    setTeamMember(newTeamMember);
   };
 
-  const handleEndDateChange = (e) => {
-    setEndDate(e.target.value);
+  const addTeamMember = () => {
+    setTeamMember([...teamMember, ""]);
+  };
+
+  const removeTeamMember = (index) => {
+    const newTeamMember = [...teamMember];
+    newTeamMember.splice(index, 1);
+    setTeamMember(newTeamMember);
+  };
+
+  const handleTitleChange = (e) => {
+    setTitle(e.target.value);
   };
 
   const handleDescriptionChange = (e) => {
     setDescription(e.target.value);
   };
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // You can handle form submission logic here
+    console.log("Milestone Name:", Title);
+    console.log("Start Date:", startDate);
+    console.log("End Date:", endDate);
+    console.log("Description:", description);
+    console.log("Team:", teamMember);
+    window.location.href = "/rfmilestone";
+  };
   const notificationElement = (
     <Notification
       key="notification"
@@ -48,16 +73,6 @@ const CreateProject = () => {
 
   const notificationContent = Array(3).fill(notificationElement);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // You can handle form submission logic here
-    console.log("Project Name:", projectName);
-    console.log("Start Date:", startDate);
-    console.log("End Date:", endDate);
-    console.log("Description:", description);
-    window.location.href = "/";
-  };
-
   return (
     <Header
       Page={
@@ -69,10 +84,11 @@ const CreateProject = () => {
               items={[
                 <HomeHeader
                   key="homeHeader"
-                  title={"Create Project"}
+                  title={"Edit Milestone"}
                   date={"22 Aug 2023"}
                   spacing={"430px"}
                 />,
+
                 <form
                   onSubmit={handleSubmit}
                   style={{
@@ -84,9 +100,9 @@ const CreateProject = () => {
                 >
                   <input
                     type="text"
-                    placeholder="Project Title - 10 words max"
-                    value={projectName}
-                    onChange={handleProjectNameChange}
+                    placeholder="Milestone Title - 10 words max"
+                    value={Title}
+                    onChange={handleTitleChange}
                     required
                     style={{
                       border: "none",
@@ -100,7 +116,9 @@ const CreateProject = () => {
                   />
                   <HorizontalList
                     items={[
-                      <div style={{ marginRight: "50px" }}>
+                      <div
+                        style={{ marginRight: "50px", marginBottom: "30px" }}
+                      >
                         <DateInput
                           placeholdertxt="Start Date"
                           handleDateChange={handleStartDateChange}
@@ -112,25 +130,65 @@ const CreateProject = () => {
                           handleDateChange={handleEndDateChange}
                         />
                       </div>,
+                    ]}
+                  />
 
+                  {teamMember.map((value, index) => (
+                    <div key={index}>
                       <input
                         type="text"
-                        placeholder="Department"
-                        value={Department}
-                        onChange={handleDepartmentChange}
-                        required
+                        value={value}
+                        placeholder={`Team Member ${index + 1}`}
+                        onChange={(e) =>
+                          handleTeamChange(index, e.target.value)
+                        }
                         style={{
                           border: "none",
                           borderRadius: "5px",
                           borderBottom: "1px solid #7E7E7E",
-                          outline: "none", // Optional: Remove the input focus border
-                          width: "430px", // Optional: Make the input full-width
-                          marginBottom: "30px",
-                          padding: "5px", // Optional: Add some padding
+                          outline: "none",
+                          width: "50%",
+                          marginBottom: "10px",
+                          padding: "5px",
                         }}
-                      />,
-                    ]}
-                  />
+                      />
+                      <button
+                        type="button"
+                        onClick={() => removeTeamMember(index)}
+                        style={{
+                          border: "none",
+                          outline: "none",
+                          padding: "0px",
+                          backgroundColor: "rgba(0,0,0,0)",
+                        }}
+                      >
+                        <img
+                          src={closeIcon}
+                          alt=""
+                          style={{
+                            width: "20px",
+                            marginLeft: "5px",
+                            height: "20px",
+                            transform: "translateY(7px)",
+                          }}
+                        />
+                      </button>
+                    </div>
+                  ))}
+                  <button
+                    type="button"
+                    onClick={addTeamMember}
+                    style={{
+                      cursor: "pointer",
+                      outline: "none",
+                      textDecoration: "none",
+                      border: "none",
+                      padding: "10px",
+                      marginTop: "10px",
+                    }}
+                  >
+                    Add Member
+                  </button>
 
                   <textarea
                     value={description}
@@ -143,6 +201,7 @@ const CreateProject = () => {
                       height: "100px",
                       outline: "none", // Optional: Remove the input focus border
                       width: "100%", // Optional: Make the input full-width
+                      marginTop: "30px",
                       marginBottom: "30px",
                       padding: "5px", // Optional: Add some padding
                     }}
@@ -159,7 +218,7 @@ const CreateProject = () => {
                       padding: "8px",
                     }}
                   >
-                    Create Project
+                    Edit Milestone
                   </button>
                 </form>,
               ]}
@@ -193,4 +252,4 @@ const CreateProject = () => {
   );
 };
 
-export default CreateProject;
+export default EditMilestone;

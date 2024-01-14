@@ -1,8 +1,7 @@
 import React from "react";
 import ashesilogo from "./components/icons/ashesilogo.png";
-import { Sidemenu } from "./components/Sidemenu";
+import Sidemenu from "./Sidemenu";
 import HorizontalList from "./components/HorizontalList";
-import PopUpForm from "./components/PopUpForm";
 
 const Header = ({ Page }, PopUpisOpen, PopUpFormContent, PopUptitle) => {
   return (
@@ -16,12 +15,7 @@ const Header = ({ Page }, PopUpisOpen, PopUpFormContent, PopUptitle) => {
           top: "0",
         }}
       />
-      <div
-      // style={{
-      //   paddingBottom: "10vh",
-      //   backgroundColor: "red",
-      // }}
-      >
+      <div>
         <div
           style={{
             top: "0",

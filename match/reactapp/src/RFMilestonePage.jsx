@@ -91,7 +91,7 @@ const RFMilestonePage = () => {
                             "Ghana Economic Index Study for people with special abilities "
                           }
                         </div>
-                        <Link to="/editproject">
+                        <Link to="/editmilestone">
                           <img
                             src={editIcon}
                             alt=""

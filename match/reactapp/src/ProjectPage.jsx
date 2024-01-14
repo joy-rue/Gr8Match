@@ -15,11 +15,11 @@ import SubListCard from "./components/SubListCard";
 import Notification from "./components/Notification";
 import Textbox from "./components/Textbox";
 import { TeamEnrollment } from "./components/TeamEnrollment";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import editIcon from "./components/icons/editIcon.png";
 import ModListCard from "./components/ModListCard";
 import PopUpForm from "./components/PopUpForm";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import AddApp from "./components/AddApp";
 import AddMilestone from "./components/AddMilestone";
 import AddMemberRole from "./components/AddMemberRole";
@@ -28,6 +28,14 @@ const ProjectPage = () => {
   const [PopForm, setPopForm] = useState(null);
   const [PopUpOpen, setPopUpOpen] = useState(false);
   const [PopUpFormHeader, setPopUpFormHeader] = useState("");
+  const navigate = useNavigate();
+
+  const onSelectItem = () => {
+    // Redirect to the project page after the component is rendered
+    navigate("/member_role");
+
+    // Your logic for selecting an item goes here
+  };
 
   const OnPopUpClose = () => {
     setPopUpOpen(false);
@@ -61,7 +69,6 @@ const ProjectPage = () => {
     console.log(`delete Milestone: ${checkedItems}`);
   };
 
-
   const addMilestone = (Title, startDate, endDate, description, teamMember) => {
     console.log("add Milestone");
     console.log(`add Milestone: ${Title}`);
@@ -72,25 +79,22 @@ const ProjectPage = () => {
     setPopUpOpen(false);
   };
 
+  const handleMemberRolePopUpForm = () => {
+    setPopUpOpen(true);
+    setPopUpFormHeader("Add Member Role");
+    setPopForm(<AddMemberRole handleAddMemberRole={addMemberRole} />);
+  };
 
-    const handleMemberRolePopUpForm = () => {
-      setPopUpOpen(true);
-      setPopUpFormHeader("Add Member Role");
-      setPopForm(<AddMemberRole handleAddMemberRole={addMemberRole} />);
-    };
+  const deleteMemberRole = (checkedItems) => {
+    console.log("delete MemberRole");
+    console.log(`delete MemberRole: ${checkedItems}`);
+  };
 
-    const deleteMemberRole = (checkedItems) => {
-      console.log("delete MemberRole");
-      console.log(`delete MemberRole: ${checkedItems}`);
-    };
-
-    const addMemberRole = (MemberRole) => {
-      console.log("add MemberRole");
-      console.log(`add MemberRole: ${MemberRole}`);
-      setPopUpOpen(false);
-    };
-
-
+  const addMemberRole = (MemberRole) => {
+    console.log("add MemberRole");
+    console.log(`add MemberRole: ${MemberRole}`);
+    setPopUpOpen(false);
+  };
 
   const appsElement = (
     <AppsContent
@@ -261,6 +265,7 @@ const ProjectPage = () => {
                     handleAddOperation={addMemberRole}
                     handleDeleteOperation={deleteMemberRole}
                     handleAddIconClick={handleMemberRolePopUpForm}
+                    onSelectItem={onSelectItem}
                   />,
                 ]}
               />,

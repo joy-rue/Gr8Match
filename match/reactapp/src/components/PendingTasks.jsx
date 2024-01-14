@@ -153,7 +153,6 @@ const PendingTasks = () => {
         }
         NoItemMessage="No items available"
         onSelectItem={handleSelectItem}
-        footer={"Footer content"}
         showCheckbox={check}
         submitOperation={handleSubmitOperation}
         ref={submitRef}
