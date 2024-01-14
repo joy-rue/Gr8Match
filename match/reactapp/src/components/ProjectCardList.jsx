@@ -3,7 +3,7 @@ import './ProjectCardList.css'
 
 const ProjectCardList = ({ cards }) => {
   return (
-    <div className="app" style={{width:"880px"}}>
+    <div className="app">
       <div className="card-list">
         {cards.map((card, index) => (
           <div key={index} className={`card ${index % 2 === 0 ? "left" : ""}`}>

@@ -12,32 +12,74 @@ import { Link } from "react-router-dom";
 import NotificationsList from "./components/NotificationsList";
 import SubBanner from "./components/SubBanner";
 import ProjectCard from "./components/ProjectCard";
-import { useAuth } from "./AuthContext";
-import { AuthProvider } from "./AuthContext";
-import { useNavigate } from "react-router-dom";
-import sidebanner from "./components/icons/sidebanner.png";
+import Cookies from "js-cookie";
+import moment from "moment";
 
 const HomePage = () => {
-  const [projects, setData] = useState([]);
+  const [projects, setAllProjectsData] = useState([]);
+  const today = moment().format("Do MMM YYYY");
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const response = await fetch(
-  //         "http://127.0.0.1:8000/ra/get_all_projects/"
-  //       );
-  //       if (response.ok) {
-  //         const responseData = await response.json();
-  //         console.log(responseData); // Corrected: Use console.log instead of console
-  //         setData(JSON.parse(responseData.projects));
-  //       }
-  //     } catch (error) {
-  //       console.error("Error fetching data:", error);
-  //     }
-  //   };
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // Retrieve the access token from cookies
+        const accessToken = Cookies.get("access");
 
-  //   fetchData();
-  // }, []);
+        // Check if the access token is present
+        if (accessToken) {
+          // Make the API request using the access token
+          const response = await axios.get(
+            "http://127.0.0.1:5173/api/project/get/",
+            {
+              method: "GET",
+              headers: {
+                Authorization: `Bearer ${accessToken}`,
+              },
+            }
+          );
+
+          if (response.status === 200) {
+            const responseData = response.data;
+            setAllProjectsData(responseData);
+            
+          } else if (response.status === 401) {
+            await handleTokenRefresh();
+          } else {
+            console.error("Failed to fetch all projects data:", response.status);
+          }
+        } else {
+          console.error("Access token not present");
+        }
+      } catch (error) {
+        console.error("Error parsing JSON:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const handleTokenRefresh = async () => {
+    try {
+      // Make a request to your backend to refresh the access token using the refresh token
+      const refreshResponse = await axios.post(
+        "http://127.0.0.1:5173/api/account/refresh/",
+        {
+          refresh: Cookies.get("refresh"),
+        }
+      );
+
+      const newAccessToken = refreshResponse.data.access;
+
+      // Update the access token in cookies
+      Cookies.set("access", newAccessToken);
+
+      // Retry the original API request with the new access token
+      await fetchData();
+    } catch (error) {
+      console.error("Error refreshing token:", error);
+    }
+  };
+
 
 
   const notificationElement = (
@@ -57,7 +99,7 @@ const HomePage = () => {
     <Link
       to="/createproject"
       style={{
-        textDecoration: "none",
+        textDecoration: "none" ,
         color: "inherit",
         fontWeight: "inherit",
       }}
@@ -72,9 +114,7 @@ const HomePage = () => {
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-          cursor: "pointer",
         }}
-        // onClick={handleCreateProjectClick}
       >
         <VerticalList
           spacing={10}
@@ -112,6 +152,7 @@ const HomePage = () => {
 
   dataList;
 
+
   return (
     <div>
       <Header
@@ -127,19 +168,27 @@ const HomePage = () => {
                       <HomeHeader
                         key="homeHeader"
                         title={"My Projects"}
-                        spacing={"470px"}
+                        date={today}
+                        spacing={"30vw"}
                       />,
                       <ProjectCardList
                         cards={[
-                          ...(dataList &&
-                            dataList.map((item) => (
+                          ...(projects &&
+                            projects.map((project) => (
                               <ProjectCard
-                                key={item.id}
-                                title={item.title}
-                                dueDate={"22 Aug 2023"}
+                              project_key={project.id}
+                                title={project.title}
+                                dueDate={project.end_date}
                                 progress={16}
-                                milestone={"milestone 3"}
-                                timeleft={"2wks"}
+                                milestone={project.milestones[project.milestones.length - 1].milestone}
+                                timeleft={
+                                  project.end_date
+                                    ? `${Math.ceil(
+                                        ((new Date(project.end_date)) - new Date()) /
+                                          (1000 * 60 * 60 * 24 * 7)
+                                      )} wks`
+                                    : " 0 wks"
+                                }
                               />
                             ))),
                           createproject,

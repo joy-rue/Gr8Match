@@ -9,14 +9,14 @@ import HorizontalList from "./HorizontalList";
 import MilestoneContent from "./MilestoneContent";
 import { Link } from "react-router-dom";
 
-const ProjectCard = ({ title, progress, milestone, dueDate, timeleft }) => {
+const ProjectCard = ({project_key, title, progress, milestone, dueDate, timeleft }) => {
   return (
     <Link
-      to="/project"
+      to={`/project/${project_key}`}
       style={{
         textDecoration: "none" /* Remove underline */,
         color: "inherit",
-        fontWeight: "inherit",
+        fontWeight:"inherit",
       }}
     >
       <div
@@ -56,21 +56,17 @@ const ProjectCard = ({ title, progress, milestone, dueDate, timeleft }) => {
                 role={
                   <ProgressBar
                     title={
-                      <div style={{marginBottom:"7px"}}>
-                        <HorizontalList
-                          spacing={10}
-                          items={[
-                            <div
-                              style={{ fontSize: "14px", fontWeight: "600" }}
-                            >
-                              {"Progress : "}
-                            </div>,
-                            <div
-                              style={{ fontSize: "14px" }}
-                            >{`${progress}% complete`}</div>,
-                          ]}
-                        />
-                      </div>
+                      <HorizontalList
+                        spacing={10}
+                        items={[
+                          <div style={{ fontSize: "14px", fontWeight: "600" }}>
+                            {"Progress : "}
+                          </div>,
+                          <div
+                            style={{ fontSize: "14px" }}
+                          >{`${progress}% complete`}</div>,
+                        ]}
+                      />
                     }
                     percentage={progress}
                     //  date={Date}
