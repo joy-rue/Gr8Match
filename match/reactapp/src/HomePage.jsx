@@ -99,7 +99,7 @@ const HomePage = () => {
     <Link
       to="/createproject"
       style={{
-        textDecoration: "none" ,
+        textDecoration: "none",
         color: "inherit",
         fontWeight: "inherit",
       }}
@@ -114,7 +114,9 @@ const HomePage = () => {
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
+          cursor: "pointer",
         }}
+        // onClick={handleCreateProjectClick}
       >
         <VerticalList
           spacing={10}
@@ -152,7 +154,6 @@ const HomePage = () => {
 
   dataList;
 
-
   return (
     <div>
       <Header
@@ -169,7 +170,7 @@ const HomePage = () => {
                         key="homeHeader"
                         title={"My Projects"}
                         date={today}
-                        spacing={"30vw"}
+                        spacing={"470px"}
                       />,
                       <ProjectCardList
                         cards={[

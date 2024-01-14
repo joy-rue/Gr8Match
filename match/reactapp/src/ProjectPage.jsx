@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { Link } from 'react-router-dom';
 import "bootstrap/dist/css/bootstrap.min.css";
 import AppsContent from "./components/AppsContent";
 import Header from "./Header";
@@ -18,11 +17,16 @@ import Notification from "./components/Notification";
 import Textbox from "./components/Textbox";
 import { TeamEnrollment } from "./components/TeamEnrollment";
 import Cookies from "js-cookie";
+import { Link, useNavigate } from "react-router-dom";
 import editIcon from "./components/icons/editIcon.png";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import moment from "moment";
-
+import ModListCard from "./components/ModListCard";
+import PopUpForm from "./components/PopUpForm";
+import AddApp from "./components/AddApp";
+import AddMilestone from "./components/AddMilestone";
+import AddMemberRole from "./components/AddMemberRole";
 
 const ProjectPage = () => {
   const { id } = useParams();
@@ -157,6 +161,77 @@ const ProjectPage = () => {
   // fetch from project in database: app name, app logo, app link
   const appsContent = [<AppsContent profile={ashesilogoblank} title={"Onedrive Library"} descr={"View team one drive folder for shared project files"} shared_link={"#"} />, <AppsContent profile={ashesilogoblank} title={"Onedrive Library"} descr={"View team one drive folder for shared project files"} shared_link={"#"} />];
 
+  const [PopForm, setPopForm] = useState(null);
+  const [PopUpOpen, setPopUpOpen] = useState(false);
+  const [PopUpFormHeader, setPopUpFormHeader] = useState("");
+  const navigate = useNavigate();
+
+  const onSelectItem = () => {
+    // Redirect to the project page after the component is rendered
+    navigate("/member_role");
+
+    // Your logic for selecting an item goes here
+  };
+
+  const OnPopUpClose = () => {
+    setPopUpOpen(false);
+  };
+
+  const handleAppPopUpForm = () => {
+    setPopUpOpen(true);
+    setPopUpFormHeader("Add App");
+    setPopForm(<AddApp handleAddApp={addApp} />);
+  };
+
+  const deleteApp = (checkedItems) => {
+    console.log("delete App");
+    console.log(`delete App: ${checkedItems}`);
+  };
+
+  const addApp = (App) => {
+    console.log("add App");
+    console.log(`add App: ${App}`);
+    setPopUpOpen(false);
+  };
+
+  const handleMilestonePopUpForm = () => {
+    setPopUpOpen(true);
+    setPopUpFormHeader("Add Milestone");
+    setPopForm(<AddMilestone handleAddMilestone={addMilestone} />);
+  };
+
+  const deleteMilestone = (checkedItems) => {
+    console.log("delete Milestone");
+    console.log(`delete Milestone: ${checkedItems}`);
+  };
+
+  const addMilestone = (Title, startDate, endDate, description, teamMember) => {
+    console.log("add Milestone");
+    console.log(`add Milestone: ${Title}`);
+    console.log(`add Milestone: ${startDate}`);
+    console.log(`add Milestone: ${endDate}`);
+    console.log(`add Milestone: ${description}`);
+    console.log(`add Milestone: ${teamMember}`);
+    setPopUpOpen(false);
+  };
+
+  const handleMemberRolePopUpForm = () => {
+    setPopUpOpen(true);
+    setPopUpFormHeader("Add Member Role");
+    setPopForm(<AddMemberRole handleAddMemberRole={addMemberRole} />);
+  };
+
+  const deleteMemberRole = (checkedItems) => {
+    console.log("delete MemberRole");
+    console.log(`delete MemberRole: ${checkedItems}`);
+  };
+
+  const addMemberRole = (MemberRole) => {
+    console.log("add MemberRole");
+    console.log(`add MemberRole: ${MemberRole}`);
+    setPopUpOpen(false);
+  };
+
   const appsElement = (
     <AppsContent
       profile={ashesilogoblank}
@@ -248,6 +323,12 @@ const ProjectPage = () => {
 
   return (
     <div>
+      <PopUpForm
+        isOpen={PopUpOpen}
+        title={PopUpFormHeader}
+        PopUpForm={PopForm}
+        onClose={OnPopUpClose}
+      />
       <Header
         Page={
           <HorizontalList
@@ -299,28 +380,35 @@ const ProjectPage = () => {
                     Progress={24}
                     banner={ashesibanner}
                   />,
-                  <ListCard
+                  <ModListCard
                     items={appsContent}
                     title={"Apps"}
                     NoItemMessage={"You have no Apps"}
+                    handleAddOperation={addApp}
+                    handleDeleteOperation={deleteApp}
+                    handleAddIconClick={handleAppPopUpForm}
                   />,
-                  <ListCard
+                  <ModListCard
                     items={allMilestoneTasks}
-                    title={"Milestones"}
+                    title={"Milestone"}
                     NoItemMessage={"You have no milestones"}
-                  />
-
-
-                  ,
+                    handleAddOperation={addMilestone}
+                    handleDeleteOperation={deleteMilestone}
+                    handleAddIconClick={handleMilestonePopUpForm}
+                  />,
                   <ListCard
                     items={teamMembers.map(member => member.user)}
                     title={"Team"}
                     NoItemMessage={"You have no Tasks"}
                   />,
-                  <ListCard
+                  <ModListCard
                     items={teamroles}
                     title={"Roles"}
                     NoItemMessage={"No team roles defined"}
+                    handleAddOperation={addMemberRole}
+                    handleDeleteOperation={deleteMemberRole}
+                    handleAddIconClick={handleMemberRolePopUpForm}
+                    onSelectItem={onSelectItem}
                   />,
                 ]}
               />,

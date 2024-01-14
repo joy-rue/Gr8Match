@@ -9,7 +9,7 @@ import Cookies from "js-cookie";
 const ProtectedHome = ({ token }) => {
   const navigate = useNavigate();
 
-  return <HomePage/>; // Render HomePage if authorized
+  return <HomePage />; // Render HomePage if authorized
 };
 
 const Login = (props) => {
@@ -68,65 +68,122 @@ Cookies.set("refresh", refresh, { expires: 7 });
       <Route
         path="/"
         element={
-          <div style={{
-            position: "relative",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            height: "100vh",
-          }}>
-            <img src={ashesicampus} alt="Ashesi Campus" style={{ width: "100%" }} />
-            <div className="auth-form-container" style={{
-              position: "absolute",
-              padding: "20px",
-              width: "400px",
-              background: "rgba(255, 255, 255, 0.636)",
-              borderRadius: "10px",
-              textAlign: "center",
-            }}>
-              <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-                <img src={ashesilogo} alt="Ashesi Logo" style={{
-                  width: "50%",
-                  margin: "20px",
-                }} />
-                <h4 style={{ marginBottom: "30px", textAlign: "left" }}>Login</h4>
+          <div
+            style={{
+              position: "relative",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              height: "100vh",
+            }}
+          >
+            <img
+              src={ashesicampus}
+              alt="Ashesi Campus"
+              style={{ width: "100%" }}
+            />
+            <div
+              className="auth-form-container"
+              style={{
+                position: "absolute",
+                padding: "20px",
+                width: "450px",
+                background: "rgba(255, 255, 255, 0.636)",
+                borderRadius: "10px",
+                textAlign: "center",
+              }}
+            >
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                }}
+              >
+                <img
+                  src={ashesilogo}
+                  alt="Ashesi Logo"
+                  style={{
+                    width: "50%",
+                    margin: "20px",
+                  }}
+                />
+                <h3 style={{ marginBottom: "30px", width: "350px" }}>
+                  Ashesi Research Management Resource
+                </h3>
               </div>
-              <form className="login-form" onSubmit={handleSubmit} style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "left",
-              }}>
+
+              <form
+                className="login-form"
+                onSubmit={handleSubmit}
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "left",
+                }}
+              >
                 <label htmlFor="email" style={{ textAlign: "left" }}>
                   Email
                 </label>
-                <input value={email} onChange={(e) => setEmail(e.target.value)} type="email" id="email" name="email" style={{
-                  marginBottom: "10px",
-                }} />
+                <input
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  type="email"
+                  id="email"
+                  name="email"
+                  style={{
+                    border: "none",
+                    borderRadius: "5px",
+                    borderBottom: "2px solid #AD3537",
+                    outline: "none", // Optional: Remove the input focus border
+                    marginBottom: "30px",
+                    padding: "5px", // Optional: Add some padding
+                  }}
+                />
                 <label htmlFor="password" style={{ textAlign: "left" }}>
                   Password
                 </label>
-                <input value={pass} onChange={(e) => setPass(e.target.value)} type="password" id="password" name="password" style={{
-                  marginBottom: "10px",
-                }} />
+                <input
+                  value={pass}
+                  onChange={(e) => setPass(e.target.value)}
+                  type="password"
+                  id="password"
+                  name="password"
+                  style={{
+                    border: "none",
+                    borderRadius: "5px",
+                    borderBottom: "2px solid #AD3537",
+                    outline: "none", // Optional: Remove the input focus border
+                    marginBottom: "30px",
+                    padding: "5px", // Optional: Add some padding
+                  }}
+                />
 
-                <button type="submit" onClick={handleSubmit} style={{
-                  marginTop: "20px",
-                  width: "30%",
-                  color: "white",
-                  background: "#AD3537",
-                  borderRadius: "5px",
-                  borderColor: "#AD3537",
-                  marginLeft: "35%",
-                }}>
+                <button
+                  type="submit"
+                  onClick={handleSubmit}
+                  style={{
+                    marginTop: "20px",
+                    width: "30%",
+                    color: "white",
+                    background: "#AD3537",
+                    borderRadius: "5px",
+                    borderColor: "#AD3537",
+                    marginLeft: "35%",
+                  }}
+                >
                   Login
                 </button>
-
               </form>
-              <div className="link-btn" onClick={() => props.onFormSwitch("login")} style={{
-                marginTop: "20px",
-                marginBottom: "20px",
-                textAlign: "center", // Centered the text
-              }}>
+              <div
+                className="link-btn"
+                onClick={() => props.onFormSwitch("login")}
+                style={{
+                  marginTop: "20px",
+                  marginBottom: "20px",
+                  textAlign: "center", // Centered the text
+                }}
+              >
                 Don't have an account? Contact your administrator.
               
               </div>
@@ -134,12 +191,18 @@ Cookies.set("refresh", refresh, { expires: 7 });
           </div>
         }
       />
-      <Route path="/" element={<ProtectedHome navigate={navigate} token={Cookies.get()} />} />
+      <Route
+        path="/"
+        element={
+          <ProtectedHome navigate={navigate} token={Cookies.get()} />
+        }
+      />
     </Routes>
   );
 };
 
 export default Login;
+
 
 
 // "email": "mercy.chimezie@ashesi.edu.gh",

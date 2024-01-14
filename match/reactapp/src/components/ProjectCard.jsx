@@ -16,7 +16,7 @@ const ProjectCard = ({project_key, title, progress, milestone, dueDate, timeleft
       style={{
         textDecoration: "none" /* Remove underline */,
         color: "inherit",
-        fontWeight:"inherit",
+        fontWeight: "inherit",
       }}
     >
       <div
@@ -56,17 +56,21 @@ const ProjectCard = ({project_key, title, progress, milestone, dueDate, timeleft
                 role={
                   <ProgressBar
                     title={
-                      <HorizontalList
-                        spacing={10}
-                        items={[
-                          <div style={{ fontSize: "14px", fontWeight: "600" }}>
-                            {"Progress : "}
-                          </div>,
-                          <div
-                            style={{ fontSize: "14px" }}
-                          >{`${progress}% complete`}</div>,
-                        ]}
-                      />
+                      <div style={{marginBottom:"7px"}}>
+                        <HorizontalList
+                          spacing={10}
+                          items={[
+                            <div
+                              style={{ fontSize: "14px", fontWeight: "600" }}
+                            >
+                              {"Progress : "}
+                            </div>,
+                            <div
+                              style={{ fontSize: "14px" }}
+                            >{`${progress}% complete`}</div>,
+                          ]}
+                        />
+                      </div>
                     }
                     percentage={progress}
                     //  date={Date}
