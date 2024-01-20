@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 const TaskContent = ({ title, dueDate, dateCompleted, completed }) => {
   return (
     <Link
-      to="/ratask"
+      to="/task"
       style={{
         textDecoration: "none" /* Remove underline */,
         color: "inherit",

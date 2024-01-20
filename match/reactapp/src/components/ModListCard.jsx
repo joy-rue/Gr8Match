@@ -11,9 +11,9 @@ const ModListCard = ({
   handleDeleteOperation,
   handleAddIconClick,
   handleDeleteIconClick,
+  footer,
 }) => {
   const [check, setCheck] = useState(false);
-  const [isViewAll, setIsViewAll] = useState(false);
   const [action, setAction] = useState("default");
 
   const submitRef = useRef(null);
@@ -70,32 +70,16 @@ const ModListCard = ({
     }
   };
 
-  const ViewAll = () => {
-    setIsViewAll(!isViewAll);
-  };
-
   return (
     <div>
       <ListCard
         items={items}
-        isViewAll={isViewAll}
         onSelectItem={onSelectItem}
         showCheckbox={check}
         submitOperation={handleSubmitOperation}
         ref={submitRef}
         NoItemMessage={NoItemMessage}
-        footer={
-          <div
-            style={{ color: "#0077B5", fontWeight: "500", cursor: "pointer" }}
-            onClick={() => {
-              ViewAll();
-            }}
-          >
-            {isViewAll
-              ? "View Less"
-              : `View All (${Math.max(items.length - 7, 0)} more)`}
-          </div>
-        }
+        footer={footer}
         title={
           <div
             style={{

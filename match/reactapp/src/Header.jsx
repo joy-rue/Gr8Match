@@ -35,6 +35,7 @@ const Header = ({ Page }, PopUpisOpen, PopUpFormContent, PopUptitle) => {
       </div>
 
       <HorizontalList
+        spacing={0}
         items={[
           <Sidemenu key="sidemenu" />,
 

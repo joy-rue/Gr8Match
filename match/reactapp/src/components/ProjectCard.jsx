@@ -98,6 +98,7 @@ const ProjectCard = ({ title, progress, milestone, dueDate, timeleft }) => {
                       overflow: "hidden",
                       whiteSpace: "nowrap",
                       textOverflow: "ellipsis",
+                      width:"200px"
                     }}
                   >
                     {milestone.length > 20

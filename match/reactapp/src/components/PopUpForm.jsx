@@ -61,15 +61,15 @@ const PopUpForm = ({ isOpen, PopUpForm, title, onClose }) => {
               onClick={closePopUp}
               alt=""
               style={{
-                width: "35px",
-                height: "35px",
+                width: "30px",
+                height: "30px",
                 marginRight: "30px",
                 cursor: "pointer",
                 overflow: "visible",
               }}
             />
           </div>
-          {PopUpForm}
+          <div style={{ maxHeight: "70vh", overflowY: "auto" }}>{PopUpForm}</div>
         </div>
       )}
     </div>

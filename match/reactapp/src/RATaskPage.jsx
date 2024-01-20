@@ -452,6 +452,10 @@ const RATaskPage = () => {
                     </div>,
                   ]}
                 />
+              </div>,<div
+                style={{ fontWeight: "350", fontSize: "20px", width: "150px", color:"black" }}
+              >
+                Jan 11, 2023
               </div>,
               <div
                 style={{

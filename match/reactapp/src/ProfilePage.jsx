@@ -26,7 +26,6 @@ import ProfileTab from "./components/ProfileTab";
 import { Link } from "react-router-dom";
 import React, { useState } from "react";
 import AddWorkExperience from "./components/AddWorkExperience";
-import ModListCard from "./components/ModListCard";
 import PopUpForm from "./components/PopUpForm";
 import AddEducation from "./components/AddEducation";
 import AddSkill from "./components/AddSkill";
@@ -36,99 +35,6 @@ const ProfilePage = () => {
   const [PopForm, setPopForm] = useState(null);
   const [PopUpOpen, setPopUpOpen] = useState(false);
   const [PopUpFormHeader, setPopUpFormHeader] = useState("");
-
-
-    const handleSkillPopUpForm = () => {
-      setPopUpOpen(true);
-      setPopUpFormHeader("Add Skill");
-      setPopForm(<AddSkill handleAddSkill={addSkill} />);
-    };
-
-    const deleteSkill = (checkedItems) => {
-      console.log("delete Skill");
-      console.log(`delete Skill: ${checkedItems}`);
-    };
-
-    const addSkill = (Skill) => {
-      console.log("add Skill");
-      console.log(`add Skill: ${Skill}`);
-      setPopUpOpen(false);
-    };
-
-  
-      const handleInterestPopUpForm = () => {
-        setPopUpOpen(true);
-        setPopUpFormHeader("Add Interest");
-        setPopForm(<AddInterest handleAddInterest={addInterest} />);
-      };
-
-      const deleteInterest = (checkedItems) => {
-        console.log("delete Interest");
-        console.log(`delete Interest: ${checkedItems}`);
-      };
-
-      const addInterest = (Interest) => {
-        console.log("add Interest");
-        console.log(`add Interest: ${Interest}`);
-        setPopUpOpen(false);
-      };
-
-
-
-    const handleEducationPopUpForm = () => {
-      setPopUpOpen(true);
-      setPopUpFormHeader("Add Education");
-      setPopForm(<AddEducation handleAddEducation={addEducation} />);
-    };
-
-    const deleteEducation = (checkedItems) => {
-      console.log("delete Education");
-      console.log(`delete Education: ${checkedItems}`);
-    };
-
-    const addEducation = (Institution, dateAwarded, Certification) => {
-      console.log("add Education");
-      console.log(`Institution: ${Institution}`);
-      console.log(`dateAwarded: ${dateAwarded}`);
-      console.log(`Certification: ${Certification}`);
-      setPopUpOpen(false);
-    };
-
-
-  const OnPopUpClose = () => {
-    setPopUpOpen(false);
-  };
-
-  const handleWorkExperiencePopUpForm = () => {
-    setPopUpOpen(true);
-    setPopUpFormHeader("Add Work Experience");
-    setPopForm(
-      <AddWorkExperience handleAddWorkExperience={addWorkExperience} />
-    );
-  };
-
-  const deleteWorkExperience = (checkedItems) => {
-    console.log("delete WorkExperience");
-    console.log(`delete WorkExperience: ${checkedItems}`);
-  };
-
-  const addWorkExperience = (
-    WorkExperience,
-    startDate,
-    endDate,
-    description,
-    teamMember,
-    workhours
-  ) => {
-    console.log("add WorkExperience");
-    console.log(`WorkExperience: ${WorkExperience}`);
-    console.log(`startDate: ${startDate}`);
-    console.log(`endDate: ${endDate}`);
-    console.log(`description: ${description}`);
-    console.log(`Team: ${teamMember}`);
-    console.log(`Workhours: ${workhours}`);
-    setPopUpOpen(false);
-  };
 
   const appsElement = (
     <AppsContent
@@ -252,12 +158,6 @@ const ProfilePage = () => {
 
   return (
     <div>
-      <PopUpForm
-        isOpen={PopUpOpen}
-        title={PopUpFormHeader}
-        PopUpForm={PopForm}
-        onClose={OnPopUpClose}
-      />
       <Header
         Page={
           <HorizontalList
@@ -281,60 +181,30 @@ const ProfilePage = () => {
                     profile={myprofile}
                     Date={"12 Aug 2023"}
                     title={
-                      <div
-                        style={{
-                          display: "flex",
-                          justifyContent: "space-between",
-                        }}
-                      >
-                        <div>{"Kelvin Kofi Doe"}</div>
-                        <Link to="/editprofile">
-                          <img
-                            src={editIcon}
-                            alt=""
-                            style={{
-                              width: "28px",
-                              marginRight: "20px",
-                              transform: "translateY(-10px)",
-                            }}
-                          />
-                        </Link>
-                      </div>
+                      <div style={{ width: "90%" }}>{"Kelvin Kofi Doe"}</div>
                     }
                     banner={ashesibanner}
                   />,
 
-                  <ModListCard
+                  <ListCard
                     items={WorkExperiencecontent}
                     title={"Work Experience"}
                     NoItemMessage={"You have no work experience"}
-                    handleAddOperation={addWorkExperience}
-                    handleDeleteOperation={deleteWorkExperience}
-                    handleAddIconClick={handleWorkExperiencePopUpForm}
                   />,
-                  <ModListCard
+                  <ListCard
                     items={EducationContent}
                     title={"Education"}
                     NoItemMessage={"You have no education"}
-                    handleAddOperation={addEducation}
-                    handleDeleteOperation={deleteEducation}
-                    handleAddIconClick={handleEducationPopUpForm}
                   />,
-                  <ModListCard
+                  <ListCard
                     items={[]}
                     title={"Skill"}
                     NoItemMessage={"You have no skill"}
-                    handleAddOperation={addSkill}
-                    handleDeleteOperation={deleteSkill}
-                    handleAddIconClick={handleSkillPopUpForm}
                   />,
-                  <ModListCard
+                  <ListCard
                     items={[]}
                     title={"Interests"}
                     NoItemMessage={"You have no interests"}
-                    handleAddOperation={addInterest}
-                    handleDeleteOperation={deleteInterest}
-                    handleAddIconClick={handleInterestPopUpForm}
                   />,
                 ]}
               />,
@@ -353,11 +223,7 @@ const ProfilePage = () => {
                       borderRadius: "10px",
                     }}
                   />,
-                  <SubListCard
-                    items={notificationcontent}
-                    title={"Notifications (3)"}
-                    NoItemMessage={"You have no notifications"}
-                  />,
+
                   <SubListCard
                     items={teammembers}
                     title={
@@ -373,11 +239,11 @@ const ProfilePage = () => {
                     }
                     NoItemMessage={"No profiles found"}
                   />,
-                  //   <SubListCard
-                  //     items={enrollmentlist}
-                  //     title={"Team Enrollment Requests"}
-                  //     NoItemMessage={"No enrollment requests placed"}
-                  //   />,
+                  <SubListCard
+                    items={notificationcontent}
+                    title={"Notifications (3)"}
+                    NoItemMessage={"You have no notifications"}
+                  />,
                 ]}
               />,
             ]}

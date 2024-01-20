@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import ashesicampus from "./components/icons/ashesicampus.jpg";
 import ashesilogo from "./components/icons/ashesilogo.png";
-import { useNavigate, Routes, Route } from "react-router-dom";
-import HomePage from "./HomePage"; // Import HomePage
+import { useNavigate, Routes, Route, Link } from "react-router-dom";
+import HomePage from "./RFHomePage"; // Import HomePage
 import Cookies from "js-cookie";
 
 const ProtectedHome = ({ token }) => {
@@ -34,25 +34,26 @@ const Login = (props) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    navigate("/home");
 
-    try {
-      const response = await axios.post(
-        "http://127.0.0.1:8000/accounts/login/",
-        {
-          email,
-          password: pass,
-        }
-      );
-      // Extract token from response data
-      Cookies.set("token", response.data.token, {
-        secure: true,
-        httpOnly: true,
-      });
-      navigate("/");
-    } catch (error) {
-      console.error("Error:", error.message);
-      // Implement proper error handling here
-    }
+    // try {
+    //   const response = await axios.post(
+    //     "http://127.0.0.1:8000/accounts/login/",
+    //     {
+    //       email,
+    //       password: pass,
+    //     }
+    //   );
+    //   // Extract token from response data
+    //   Cookies.set("token", response.data.token, {
+    //     secure: true,
+    //     httpOnly: true,
+    //   });
+    //   navigate("/");
+    // } catch (error) {
+    //   console.error("Error:", error.message);
+    //   // Implement proper error handling here
+    // }
   };
 
   return (
@@ -78,9 +79,9 @@ const Login = (props) => {
               className="auth-form-container"
               style={{
                 position: "absolute",
-                padding: "20px",
-                width: "450px",
-                background: "rgba(255, 255, 255, 0.636)",
+                padding: "30px",
+                width: "500px",
+                background: "rgba(255, 255, 255, 0.8)",
                 borderRadius: "10px",
                 textAlign: "center",
               }}
@@ -96,7 +97,7 @@ const Login = (props) => {
                   src={ashesilogo}
                   alt="Ashesi Logo"
                   style={{
-                    width: "50%",
+                    width: "220px",
                     margin: "20px",
                   }}
                 />
@@ -167,6 +168,7 @@ const Login = (props) => {
                   Login
                 </button>
               </form>
+
               <div
                 className="link-btn"
                 onClick={() => props.onFormSwitch("login")}
@@ -176,7 +178,20 @@ const Login = (props) => {
                   textAlign: "center", // Centered the text
                 }}
               >
-                Don't have an account? Register here.
+                Don't have an account?
+                <span>
+                  <Link
+                    to="/register"
+                    style={{
+                      marginLeft: "10px",
+                      textDecoration: "none" /* Remove underline */,
+                      color: "#0A66C2",
+                      fontWeight: "inherit",
+                    }}
+                  >
+                    Register here.
+                  </Link>
+                </span>
               </div>
             </div>
           </div>

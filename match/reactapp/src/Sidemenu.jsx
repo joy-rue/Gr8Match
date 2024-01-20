@@ -22,7 +22,7 @@ const Sidemenu = () => {
           flexDirection: "column",
           width: "100px",
           backgroundColor: "rgba(255, 255, 255, 0)",
-          zIndex: "1003",
+          // zIndex: "1003",
         },
       }}
     >
@@ -30,7 +30,7 @@ const Sidemenu = () => {
         style={{
           marginTop: "15px",
           backgroundColor: "white",
-          height: "82vh",
+          height: "610px",
           display: "flex",
           justifyContent: "space-evenly",
           flexDirection: "column",
@@ -41,7 +41,7 @@ const Sidemenu = () => {
         <Menu>
           <MenuItem
             style={{ paddingBottom: "40px", paddingTop: "50px" }}
-            component={<Link to="/" />}
+            component={<Link to="/home" />}
           >
             <NavOption Icon={home} title={"Home"} />
           </MenuItem>
@@ -71,7 +71,7 @@ const Sidemenu = () => {
           </MenuItem>
           <MenuItem
             style={{ paddingBottom: "40px", paddingTop: "50px" }}
-            component={<Link to="/login" />}
+            component={<Link to="/" />}
           >
             <NavOption Icon={logout} title={"Logout"} />
           </MenuItem>

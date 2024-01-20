@@ -87,9 +87,7 @@ const RFMilestonePage = () => {
                         }}
                       >
                         <div style={{ maxWidth: "90%" }}>
-                          {
-                            "Ghana Economic Index Study for people with special abilities "
-                          }
+                          {"Participant Sampling "}
                         </div>
                         <Link to="/editmilestone">
                           <img
@@ -110,7 +108,7 @@ const RFMilestonePage = () => {
                   <UpcomingTask />,
 
                   <ApproveTask />,
-                  <FacultyCompletedTask/>,
+                  <FacultyCompletedTask />,
                 ]}
               />,
 
@@ -132,12 +130,6 @@ const RFMilestonePage = () => {
                     items={notificationcontent}
                     title={"Notifications (3)"}
                     NoItemMessage={"You have no notifications"}
-                  />,
-                  <SubListCard
-                    items={commentcontent}
-                    title={"Comments"}
-                    NoItemMessage={"No comments have been made"}
-                    footer={<Textbox />}
                   />,
                 ]}
               />,

@@ -16,39 +16,27 @@ const SearchBox = ({ onSearch }) => {
   return (
     <div
       style={{
-        width: "20vw",
+        width: "310px",
         position: "relative",
         backgroundColor: "#EEF3F8",
-        borderRadius: "10px",
+        borderRadius: "5px",
+        borderBottom: "3px solid #DBDCDD",
       }}
     >
-      <HorizontalList
-        items={[
-          <img
-            src={searchIcon}
-            alt="Search"
-            style={{
-              width: "15px",
-              // marginTop: "6px",
-              margin: "10px",
-            }}
-            onClick={handleSearch}
-          />,
-          <input
-            type="text"
-            placeholder="Search"
-            value={query}
-            onChange={handleInputChange}
-            style={{
-              outline: "none",
-              fontSize: "18px",
-              paddingRight: "30px",
-              borderColor: "transparent", // Use "transparent" instead of "none"
-              backgroundColor: "transparent", // Use "transparent" instead of "none"
-              color: "#5F6163",
-            }}
-          />,
-        ]}
+      <input
+        type="text"
+        placeholder="Search"
+        value={query}
+        onChange={handleInputChange}
+        style={{
+          outline: "none",
+          fontSize: "15px",
+          padding: "5px",
+          paddingLeft: "15px",
+          borderColor: "transparent", // Use "transparent" instead of "none"
+          backgroundColor: "transparent", // Use "transparent" instead of "none"
+          color: "#5F6163",
+        }}
       />
     </div>
   );

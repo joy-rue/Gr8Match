@@ -15,7 +15,7 @@ const FacultyCompletedTask = () => {
   const submitRef = useRef(null);
   const Task = (
     <TaskContent
-      title={"Create research Survey You have no Tasks You have no Tasks"}
+      title={"Create research Survey Lorem ipsum dolor sit amet"}
       dueDate={"22 Aug 2023"}
       dateCompleted={"1 Dec 2023"}
       completed={true}

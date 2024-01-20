@@ -7,7 +7,7 @@ import sidebanner from "./components/icons/sidebanner.png";
 import Notification from "./components/Notification";
 import SubListCard from "./components/SubListCard";
 import ApplytoProject from "./components/ApplytoProject";
-import ashesilogoblank from "./components/icons/ashesiblanklogo.png"
+import ashesilogoblank from "./components/icons/ashesiblanklogo.png";
 import Cookies from "js-cookie";
 import { useNavigate, Routes, Route } from "react-router-dom";
 
@@ -28,25 +28,33 @@ const ExplorePage = () => {
     notificationElement,
   ];
 
-      const people = ["Clark Kent", "Superman", "Naruto Uzumaki"];
-      const descr =
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed dapibus eros eu vehicula interdum. Cras nec ultricies massa. Curabitur rutrum, diam id consequat consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed dapibus eros eu vehicula interdum. Cras nec ultricies massa. Curabitur rutrum, diam id consequat consequat";
+  const people = ["Clark Kent", "Superman", "Naruto Uzumaki"];
+  const descr =
+    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed dapibus eros eu vehicula interdum. Cras nec ultricies massa. Curabitur rutrum, diam id consequat consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed dapibus eros eu vehicula interdum. Cras nec ultricies massa. Curabitur rutrum, diam id consequat consequat";
 
-      const milestoneElement = (
-        <ApplytoProject
-          profile={ashesilogoblank}
-          title={"Exploring Participant Sampling In Berekuso"}
-          dueDate={"20th Aug 2023 - 23 Jun 2024"}
-          timeleft={"2wks"}
-          People={people}
-          description={descr}
-          workhours={40}
-        />
-      );
+  const milestoneElement = (
+    <ApplytoProject
+      profile={ashesilogoblank}
+      title={
+        <div>
+          <div>{"Research Associate"}</div>
+          <div
+            style={{ maxWidth: "90%", fontSize: "20px", fontWeight: "normal" }}
+          >
+            {"Ghana Economic Index Study for people with special abilities"}
+          </div>
+        </div>
+      }
+      dueDate={"20th Aug 2023 - 23 Jun 2024"}
+      timeleft={"2wks"}
+      People={people}
+      description={descr}
+      workhours={40}
+    />
+  );
 
-      const content = [milestoneElement, milestoneElement, milestoneElement];
-    
-    
+  const content = [milestoneElement, milestoneElement, milestoneElement];
+
   return (
     <div>
       <Header

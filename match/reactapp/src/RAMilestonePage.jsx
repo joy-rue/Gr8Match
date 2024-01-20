@@ -78,31 +78,12 @@ const RAMilestonePage = () => {
                     // profile={groupprofile}
                     Date={"12 Aug 2023"}
                     title={
-                      <div
-                        style={{
-                          display: "flex",
-                          justifyContent: "space-between",
-                        }}
-                      >
-                        <div style={{ maxWidth: "90%" }}>
-                          {
-                            "Ghana Economic Index Study for people with special abilities "
-                          }
-                        </div>
-                        <Link to="/editproject">
-                          <img
-                            src={editIcon}
-                            alt=""
-                            style={{
-                              width: "28px",
-                              marginRight: "20px",
-                              transform: "translateY(-5px)",
-                            }}
-                          />
-                        </Link>
+                      <div style={{ maxWidth: "90%" }}>
+                        {
+                          "Ghana Economic Index Study for people with special abilities "
+                        }
                       </div>
                     }
-                    // Progress={24}
                     banner={ashesibanner}
                   />,
                   <UpcomingTask />,

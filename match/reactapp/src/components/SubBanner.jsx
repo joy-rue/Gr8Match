@@ -15,6 +15,7 @@ const SubBanner = () => {
           paddingRight: "1.2vw",
           backgroundColor: "white",
           borderRadius: "10px",
+          // height: "300px",
         }}
       />
     </div>

@@ -14,7 +14,7 @@ const MilestoneContent = ({
 }) => {
   return (
     <Link
-      to="/rfmilestone"
+      to="/milestone"
       style={{
         textDecoration: "none" /* Remove underline */,
         color: "inherit",
