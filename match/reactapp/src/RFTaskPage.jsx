@@ -1,7 +1,7 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import Header from "./Header";
+import Header from "./components/Header";
 import VerticalList from "./components/VerticalList";
 import ProjectHeaderContent from "./components/ProjectHeaderContent";
 import Notification from "./components/Notification";

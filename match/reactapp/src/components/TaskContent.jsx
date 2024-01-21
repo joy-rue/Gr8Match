@@ -5,14 +5,7 @@ import { Link } from "react-router-dom";
 
 const TaskContent = ({ title, dueDate, dateCompleted, completed }) => {
   return (
-    <Link
-      to="/task"
-      style={{
-        textDecoration: "none" /* Remove underline */,
-        color: "inherit",
-        fontWeight: "inherit",
-      }}
-    >
+
       <div>
         <div
           style={{
@@ -32,7 +25,6 @@ const TaskContent = ({ title, dueDate, dateCompleted, completed }) => {
           </div>
         </div>
       </div>
-    </Link>
   );
 };
 

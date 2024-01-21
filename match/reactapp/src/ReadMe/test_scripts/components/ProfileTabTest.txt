@@ -1,0 +1,18 @@
+import "bootstrap/dist/css/bootstrap.min.css";
+import ListCard from "./components/ListCard";
+import ProfileTab from "./components/ProfileTab";
+import ashesilogoblank from "./components/icons/ashesiblanklogo.png";
+
+const Test = () => {
+  return (
+    <div className="Test__body">
+      <ProfileTab
+        Name={"Naruto Uzumaki"}
+        role={"Research Assistant"}
+        profile={ashesilogoblank}
+      />
+    </div>
+  );
+};
+
+export default Test;

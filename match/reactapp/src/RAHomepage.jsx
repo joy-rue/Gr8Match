@@ -1,43 +1,15 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import HorizontalList from "./components/HorizontalList";
 import VerticalList from "./components/VerticalList";
 import HomeHeader from "./components/HomeHeader";
-import Header from "./Header";
+import Header from "./components/Header";
 import SubListCard from "./components/SubListCard";
-import addicon from "./components/icons/addicon.png";
 import ProjectCardList from "./components/ProjectCardList";
 import Notification from "./components/Notification";
-import { Link } from "react-router-dom";
-import NotificationsList from "./components/NotificationsList";
 import SubBanner from "./components/SubBanner";
 import ProjectCard from "./components/ProjectCard";
-import { useAuth } from "./AuthContext";
-import { AuthProvider } from "./AuthContext";
-import { useNavigate } from "react-router-dom";
-import sidebanner from "./components/icons/sidebanner.png";
 
 const RAHomePage = () => {
-  const [projects, setData] = useState([]);
-
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const response = await fetch(
-  //         "http://127.0.0.1:8000/ra/get_all_projects/"
-  //       );
-  //       if (response.ok) {
-  //         const responseData = await response.json();
-  //         console.log(responseData); // Corrected: Use console.log instead of console
-  //         setData(JSON.parse(responseData.projects));
-  //       }
-  //     } catch (error) {
-  //       console.error("Error fetching data:", error);
-  //     }
-  //   };
-
-  //   fetchData();
-  // }, []);
 
   const notificationElement = (
     <Notification
@@ -52,8 +24,7 @@ const RAHomePage = () => {
 
   const notificationContent = Array(3).fill(notificationElement);
 
-
-  const [dataList, setDataList] = useState([
+  const dataList = ([
     {
       id: 1,
       title: "Ghana Economic Index Study for people with special abilities",
@@ -67,7 +38,6 @@ const RAHomePage = () => {
     },
   ]);
 
-  dataList;
 
   return (
     <div>

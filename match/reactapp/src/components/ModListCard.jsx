@@ -45,12 +45,10 @@ const ModListCard = ({
   // handlePrintCheckedItems calls handleSubmitOperation
   const deleteListItem = () => {
     setAction("delete");
-    console.log("delete Responsibility");
     submitRef.current.handlePrintCheckedItems("delete");
   };
 
   const addListItem = () => {
-    // console.log("add Responsibility");
     setAction("add");
     submitRef.current.handlePrintCheckedItems();
   };

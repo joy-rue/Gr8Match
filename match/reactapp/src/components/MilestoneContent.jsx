@@ -13,14 +13,7 @@ const MilestoneContent = ({
   description,
 }) => {
   return (
-    <Link
-      to="/milestone"
-      style={{
-        textDecoration: "none" /* Remove underline */,
-        color: "inherit",
-        fontWeight: "inherit",
-      }}
-    >
+
       <div style={{ maxWidth: "50vw", cursor: "pointer" }}>
         <HorizontalList
           spacing={10}
@@ -69,7 +62,6 @@ const MilestoneContent = ({
           ]}
         />
       </div>
-    </Link>
   );
 };
 

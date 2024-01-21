@@ -41,6 +41,7 @@ const ApplytoProject = ({
           padding: "20px",
           borderRadius: "15px",
         }}
+        className="card"
       >
         {/* Buttons for Pending and Applied */}
         {/* Main content */}

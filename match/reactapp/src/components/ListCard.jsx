@@ -53,6 +53,7 @@ const ListCard = forwardRef(
 
     useImperativeHandle(ref, () => ({
       handlePrintCheckedItems,
+      handleCheckboxChange,
     }));
 
     // Determine the number of items to display based on isViewAll
@@ -81,7 +82,7 @@ const ListCard = forwardRef(
           className="card"
           style={{
             width: "60vw",
-            marginLeft: "0px",
+            margin: "0px",
             paddingLeft: "30px",
             paddingRight: "30px",
           }}
@@ -114,8 +115,8 @@ const ListCard = forwardRef(
                 className="list-group-item"
                 key={index}
                 onClick={() => {
-                  onSelectItem?.(item);
-                  showCheckbox && handleCheckboxChange(index);
+                  (!showCheckbox && onSelectItem?.(item)) ||
+                    (showCheckbox && handleCheckboxChange(index));
                 }}
                 style={{
                   padding: "10px",

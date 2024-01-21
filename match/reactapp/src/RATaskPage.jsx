@@ -1,6 +1,6 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import React, { useState, useEffect, useRef } from "react";
-import Header from "./Header";
+import Header from "./components/Header";
 import VerticalList from "./components/VerticalList";
 import Notification from "./components/Notification";
 import HorizontalList from "./components/HorizontalList";
@@ -34,9 +34,7 @@ const RATaskPage = () => {
   const [PopUpOpen, setPopUpOpen] = useState(false);
   const [PopUpFormHeader, setPopUpFormHeader] = useState("");
   const commentUser = "User2";
-    const chatboxRef = useRef(null);
-
-
+  const chatboxRef = useRef(null);
 
   const comments = [
     {
@@ -88,23 +86,19 @@ const RATaskPage = () => {
       time: "11:30 AM",
       message: "This comment is in months.",
     },
-  ]; 
-  
-    useEffect(() => {
-      // Scroll to the bottom when the component mounts
-      scrollToBottom();
-    }, []);
+  ];
 
-    const scrollToBottom = () => {
-      if (chatboxRef.current) {
-        chatboxRef.current.scrollIntoView({
-          behavior: "smooth",
-          block: "end",
-          inline: "nearest",
-        });
-      }
-    };
+  useEffect(() => {
+    // Scroll to the bottom when new comments are added
+    scrollToBottom();
+  }, [comments]);
 
+  const scrollToBottom = () => {
+    if (chatboxRef.current) {
+      const chatbox = chatboxRef.current;
+      chatbox.scrollTop = chatbox.scrollHeight;
+    }
+  };
 
   const notificationElement = (
     <Notification
@@ -452,8 +446,14 @@ const RATaskPage = () => {
                     </div>,
                   ]}
                 />
-              </div>,<div
-                style={{ fontWeight: "350", fontSize: "20px", width: "150px", color:"black" }}
+              </div>,
+              <div
+                style={{
+                  fontWeight: "350",
+                  fontSize: "20px",
+                  width: "150px",
+                  color: "black",
+                }}
               >
                 Jan 11, 2023
               </div>,

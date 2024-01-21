@@ -7,9 +7,9 @@ import cancela from "./icons/cancela.png";
 import cancelb from "./icons/cancelb.png";
 import cancelc from "./icons/cancelc.png";
 import ListCard from "./ListCard";
-import TaskContent from "./TaskContent";
+import { useNavigate } from "react-router-dom";
 
-const UpcomingTask = () => {
+const UpcomingTask = ({ items }) => {
   const [content, setContent] = useState(null);
   const [check, setCheck] = useState(false);
   const [mode, setMode] = useState("icons");
@@ -17,16 +17,7 @@ const UpcomingTask = () => {
   const [cancelIcon, setCancelIcon] = useState(cancela); // Set the default cancel icon
   const [action, setAction] = useState(null); // Set the default cancel icon
   const submitRef = useRef(null);
-  const Task = (
-    <TaskContent
-      title={"Create research Survey Lorem ipsum dolor sit amet"}
-      dueDate={"22 Aug 2023"}
-      dateCompleted={"1 Dec 2023"}
-      completed={true}
-    />
-  );
-
-  const items = [Task, Task, Task];
+  const navigate = useNavigate();
 
   const handleCheckboxChange = () => {
     setChecked(!isChecked);
@@ -131,8 +122,11 @@ const UpcomingTask = () => {
     }
   };
 
-
   const [isChecked, setChecked] = useState(false);
+
+  const viewTask = () => {
+    navigate("/task");
+  };
 
   const headerIcons = (
     <div>
@@ -195,7 +189,6 @@ const UpcomingTask = () => {
     </div>
   );
 
-
   return (
     <div>
       <ListCard
@@ -207,9 +200,7 @@ const UpcomingTask = () => {
               justifyContent: "space-between",
             }}
           >
-            <div style={{ maxWidth: "90%" }}>
-              {"Upcoming Tasks"}
-            </div>
+            <div style={{ maxWidth: "90%" }}>{"Upcoming Tasks"}</div>
             {headerIcons}
           </div>
         }
@@ -217,6 +208,7 @@ const UpcomingTask = () => {
         showCheckbox={check}
         submitOperation={handleSubmitOperation}
         ref={submitRef}
+        onSelectItem={viewTask}
       />
     </div>
   );

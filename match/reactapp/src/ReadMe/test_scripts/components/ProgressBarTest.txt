@@ -1,0 +1,21 @@
+import "bootstrap/dist/css/bootstrap.min.css";
+import ProgressBar from "./components/ProgressBar";
+
+const Test = () => {
+  return (
+    <div className="Test__body">
+      <ProgressBar
+        title={
+          <div style={{ fontSize: "18px", paddingBottom: "5px" }}>
+            <span style={{ fontWeight: "600" }}>Progress : </span>
+            {24}% complete
+          </div>
+        }
+        percentage={24}
+        date={"Jan 21, 2024"}
+      />
+    </div>
+  );
+};
+
+export default Test;

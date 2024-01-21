@@ -3,9 +3,9 @@ import HorizontalList from "./HorizontalList";
 import republishIcon from "./icons/republishIcon.png";
 import cancelb from "./icons/cancelb.png";
 import ListCard from "./ListCard";
-import TaskContent from "./TaskContent";
+import { useNavigate } from "react-router-dom";
 
-const FacultyCompletedTask = () => {
+const FacultyCompletedTask = ({ items }) => {
   const [content, setContent] = useState(null);
   const [check, setCheck] = useState(false);
   const [mode, setMode] = useState("icons");
@@ -13,16 +13,11 @@ const FacultyCompletedTask = () => {
   const [cancelIcon, setCancelIcon] = useState(cancelb); // Set the default cancel icon
   const [action, setAction] = useState(null); // Set the default cancel icon
   const submitRef = useRef(null);
-  const Task = (
-    <TaskContent
-      title={"Create research Survey Lorem ipsum dolor sit amet"}
-      dueDate={"22 Aug 2023"}
-      dateCompleted={"1 Dec 2023"}
-      completed={true}
-    />
-  );
+  const navigate = useNavigate();
 
-  const items = [Task, Task, Task];
+  const viewTask = () => {
+    navigate("/task");
+  };
 
   const handleSubmitOperation = (
     checkedItemsToPrint,
@@ -84,7 +79,7 @@ const FacultyCompletedTask = () => {
         <HorizontalList
           items={[
             <img
-              style={{ width: "20px", cursor: "pointer", marginRight: "10px", }}
+              style={{ width: "20px", cursor: "pointer", marginRight: "10px" }}
               src={cancelIcon}
               alt=""
               onClick={() => {
@@ -99,7 +94,7 @@ const FacultyCompletedTask = () => {
                   color: fontColor,
                   fontWeight: "500",
                   cursor: "pointer",
-                //   marginLeft: "-15px",
+                  //   marginLeft: "-15px",
                   marginRight: "30px",
                 }}
                 onClick={() => {
@@ -146,6 +141,7 @@ const FacultyCompletedTask = () => {
         showCheckbox={check}
         submitOperation={handleSubmitOperation}
         ref={submitRef}
+        onSelectItem={viewTask}
       />
     </div>
   );

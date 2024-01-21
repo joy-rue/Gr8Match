@@ -1,24 +1,37 @@
 import "bootstrap/dist/css/bootstrap.min.css";
-import AppsContent from "./components/AppsContent";
-import Header from "./Header";
+import Header from "./components/Header";
 import ListCard from "./components/ListCard";
-import ashesilogoblank from "./components/icons/ashesiblanklogo.png";
 import sidebanner from "./components/icons/sidebanner.png";
 import VerticalList from "./components/VerticalList";
 import ProjectHeaderContent from "./components/ProjectHeaderContent";
-import groupprofile from "./components/icons/groupprofile.jpg";
 import ashesibanner from "./components/icons/campusbanner.png";
 import HorizontalList from "./components/HorizontalList";
 import SubListCard from "./components/SubListCard";
 import Notification from "./components/Notification";
 import Textbox from "./components/Textbox";
-import { useNavigate, Routes, Route, Link } from "react-router-dom";
-import editIcon from "./components/icons/editIcon.png";
 import TaskContent from "./components/TaskContent";
 import UpcomingTask from "./components/UpcomingTask";
 import PendingTasks from "./components/PendingTasks";
+import { useNavigate } from "react-router-dom";
 
 const RAMilestonePage = () => {
+  const navigate = useNavigate();
+
+  const viewTask = () => {
+    navigate("/task");
+  };
+
+  const CompletedTask = (
+    <TaskContent
+      title={"Create research Survey Lorem ipsum dolor sit amet"}
+      dueDate={"22 Aug 2023"}
+      dateCompleted={"1 Dec 2023"}
+      completed={true}
+    />
+  );
+
+  const items = [CompletedTask, CompletedTask, CompletedTask];
+
   const notificationElement = (
     <Notification
       title={"Onedrive Library"}
@@ -86,13 +99,14 @@ const RAMilestonePage = () => {
                     }
                     banner={ashesibanner}
                   />,
-                  <UpcomingTask />,
+                  <UpcomingTask items={items} />,
 
-                  <PendingTasks />,
+                  <PendingTasks items={items} />,
                   <ListCard
                     items={content}
                     title={"Completed Tasks"}
                     NoItemMessage={"You have no Tasks"}
+                    onSelectItem={viewTask}
                   />,
                 ]}
               />,

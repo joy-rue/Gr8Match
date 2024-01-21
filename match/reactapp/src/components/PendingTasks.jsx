@@ -1,15 +1,12 @@
 import React, { useState, useRef } from "react";
 import HorizontalList from "./HorizontalList";
-import addIcon from "./icons/add_Icon.png";
 import withdrawIcon from "./icons/withdrawIcon.png";
-import submitIcon from "./icons/submitIcon.png";
 import cancela from "./icons/cancela.png";
-import cancelb from "./icons/cancelb.png";
 import cancelc from "./icons/cancelc.png";
 import ListCard from "./ListCard";
-import TaskContent from "./TaskContent";
+import { useNavigate } from "react-router-dom";
 
-const PendingTasks = () => {
+const PendingTasks = ({ items }) => {
   const [content, setContent] = useState(null);
   const [check, setCheck] = useState(false);
   const [mode, setMode] = useState("icons");
@@ -17,16 +14,11 @@ const PendingTasks = () => {
   const [cancelIcon, setCancelIcon] = useState(cancela); // Set the default cancel icon
   const [action, setAction] = useState(null); // Set the default cancel icon
   const submitRef = useRef(null);
-  const Task = (
-    <TaskContent
-      title={"Create research Survey You have no Tasks You have no Tasks"}
-      dueDate={"22 Aug 2023"}
-      dateCompleted={"1 Dec 2023"}
-      completed={true}
-    />
-  );
+  const navigate = useNavigate();
 
-  const items = [Task, Task, Task];
+  const viewTask = () => {
+    navigate("/task");
+  };
 
   const handleSubmitOperation = (
     checkedItemsToPrint,
@@ -132,10 +124,6 @@ const PendingTasks = () => {
     </div>
   );
 
-  const handleSelectItem = (item) => {
-    console.log(`Selected item: ${item}`);
-  };
-
   return (
     <div>
       <ListCard
@@ -152,10 +140,10 @@ const PendingTasks = () => {
           </div>
         }
         NoItemMessage="No items available"
-        onSelectItem={handleSelectItem}
         showCheckbox={check}
         submitOperation={handleSubmitOperation}
         ref={submitRef}
+        onSelectItem={viewTask}
       />
     </div>
   );

@@ -1,0 +1,23 @@
+import React, { useState } from "react";
+import DateInput from "./components/DateInput";
+
+const Test = () => {
+  const [date, setdate] = useState(null);
+
+  const handledateChange = (date) => {
+    setdate(date);
+    // Additional logic if needed
+  };
+
+  return (
+    <div>
+      {" "}
+      <DateInput
+        placeholdertxt="Choose Date"
+        handleDateChange={handledateChange}
+      />
+    </div>
+  );
+};
+
+export default Test;

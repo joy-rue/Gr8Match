@@ -2,11 +2,8 @@ import React from "react";
 import ProfileTab from "./ProfileTab";
 import ashesilogoblank from "./icons/ashesiblanklogo.png";
 import ProgressBar from "./ProgressBar";
-import ListCard from "./ListCard";
-import SubListCard from "./SubListCard";
 import VerticalList from "./VerticalList";
 import HorizontalList from "./HorizontalList";
-import MilestoneContent from "./MilestoneContent";
 import { Link } from "react-router-dom";
 
 const ProjectCard = ({ title, progress, milestone, dueDate, timeleft }) => {
@@ -20,6 +17,7 @@ const ProjectCard = ({ title, progress, milestone, dueDate, timeleft }) => {
       }}
     >
       <div
+        
         style={{
           backgroundColor: "white",
           paddingLeft: "30px",

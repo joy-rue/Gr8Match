@@ -1,0 +1,20 @@
+import "bootstrap/dist/css/bootstrap.min.css";
+import ProfileHeaderContent from "./components/ProfileheaderContent";
+
+const Test = () => {
+  return (
+    <div>
+      <ProfileHeaderContent
+        Department={"Computer Science"}
+        workhours={40}
+        Description={
+          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed dapibus eros eu vehicula interdum. "
+        }
+        contact={"+233206252066"}
+        email={"joseph.dzagli@ashesi.edu.gh"}
+      />
+    </div>
+  );
+};
+
+export default Test;

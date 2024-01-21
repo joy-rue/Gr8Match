@@ -1,0 +1,81 @@
+import React from "react";
+import SearchBox from "./components/SearchBox";
+import CommentList from "./components/CommentList";
+
+const Test = () => {
+  const commentUser = "User1";
+
+  const comments = [
+    {
+      id: 1,
+      sender: "User2",
+      date: "2024-01-09",
+      time: "11:30 AM",
+      message: "This comment was on tuesday",
+    },
+    {
+      id: 2,
+      sender: "User2",
+      date: "2024-01-11",
+      time: "11:30 AM",
+      message: "This comment was Thursday.",
+    },
+    {
+      id: 3,
+      sender: "User1",
+      date: "2024-01-12",
+      time: "11:30 AM",
+      message: "This comment is Friday.",
+    },
+    {
+      id: 4,
+      sender: "User1",
+      date: "2024-01-13",
+      time: "11:30 AM",
+      message:
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed dapibus eros eu vehicula interdum. Cras nec ultricies massa. Curabitur rutrum, diam id consequat consequat",
+    },
+    {
+      id: 4,
+      sender: "User2",
+      date: "2024-01-13",
+      time: "11:30 AM",
+      message: "this comment is Saturday",
+    },
+    {
+      id: 4,
+      sender: "User1",
+      date: "2024-01-13",
+      time: "11:30 AM",
+      message: "this comment is Saturday",
+    },
+    {
+      id: 5,
+      sender: "User2",
+      date: "2024-01-19",
+      time: "11:30 AM",
+      message: "This comment is in a couple of days.",
+    },
+    {
+      id: 6,
+      sender: "User2",
+      date: "2024-01-24",
+      time: "11:30 AM",
+      message: "This comment is in weeks",
+    },
+    {
+      id: 7,
+      sender: "User2",
+      date: "2024-03-12",
+      time: "11:30 AM",
+      message: "This comment is in months.",
+    },
+  ];
+  return (
+    <div>
+      <CommentList comments={comments} commentUser={commentUser} />
+    </div>
+  );
+};
+
+export default Test;

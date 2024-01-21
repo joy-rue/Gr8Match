@@ -1,15 +1,14 @@
 import React from "react";
 import HorizontalList from "./components/HorizontalList";
 import HomeHeader from "./components/HomeHeader";
-import Header from "./Header";
+import Header from "./components/Header";
 import VerticalList from "./components/VerticalList";
 import sidebanner from "./components/icons/sidebanner.png";
 import Notification from "./components/Notification";
 import SubListCard from "./components/SubListCard";
 import ApplytoProject from "./components/ApplytoProject";
 import ashesilogoblank from "./components/icons/ashesiblanklogo.png";
-import Cookies from "js-cookie";
-import { useNavigate, Routes, Route } from "react-router-dom";
+
 
 const ExplorePage = () => {
   const notificationElement = (

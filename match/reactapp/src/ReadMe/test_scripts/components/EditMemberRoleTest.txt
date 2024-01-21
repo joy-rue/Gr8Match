@@ -1,0 +1,30 @@
+import "bootstrap/dist/css/bootstrap.min.css";
+import PopUpForm from "./components/PopUpForm";
+import { useState } from "react";
+import EditMemberRole from "./components/EditMemberRole";
+
+const Test = () => {
+  const [PopUpOpen, setPopUpOpen] = useState(true);
+
+  const handleSubmit = (App) => {
+    console.log("Form Submitted");
+    setPopUpOpen(false);
+  };
+
+  const OnPopUpClose = () => {
+    setPopUpOpen(false);
+  };
+
+  return (
+    <div className="Test__body">
+      <PopUpForm
+        isOpen={PopUpOpen}
+        title={"Edit Member Role"}
+        PopUpForm={<EditMemberRole handleEditMemberRole={handleSubmit} />}
+        onClose={OnPopUpClose}
+      />
+    </div>
+  );
+};
+
+export default Test;

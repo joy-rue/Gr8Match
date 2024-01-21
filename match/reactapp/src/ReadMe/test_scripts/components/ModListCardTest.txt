@@ -1,0 +1,87 @@
+import "bootstrap/dist/css/bootstrap.min.css";
+import ModListCard from "./components/ModListCard";
+import MilestoneContent from "./components/MilestoneContent";
+import AddMilestone from "./components/AddMilestone";
+import ashesilogoblank from "./components/icons/ashesiblanklogo.png";
+import { useState } from "react";
+import PopUpForm from "./components/PopUpForm";
+import {useNavigate } from "react-router-dom";
+
+const Test = () => {
+  const [PopForm, setPopForm] = useState(null);
+  const [PopUpOpen, setPopUpOpen] = useState(false);
+  const [PopUpFormHeader, setPopUpFormHeader] = useState("");
+  const navigate = useNavigate();
+
+  const viewMilestonePage = () => {
+    // You can replace '/another-page' with the path you want to navigate to
+    navigate("/milestone");
+  };
+
+  const milestoneElement = (
+    <MilestoneContent
+      profile={ashesilogoblank}
+      title={"Participant Sampling"}
+      dueDate={"20th August 2023"}
+      timeleft={"2wks"}
+      People={["Clark Kent", "Superman", "Naruto Uzumaki"]}
+      description={
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed dapibus eros eu vehicula interdum. Cras nec ultricies massa. Curabitur rutrum, diam id consequat consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed dapibus eros eu vehicula interdum. Cras nec ultricies massa. Curabitur rutrum, diam id consequat consequat"
+      }
+    />
+  );
+
+  const milestonecontent = [
+    milestoneElement,
+    milestoneElement,
+    milestoneElement,
+  ];
+
+  const handleMilestonePopUpForm = () => {
+    setPopUpOpen(true);
+    setPopUpFormHeader("Add Milestone");
+    setPopForm(<AddMilestone handleAddMilestone={addMilestone} />);
+  };
+
+  const deleteMilestone = (checkedItems) => {
+    console.log("delete Milestone");
+    console.log(`delete Milestone: ${checkedItems}`);
+  };
+
+  const addMilestone = (Title, startDate, endDate, description, teamMember) => {
+    console.log("add Milestone");
+    console.log(`add Milestone: ${Title}`);
+    console.log(`add Milestone: ${startDate}`);
+    console.log(`add Milestone: ${endDate}`);
+    console.log(`add Milestone: ${description}`);
+    console.log(`add Milestone: ${teamMember}`);
+    setPopUpOpen(false);
+  };
+
+  const OnPopUpClose = () => {
+    setPopUpOpen(false);
+  };
+
+  return (
+    <div className="Test__body">
+      <PopUpForm
+        isOpen={PopUpOpen}
+        title={PopUpFormHeader}
+        PopUpForm={PopForm}
+        onClose={OnPopUpClose}
+      />
+      <ModListCard
+        items={milestonecontent}
+        title={"Milestone"}
+        NoItemMessage={"You have no milestones"}
+        handleAddOperation={addMilestone}
+        handleDeleteOperation={deleteMilestone}
+        handleAddIconClick={handleMilestonePopUpForm}
+        onSelectItem={viewMilestonePage}
+        // footer={"You can add a footer"}
+      />
+    </div>
+  );
+};
+
+export default Test;

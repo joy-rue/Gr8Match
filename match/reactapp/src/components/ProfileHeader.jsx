@@ -1,53 +1,7 @@
-// import React from "react";
-// import HorizontalList from "./HorizontalList";
-// import banner from "./icons/campusbanner.png";
-// import ProfileHeaderContent from "./ProfileheaderContent";
-// import groupprofile from "./icons/groupprofile.jpg";
-// import ProfileCard from "./ProfileCard";
-
-// export const ProfileHeader = () => {
-//   return (
-//     <div>
-//       <HorizontalList
-//         items={[
-//           //   <img src={banner} className="card-img-top" alt="Banner" />,
-//           <ProfileCard
-//             banner={banner}
-//             profile={groupprofile}
-//             title={"Ghana Economic Index Study"}
-//             content={
-//               <ProfileHeaderContent
-//                 Department={"Computer Science"}
-//                 workhours={40}
-//                 Description={
-//                   "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed dapibus eros eu vehicula interdum. "
-//                 }
-//                 contact={"+233206252066"}
-//                 email={"joseph.dzagli@ashesi.edu.gh"}
-//               />
-//             }
-//           />,
-//         ]}
-//       />
-//     </div>
-//   );
-// };
-
 import React from "react";
-import ProgressBar from "./ProgressBar";
 import VerticalList from "./VerticalList";
-import HorizontalList from "./HorizontalList";
 
-const ProfileHeader = ({
-  Duration,
-  TimeLeft,
-  Description,
-  Date,
-  title,
-  Progress,
-  profile,
-  banner,
-}) => {
+const ProfileHeader = ({ Description, title, profile, banner }) => {
   return (
     <div
       style={{
@@ -85,7 +39,7 @@ const ProfileHeader = ({
         }}
       >
         <VerticalList
-        //   spacing={10}
+          //   spacing={10}
           items={[
             <img
               src={profile}

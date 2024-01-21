@@ -1,6 +1,6 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import AppsContent from "./components/AppsContent";
-import Header from "./Header";
+import Header from "./components/Header";
 import ListCard from "./components/ListCard";
 import ashesilogoblank from "./components/icons/ashesiblanklogo.png";
 import sidebanner from "./components/icons/sidebanner.png";
@@ -28,9 +28,18 @@ const ProjectPage = () => {
   const [PopUpOpen, setPopUpOpen] = useState(false);
   const [PopUpFormHeader, setPopUpFormHeader] = useState("");
   const navigate = useNavigate();
- 
+
+  const viewMilestonePage = () => {
+    // You can replace '/another-page' with the path you want to navigate to
+    navigate("/milestone");
+  };
+
   const viewMemberRole = () => {
     navigate("/memberrole");
+  };
+
+  const viewApp = () => {
+    window.open("https://ashesi.instructure.com/login/canvas", "_blank");
   };
 
   const OnPopUpClose = () => {
@@ -240,6 +249,7 @@ const ProjectPage = () => {
                     handleAddOperation={addApp}
                     handleDeleteOperation={deleteApp}
                     handleAddIconClick={handleAppPopUpForm}
+                    onSelectItem={viewApp}
                   />,
                   <ModListCard
                     items={milestonecontent}
@@ -248,6 +258,7 @@ const ProjectPage = () => {
                     handleAddOperation={addMilestone}
                     handleDeleteOperation={deleteMilestone}
                     handleAddIconClick={handleMilestonePopUpForm}
+                    onSelectItem={viewMilestonePage}
                   />,
                   <ListCard
                     items={teammembers}

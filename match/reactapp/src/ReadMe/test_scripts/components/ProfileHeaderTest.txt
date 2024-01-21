@@ -1,0 +1,31 @@
+import "bootstrap/dist/css/bootstrap.min.css";
+import ashesibanner from "./components/icons/campusbanner.png";
+import myprofile from "./components/icons/myprofile.png";
+import ProfileHeaderContent from "./components/ProfileheaderContent";
+import ProfileHeader from "./components/ProfileHeader";
+
+const Test = () => {
+  return (
+    <div className="card">
+      <ProfileHeader
+        Description={
+          <ProfileHeaderContent
+            Department={"Computer Science"}
+            workhours={40}
+            Description={
+              "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed dapibus eros eu vehicula interdum. "
+            }
+            contact={"+233206252066"}
+            email={"joseph.dzagli@ashesi.edu.gh"}
+          />
+        }
+        profile={myprofile}
+        Date={"12 Aug 2023"}
+        title={<div style={{ width: "90%" }}>{"Kelvin Kofi Doe"}</div>}
+        banner={ashesibanner}
+      />
+    </div>
+  );
+};
+
+export default Test;

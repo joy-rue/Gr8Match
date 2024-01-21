@@ -5,9 +5,9 @@ import approveIcon from "./icons/approveIcon.png";
 import cancela from "./icons/cancela.png";
 import cancelc from "./icons/cancelc.png";
 import ListCard from "./ListCard";
-import TaskContent from "./TaskContent";
+import { useNavigate } from "react-router-dom";
 
-const ApproveTask = () => {
+const ApproveTask = ({items}) => {
   const [content, setContent] = useState(null);
   const [check, setCheck] = useState(false);
   const [mode, setMode] = useState("icons");
@@ -15,16 +15,12 @@ const ApproveTask = () => {
   const [cancelIcon, setCancelIcon] = useState(cancela); // Set the default cancel icon
   const [action, setAction] = useState(null); // Set the default cancel icon
   const submitRef = useRef(null);
-  const Task = (
-    <TaskContent
-      title={"Create research Survey Lorem ipsum dolor sit amet"}
-      dueDate={"22 Aug 2023"}
-      dateCompleted={"1 Dec 2023"}
-      completed={true}
-    />
-  );
+    const navigate = useNavigate();
 
-  const items = [Task, Task, Task];
+    const viewTask = () => {
+      navigate("/task");
+    };
+
 
   const handleCheckboxChange = () => {
     setChecked(!isChecked);
@@ -186,6 +182,7 @@ const ApproveTask = () => {
         showCheckbox={check}
         submitOperation={handleSubmitOperation}
         ref={submitRef}
+        onSelectItem={viewTask}
       />
     </div>
   );

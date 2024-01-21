@@ -1,0 +1,24 @@
+import "bootstrap/dist/css/bootstrap.min.css";
+import TaskContent from "./components/TaskContent";
+import FacultyCompletedTask from "./components/FacultyCompletedTask";
+
+const Test = () => {
+  const CompletedTask = (
+    <TaskContent
+      title={"Create research Survey Lorem ipsum dolor sit amet"}
+      dueDate={"22 Aug 2023"}
+      dateCompleted={"1 Dec 2023"}
+      completed={true}
+    />
+  );
+
+  const items = [CompletedTask, CompletedTask, CompletedTask];
+
+  return (
+    <div className="app__body">
+      <FacultyCompletedTask items={items} />,
+    </div>
+  );
+};
+
+export default Test;

@@ -4,7 +4,7 @@ import banner from "./icons/sidebanner.png";
 
 const SubBanner = () => {
   return (
-    <div>
+    <div >
       <img
         src={banner}
         alt=""

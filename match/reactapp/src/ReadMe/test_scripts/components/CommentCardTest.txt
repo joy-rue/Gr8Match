@@ -1,0 +1,28 @@
+import React from "react";
+import CommentCard from "./components/CommentCard";
+
+const Test = () => {
+  const commentUser = "User1";
+
+  const comment = {
+    id: 1,
+    sender: "User2",
+    date: "2024-01-13",
+    time: "11:30 AM",
+    message: "This comment was on tuesday",
+  };
+  return (
+    <div>
+      <CommentCard
+        key={comment.id}
+        sender={comment.sender}
+        date={comment.date}
+        time={comment.time}
+        message={comment.message}
+        user={commentUser}
+      />
+    </div>
+  );
+};
+
+export default Test;

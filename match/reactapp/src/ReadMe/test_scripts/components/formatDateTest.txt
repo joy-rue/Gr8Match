@@ -1,0 +1,8 @@
+import React from "react";
+import formatDate from "./components/FormatDate";
+
+const Test = () => {
+  return <div>{formatDate("2024-01-13")}</div>;
+};
+
+export default Test;

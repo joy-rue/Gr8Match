@@ -1,6 +1,6 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import AppsContent from "./components/AppsContent";
-import Header from "./Header";
+import Header from "./components/Header";
 import ListCard from "./components/ListCard";
 import ashesilogoblank from "./components/icons/ashesiblanklogo.png";
 import sidebanner from "./components/icons/sidebanner.png";
@@ -13,15 +13,9 @@ import ProjectMember from "./components/ProjectMember";
 import HorizontalList from "./components/HorizontalList";
 import SubListCard from "./components/SubListCard";
 import Notification from "./components/Notification";
-import Textbox from "./components/Textbox";
 import { TeamEnrollment } from "./components/TeamEnrollment";
-import { Link, useNavigate } from "react-router-dom";
-import editIcon from "./components/icons/editIcon.png";
-import PopUpForm from "./components/PopUpForm";
-import React, { useState, useEffect } from "react";
-import AddApp from "./components/AddApp";
-import AddMilestone from "./components/AddMilestone";
-import AddMemberRole from "./components/AddMemberRole";
+import { useNavigate } from "react-router-dom";
+import React from "react";
 
 const RAProjectPage = () => {
   const navigate = useNavigate();
@@ -30,8 +24,18 @@ const RAProjectPage = () => {
     navigate("/memberrole");
   };
 
+  const viewMilestonePage = () => {
+    // You can replace '/another-page' with the path you want to navigate to
+    navigate("/milestone");
+  };
+
+  const viewApp = () => {
+    window.open("https://ashesi.instructure.com/login/canvas", "_blank");
+  };
+
   const appsElement = (
     <AppsContent
+      link="home"
       profile={ashesilogoblank}
       title={"Ashesi Instructure"}
       descr={
@@ -151,11 +155,13 @@ const RAProjectPage = () => {
                     items={appscontent}
                     title={"Apps"}
                     NoItemMessage={"You have no Apps"}
+                    onSelectItem={viewApp}
                   />,
                   <ListCard
                     items={milestonecontent}
                     title={"Milestone"}
                     NoItemMessage={"You have no milestones"}
+                    onSelectItem={viewMilestonePage}
                   />,
                   <ListCard
                     items={teammembers}

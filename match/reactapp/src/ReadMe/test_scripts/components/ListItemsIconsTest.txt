@@ -1,0 +1,41 @@
+import "bootstrap/dist/css/bootstrap.min.css";
+import ListItemsIcons from "./components/ListItemsIcons";
+
+const Test = () => {
+  const deleteListItem = () => {
+    console.log("deleted");
+    submitRef.current.handlePrintCheckedItems("delete");
+  };
+
+  const addListItem = () => {
+    // console.log("add Responsibility");
+    console.log("added");
+    submitRef.current.handlePrintCheckedItems();
+  };
+
+  const IconClick = (subaction) => {
+    switch (subaction) {
+      case "delete":
+        console.log("deleted");
+        break;
+      case "add":
+        console.log("added");
+        break;
+      default:
+        console.log("nothing");
+        break;
+    }
+  };
+
+  return (
+    <div className="Test__body">
+      <ListItemsIcons
+        handleAddOperation={addListItem}
+        handleDeleteOperation={deleteListItem}
+        handleIconClickAction={IconClick}
+      />
+    </div>
+  );
+};
+
+export default Test;
