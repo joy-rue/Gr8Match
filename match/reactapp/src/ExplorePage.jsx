@@ -39,7 +39,7 @@ const ExplorePage = () => {
         <div>
           <div>{"Research Associate"}</div>
           <div
-            style={{ maxWidth: "90%", fontSize: "20px", fontWeight: "normal" }}
+            style={{ maxWidth: "90%", fontSize: "17px", fontWeight: "normal" }}
           >
             {"Ghana Economic Index Study for people with special abilities"}
           </div>
@@ -68,8 +68,7 @@ const ExplorePage = () => {
                 items={[
                   <HomeHeader
                     title={"Explore Projects"}
-                    date={"22 Aug 2023"}
-                    spacing={"25vw"}
+                    spacing={"400px"}
                   />,
                   <VerticalList spacing={20} items={content} />,
                 ]}
