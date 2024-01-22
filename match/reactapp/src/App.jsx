@@ -35,6 +35,9 @@ const CURRENT_USER_TYPE = USER_TYPES.RESEARCH_FACULTY;
 const CURRENT_USER_EMAIL = "joseph.dzagli@ashesi.edu.gh";
 const Profile_Email = "joseph.dzagli@ashesi.edu.gh";
 
+// Research Faculty pages are prefixed by RF 
+// Research Associate pages are prefixed by RA
+
 function App() {
   return (
     <Router>
