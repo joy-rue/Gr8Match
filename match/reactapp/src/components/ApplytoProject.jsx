@@ -6,6 +6,7 @@ import IconItem from "./IconItem";
 import { Link } from "react-router-dom";
 
 const ApplytoProject = ({
+  id,
   profile,
   title,
   dueDate,
@@ -17,18 +18,17 @@ const ApplytoProject = ({
   const [applicationStatus, setApplicationStatus] = useState("pending");
 
   const handleApplyClick = () => {
-    // Toggle between "Apply" and "Pending" when the button is clicked
     setApplicationStatus((prevStatus) =>
       prevStatus === "pending" ? "applied" : "pending"
     );
-    // Additional logic can be added here, such as making an API call to submit the application
+    
   };
 
   return (
       <Link
-        to="/exploreproject"
+        to={`/exploreproject/${id}`}
         style={{
-          textDecoration: "none" /* Remove underline */,
+          textDecoration: "none",
           color: "inherit",
           fontWeight: "inherit",
         }}
@@ -42,8 +42,6 @@ const ApplytoProject = ({
           borderRadius: "15px",
         }}
       >
-        {/* Buttons for Pending and Applied */}
-        {/* Main content */}
         <div style={{ maxWidth: "50vw", marginTop: "5px" }}>
           <HorizontalList
             spacing={10}
@@ -112,7 +110,7 @@ const ApplytoProject = ({
                   <div
                     style={{
                       width: "100%",
-                      fontSize: "12px", // Adjust the font size as needed
+                      fontSize: "12px", 
                       wordWrap: "break-word",
                     }}
                   >

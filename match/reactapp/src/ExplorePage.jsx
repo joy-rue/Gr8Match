@@ -1,4 +1,4 @@
-import React,{useEffect,useState} from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import HorizontalList from "./components/HorizontalList";
 import HomeHeader from "./components/HomeHeader";
@@ -10,12 +10,13 @@ import SubListCard from "./components/SubListCard";
 import ApplytoProject from "./components/ApplytoProject";
 import ashesilogoblank from "./components/icons/ashesiblanklogo.png"
 import Cookies from "js-cookie";
-import { useNavigate, Routes, Route } from "react-router-dom";
 import moment from "moment";
+import { useParams } from "react-router-dom";
 
 const ExplorePage = () => {
   const [projects, setAllProjectsData] = useState({});
   const today = moment().format("Do MMM YYYY");
+  const {id} = useParams();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -24,7 +25,7 @@ const ExplorePage = () => {
 
         if (accessToken) {
           const response = await axios.get(
-            "http://127.0.0.1:5173/api/project/get/",
+            "http://127.0.0.1:5173/api/project/get/public/",
             {
               method: "GET",
               headers: {
@@ -37,6 +38,13 @@ const ExplorePage = () => {
             const responseData = response.data;
             setAllProjectsData({});
             for (const project of responseData) {
+              setAllProjectsData((prevProjects) => ({
+                ...prevProjects,
+                [project.id]: {
+                  projectData: project,
+                },
+              }));
+
               const responseProjectTeam = await axios.get(
                 `http://127.0.0.1:5173/api/project/team/get/${project.id}/`,
                 {
@@ -49,13 +57,15 @@ const ExplorePage = () => {
 
               if (responseProjectTeam.status === 200) {
                 const teamData = responseProjectTeam.data;
-                setAllProjectsData((prevProjects) => ({
-                  ...prevProjects,
-                  [project.id]: {
-                    projectData: project,
-                    teamData: teamData,
-                  },
-                }));
+                console.log(teamData)
+                  ; setAllProjectsData((prevProjects) => ({
+                    ...prevProjects,
+                    [project.id]: {
+                      projectData: project,
+                      teamData: teamData,
+                    },
+                  }));
+                console.log(projects, "data here:")
               } else {
                 console.error(
                   `Failed to fetch team members for project ${project.id}:`,
@@ -85,7 +95,6 @@ const ExplorePage = () => {
   // Access projects dictionary where each project has projectData and teamData
   console.log(projects);
 
-  // Rest of your component code...
 
   const handleTokenRefresh = async () => {
     try {
@@ -109,84 +118,46 @@ const ExplorePage = () => {
     }
   };
 
-  const notificationElement = (
-    <Notification
-      title={"Onedrive Library"}
-      text={
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed dapibus eros eu vehicula interdum. Cras nec ultricies massa. Curabitur rutrum, diam id consequat consequat"
+  var allProjects = [];
+
+  if (projects) {
+    Object.keys(projects).some(projectKey => {
+      const project = projects[projectKey];
+  
+      // Access the teamData for the current project
+      const teamData = project.teamData;
+  
+      var is_member = Object.keys(project.projectData.team_members).some(memberKey => {
+        const member = project.projectData.team_members[memberKey];
+        return member.id === id;
+      });
+      console.log(project.projectData.id);
+  
+      if (is_member) {
+        return true; // Skip to the next project
       }
-      date={"11:23 - Aug 2023"}
-    />
-  );
+      const projectallProjects = (
 
-  let notificationcontent = [
-    notificationElement,
-    notificationElement,
-    notificationElement,
-  ];
-
-      const people = ["Clark Kent", "Superman", "Naruto Uzumaki"];
-      const descr =
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed dapibus eros eu vehicula interdum. Cras nec ultricies massa. Curabitur rutrum, diam id consequat consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed dapibus eros eu vehicula interdum. Cras nec ultricies massa. Curabitur rutrum, diam id consequat consequat";
-
-        var allMilestoneTasks = [];
-
-        if (projects) {
-          for (const project of projects) {
-            for (const milestoneElement of oneMilestone.tasks) {
-              let name = milestoneElement.name ? milestoneElement.name : "task";
-      
-              const newMilestoneContent = (
-                <MilestoneContent
-                  key={milestoneElement.id}
-                  profile={ashesilogoblank}
-                  title={oneMilestone.milestone}
-                  dueDate={milestoneElement.due_date
-                    ? moment(milestoneElement.due_date).format("Do MMM YYYY")
-                    : "-- -- --"} 
-                    timeleft={
-                      milestoneElement.due_date
-                        ? `${Math.ceil(
-                          ((new Date(milestoneElement.due_date)) - new Date()) /
-                          (1000 * 60 * 60 * 24 * 7)
-                        )} wks`
-                        : " 0 wks"
-                    }
-                  People={milestoneElement.assignee ? milestoneElement.assignee : ["assignment pending.."]}
-                  description={milestoneElement.description ? name + "    " + ": " + milestoneElement.description : name + " : "}
-                />
-              );
-      
-              allMilestoneTasks.push(newMilestoneContent);
-              ;
-            }
+        <ApplytoProject
+          id={project.projectData.id}
+          profile={ashesilogoblank}
+          title={project.projectData.title}
+          dueDate={project.projectData.start_date
+            ? moment(project.projectData.start_date).format("Do MMM YYYY") + "-" + moment(project.projectData.end_date).format("Do MMM YYYY")
+            : "-- -- --"}
+          workhours={project.projectData.estimated_project_hours ? project.projectData.estimated_project_hours : "0"
           }
-        };
+          People={project.projectData.user ? project.projectData.user : ["assignment pending.."]}
+          description={project.projectData.description ? project.projectData.description : " "}
+        />
+      );
 
-        const milestoneElement = (
-          <ApplytoProject
-            profile={ashesilogoblank}
-            title={oneMilestone.milestone}
-            dueDate={milestoneElement.due_date
-              ? moment(milestoneElement.due_date).format("Do MMM YYYY")
-              : "-- -- --"} 
-            timeleft={
-              milestoneElement.due_date
-                ? `${Math.ceil(
-                  ((new Date(milestoneElement.due_date)) - new Date()) /
-                  (1000 * 60 * 60 * 24 * 7)
-                )} wks`
-                : " 0 wks"
-            }
-            People={people}
-            description={descr}
-            workhours={40}
-          />
-        );
+      allProjects.push(projectallProjects);
+      ;
 
-      const content = [milestoneElement, milestoneElement, milestoneElement];
-    
-    
+    })
+  };
+
   return (
     <div>
       <Header
@@ -203,7 +174,7 @@ const ExplorePage = () => {
                     date={today}
                     spacing={"25vw"}
                   />,
-                  <VerticalList spacing={20} items={content} />,
+                  <VerticalList spacing={20} items={allProjects} />,
                 ]}
               />,
               <VerticalList
@@ -220,11 +191,11 @@ const ExplorePage = () => {
                       borderRadius: "10px",
                     }}
                   />,
-                  <SubListCard
-                    items={notificationcontent}
-                    title={"Notifications (3)"}
-                    NoItemMessage={"You have no notifications"}
-                  />,
+                  // <SubListCard
+                  //   items={notificationallProjects}
+                  //   title={"Notifications (3)"}
+                  //   NoItemMessage={"You have no notifications"}
+                  // />,
                 ]}
               />,
             ]}

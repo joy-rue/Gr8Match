@@ -12,7 +12,7 @@ const HorizontalList = ({ items, spacing,dot_separation }) => {
             {items}
             </div>
           ):
-          <div>{"no assignee"}</div>
+          <div>{"no value"}</div>
           }
           
     </div>

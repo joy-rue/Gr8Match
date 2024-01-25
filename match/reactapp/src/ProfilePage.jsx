@@ -23,20 +23,89 @@ import WorkExperience from "./components/WorkExperience";
 import EducationCard from "./components/EducationCard";
 import SearchBox from "./components/SearchBox";
 import ProfileTab from "./components/ProfileTab";
-import { Link } from "react-router-dom";
-import React, { useState } from "react";
+import { Link, useParams } from "react-router-dom";
+import React, { useState, useEffect } from "react";
 import AddWorkExperience from "./components/AddWorkExperience";
 import ModListCard from "./components/ModListCard";
 import PopUpForm from "./components/PopUpForm";
 import AddEducation from "./components/AddEducation";
 import AddSkill from "./components/AddSkill";
 import AddInterest from "./components/AddInterest";
+import Cookies from "js-cookie";
+import axios from "axios";
 
 const ProfilePage = () => {
   const [PopForm, setPopForm] = useState(null);
   const [PopUpOpen, setPopUpOpen] = useState(false);
   const [PopUpFormHeader, setPopUpFormHeader] = useState("");
+  const {id} = useParams();
+  const [userData, setUserData] = useState(null);
 
+  useEffect(() => {
+    const fetchUserProfile = async () => {
+      try {
+        console.log(id);
+        const accessToken = Cookies.get("access");
+
+        // Check if the access token is present
+        if (accessToken) {
+          // Fetch user profile data
+          const userProfileResponse = await axios.get(
+            `http://127.0.0.1:5173/api/profile/get/${id}/`,
+            {
+              method: "GET",
+              headers: {
+                Authorization: `Bearer ${accessToken}`,
+              },
+            }
+          );
+
+          if (userProfileResponse.status === 200) {
+            setUserData(userProfileResponse.data);
+          } else if (userProfileResponse.status === 401) {
+            await handleTokenRefresh();
+          } else {
+            console.error(
+              "Failed to fetch user profile data:",
+              userProfileResponse.status
+            );
+          }
+        } else {
+          console.error("Access token not present");
+        }
+      } catch (error) {
+        console.error("Error fetching user profile data:", error);
+      }
+    };
+
+    fetchUserProfile();
+  }, []); 
+
+
+  const userList = userData;
+ 
+
+  const handleTokenRefresh = async () => {
+    try {
+      // Make a request to your backend to refresh the access token using the refresh token
+      const refreshResponse = await axios.post(
+        "http://127.0.0.1:5173/api/account/refresh/",
+        {
+          refresh: Cookies.get("refresh"),
+        }
+      );
+
+      const newAccessToken = refreshResponse.data.access;
+
+      // Update the access token in cookies
+      Cookies.set("access", newAccessToken);
+
+      // Retry the original API request with the new access token
+      await fetchData();
+    } catch (error) {
+      console.error("Error refreshing token:", error);
+    }
+  };
 
     const handleSkillPopUpForm = () => {
       setPopUpOpen(true);
@@ -269,17 +338,15 @@ const ProfilePage = () => {
                   <ProfileHeader
                     Description={
                       <ProfileHeaderContent
-                        Department={"Computer Science"}
-                        workhours={40}
-                        Description={
-                          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed dapibus eros eu vehicula interdum. "
-                        }
-                        contact={"+233206252066"}
-                        email={"joseph.dzagli@ashesi.edu.gh"}
+                        Department={userData?.study_area || "---"}
+                        workhours={userData?.availability || 40}
+                        Description={userData?.bio || ""}
+                        contact={userData?.mobile_number || ""}
+                        email={userData?.email || ""}
                       />
                     }
-                    profile={myprofile}
-                    Date={"12 Aug 2023"}
+                    profile={userData?.profile_picture || myprofile}
+                    Date={userData?.last_login || ""}
                     title={
                       <div
                         style={{
@@ -287,8 +354,9 @@ const ProfilePage = () => {
                           justifyContent: "space-between",
                         }}
                       >
-                        <div>{"Kelvin Kofi Doe"}</div>
-                        <Link to="/editprofile">
+                        <div>{`${userData?.firstname} ${userData?.lastname}`}</div>
+                        <Link to={`/editprofile`} state={userList} >
+
                           <img
                             src={editIcon}
                             alt=""
@@ -305,7 +373,7 @@ const ProfilePage = () => {
                   />,
 
                   <ModListCard
-                    items={WorkExperiencecontent}
+                    items={userData?.writing_samples?.map((sample)=>{sample.title}) || []}
                     title={"Work Experience"}
                     NoItemMessage={"You have no work experience"}
                     handleAddOperation={addWorkExperience}
@@ -313,7 +381,7 @@ const ProfilePage = () => {
                     handleAddIconClick={handleWorkExperiencePopUpForm}
                   />,
                   <ModListCard
-                    items={EducationContent}
+                    items={ userData?.degrees?.map((degree)=>degree) || []}
                     title={"Education"}
                     NoItemMessage={"You have no education"}
                     handleAddOperation={addEducation}
@@ -321,15 +389,15 @@ const ProfilePage = () => {
                     handleAddIconClick={handleEducationPopUpForm}
                   />,
                   <ModListCard
-                    items={[]}
+                    items={userData?.interests?.map((interest)=>{interest}) || []}
                     title={"Skill"}
                     NoItemMessage={"You have no skill"}
                     handleAddOperation={addSkill}
-                    handleDeleteOperation={deleteSkill}
+                    handleDeleteOperation={deleteSkill} 
                     handleAddIconClick={handleSkillPopUpForm}
                   />,
                   <ModListCard
-                    items={[]}
+                    items={userData?.interests?.map((interest)=>{interest}) || []}
                     title={"Interests"}
                     NoItemMessage={"You have no interests"}
                     handleAddOperation={addInterest}

@@ -1,180 +1,183 @@
-import "bootstrap/dist/css/bootstrap.min.css";
-import AppsContent from "./components/AppsContent";
-import Header from "./Header";
-import ListCard from "./components/ListCard";
-import ashesilogoblank from "./components/icons/ashesiblanklogo.png";
-import sidebanner from "./components/icons/sidebanner.png";
-import VerticalList from "./components/VerticalList";
-import ProjectHeaderContent from "./components/ProjectHeaderContent";
-import groupprofile from "./components/icons/groupprofile.jpg";
-import ashesibanner from "./components/icons/campusbanner.png";
-import MilestoneContent from "./components/MilestoneContent";
-import ProjectMember from "./components/ProjectMember";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import HorizontalList from "./components/HorizontalList";
-import SubListCard from "./components/SubListCard";
+import HomeHeader from "./components/HomeHeader";
+import Header from "./Header";
+import VerticalList from "./components/VerticalList";
+import sidebanner from "./components/icons/sidebanner.png";
 import Notification from "./components/Notification";
-import Textbox from "./components/Textbox";
-import { TeamEnrollment } from "./components/TeamEnrollment";
+import SubListCard from "./components/SubListCard";
+import ApplytoProject from "./components/ApplytoProject";
+import ashesilogoblank from "./components/icons/ashesiblanklogo.png"
 import Cookies from "js-cookie";
-import { useNavigate, Routes, Route, Link } from "react-router-dom";
-import editIcon from "./components/icons/editIcon.png";
-import IconItem from "./components/IconItem";
-import clockicon from "./components/icons/clockicon.png";
-import React, { useState } from "react";
+import moment from "moment";
+import { useParams } from "react-router-dom";
 
-const ExploreProjectPage = () => {
-  const [applicationStatus, setApplicationStatus] = useState("pending");
-  const workhours = 40;
-  const appsElement =
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed dapibus eros eu vehicula interdum. Cras nec ultricies massa. Curabitur rutrum, diam id consequat consequat";
+const ExplorePage = () => {
+  const [projects, setAllProjectsData] = useState({});
+  const today = moment().format("Do MMM YYYY");
+  const {id} = useParams();
 
-  const appscontent = [appsElement, appsElement, appsElement];
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const accessToken = Cookies.get("access");
 
-  const milestoneElement =
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed dapibus eros eu vehicula interdum. Cras nec ultricies massa. Curabitur rutrum, diam id consequat consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed dapibus eros eu vehicula interdum. Cras nec ultricies massa. Curabitur rutrum, diam id consequat consequat";
+        if (accessToken) {
+          const response = await axios.get(
+            "http://127.0.0.1:5173/api/project/get/public/",
+            {
+              method: "GET",
+              headers: {
+                Authorization: `Bearer ${accessToken}`,
+              },
+            }
+          );
 
-  const milestonecontent = [
-    milestoneElement,
-    milestoneElement,
-    milestoneElement,
-  ];
+          if (response.status === 200) {
+            const responseData = response.data;
+            setAllProjectsData({});
+            for (const project of responseData) {
+              setAllProjectsData((prevProjects) => ({
+                ...prevProjects,
+                [project.id]: {
+                  projectData: project,
+                },
+              }));
 
-  const commentElement = (
-    <Notification
-      title={"Itachi Uchiha"}
-      text={
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed dapibus eros eu vehicula interdum. Cras nec ultricies massa. Curabitur rutrum, diam id consequat consequat"
+              const responseProjectTeam = await axios.get(
+                `http://127.0.0.1:5173/api/project/team/get/${project.id}/`,
+                {
+                  method: "GET",
+                  headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                  },
+                }
+              );
+
+              if (responseProjectTeam.status === 200) {
+                const teamData = responseProjectTeam.data;
+                console.log(teamData)
+                  ; setAllProjectsData((prevProjects) => ({
+                    ...prevProjects,
+                    [project.id]: {
+                      projectData: project,
+                      teamData: teamData,
+                    },
+                  }));
+                console.log(projects, "data here:")
+              } else {
+                console.error(
+                  `Failed to fetch team members for project ${project.id}:`,
+                  responseProjectTeam.status
+                );
+              }
+            }
+          } else if (response.status === 401) {
+            await handleTokenRefresh();
+          } else {
+            console.error(
+              "Failed to fetch all projects data:",
+              response.status
+            );
+          }
+        } else {
+          console.error("Access token not present");
+        }
+      } catch (error) {
+        console.error("Error parsing JSON:", error);
       }
-      date={"11:23 - Aug 2023"}
-    />
-  );
+    };
 
-  const handleApplyClick = () => {
-    // Toggle between "Apply" and "Pending" when the button is clicked
-    setApplicationStatus((prevStatus) =>
-      prevStatus === "pending" ? "applied" : "pending"
-    );
-    // Additional logic can be added here, such as making an API call to submit the application
+    fetchData();
+  }, []);
+
+  // Access projects dictionary where each project has projectData and teamData
+  console.log(projects);
+
+
+  const handleTokenRefresh = async () => {
+    try {
+      // Make a request to your backend to refresh the access token using the refresh token
+      const refreshResponse = await axios.post(
+        "http://127.0.0.1:5173/api/account/refresh/",
+        {
+          refresh: Cookies.get("refresh"),
+        }
+      );
+
+      const newAccessToken = refreshResponse.data.access;
+
+      // Update the access token in cookies
+      Cookies.set("access", newAccessToken);
+
+      // Retry the original API request with the new access token
+      await fetchData();
+    } catch (error) {
+      console.error("Error refreshing token:", error);
+    }
   };
 
-  const commentcontent = [commentElement, commentElement, commentElement];
+  var allProjects = [];
 
-  const notificationElement = (
-    <Notification
-      title={"Onedrive Library"}
-      text={
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed dapibus eros eu vehicula interdum. Cras nec ultricies massa. Curabitur rutrum, diam id consequat consequat"
+  if (projects) {
+    Object.keys(projects).some(projectKey => {
+      const project = projects[projectKey];
+  
+      // Access the teamData for the current project
+      const teamData = project.teamData;
+  
+      var is_member = Object.keys(project.projectData.team_members).some(memberKey => {
+        const member = project.projectData.team_members[memberKey];
+        return member.id === id;
+      });
+  
+      if (is_member) {
+        return true; // Skip to the next project
       }
-      date={"11:23 - Aug 2023"}
-    />
-  );
+      const projectallProjects = (
 
-  const notificationcontent = [
-    notificationElement,
-    notificationElement,
-    notificationElement,
-  ];
+        <ApplytoProject
+          id={project.projectData.id}
+          profile={ashesilogoblank}
+          title={project.projectData.title}
+          dueDate={project.projectData.start_date
+            ? moment(project.projectData.start_date).format("Do MMM YYYY") + "-" + moment(project.projectData.end_date).format("Do MMM YYYY")
+            : "-- -- --"}
+          workhours={project.projectData.estimated_project_hours ? project.projectData.estimated_project_hours : "0"
+          }
+          People={project.projectData.user ? project.projectData.user : ["assignment pending.."]}
+          description={project.projectData.description ? project.projectData.description : " "}
+        />
+      );
+
+      allProjects.push(projectallProjects);
+      ;
+
+    })
+  };
+
+
 
   return (
     <div>
       <Header
-        Page={
+        Page={[
+          // <HomeHeader />,
           <HorizontalList
-            spacing={20}
+            spacing={25}
             items={[
               <VerticalList
                 spacing={20}
                 items={[
-                  <ProjectHeaderContent
-                    title={
-                      <VerticalList
-                        items={[
-                          <div
-                            style={{
-                              marginTop: "20px",
-                              fontWeight:"500"
-                            }}
-                          >
-                            {"Research Associate"}
-                          </div>,
-                          <div
-                            style={{
-                              display: "flex",
-                              justifyContent: "space-between",
-                            }}
-                          >
-                            <div style={{ maxWidth: "90%", fontSize: "20px" }}>
-                              {
-                                "Ghana Economic Index Study for people with special abilities "
-                              }
-                            </div>
-                            <button
-                              style={{
-                                border: "none",
-                                borderRadius: "5px",
-                                width: "100px",
-                                marginRight: "10px",
-                                padding: "5px 10px",
-                                fontWeight: "600",
-                                backgroundColor: "#AD3537",
-                                color: "white",
-                                textDecoration: "none" /* Remove underline */,
-                                fontSize: "18px",
-                                marginTop: "-20px",
-                                height:"40px"
-                              }}
-                              onClick={handleApplyClick}
-                            >
-                              {applicationStatus === "applied"
-                                ? "Applied"
-                                : "Apply"}
-                            </button>
-                          </div>,
-                        ]}
-                      />
-                    }
-                    const
-                    TimeLeft={
-                      <HorizontalList
-                        spacing={20}
-                        items={[
-                          <div>{"1yr 3months"}</div>,
-                          <div
-                            style={{
-                              color: "#0A66C2",
-                            }}
-                          >
-                            <IconItem
-                              icon={clockicon}
-                              item={`${workhours}hrs/wk`}
-                            />
-                          </div>,
-                        ]}
-                      />
-                    }
-                    Duration={"Aug 2023 - Jun 2024"}
-                    Description={
-                      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed dapibuseros eu vicula interdum.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed dapibuseros eu vehicula interdum."
-                    }
-                    profile={groupprofile}
-                    People={["Clark Kent", "Superman", "Naruto Uzumaki"]}
-                    Date={"12 Aug 2023"}
-                    banner={ashesibanner}
+                  <HomeHeader
+                    title={"Explore Projects"}
+                    date={today}
+                    spacing={"25vw"}
                   />,
-
-                  <ListCard
-                    items={milestonecontent}
-                    title={"Responsibility"}
-                    NoItemMessage={"You have no milestones"}
-                  />,
-                  <ListCard
-                    items={appscontent}
-                    title={"Requirements"}
-                    NoItemMessage={"You have no Apps"}
-                  />,
+                  <VerticalList spacing={20} items={allProjects} />,
                 ]}
               />,
-
               <VerticalList
                 spacing={20}
                 items={[
@@ -183,25 +186,25 @@ const ExploreProjectPage = () => {
                     alt=""
                     style={{
                       width: "25vw",
-                      paddingLeft: "20px",
-                      paddingRight: "20px",
+                      paddingLeft: "1.2vw",
+                      paddingRight: "1.2vw",
                       backgroundColor: "white",
                       borderRadius: "10px",
                     }}
                   />,
-                  <SubListCard
-                    items={notificationcontent}
-                    title={"Notifications (3)"}
-                    NoItemMessage={"You have no notifications"}
-                  />,
+                  // <SubListCard
+                  //   items={notificationallProjects}
+                  //   title={"Notifications (3)"}
+                  //   NoItemMessage={"You have no notifications"}
+                  // />,
                 ]}
               />,
             ]}
-          />
-        }
+          />,
+        ]}
       />
     </div>
   );
 };
 
-export default ExploreProjectPage;
+export default ExplorePage;

@@ -168,7 +168,7 @@ const ProjectPage = () => {
 
   const onSelectItem = () => {
     // Redirect to the project page after the component is rendered
-    navigate("/member_role");
+    navigate(`/member_role/${id}/`);
 
     // Your logic for selecting an item goes here
   };

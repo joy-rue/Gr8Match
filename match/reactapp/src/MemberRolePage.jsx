@@ -1,6 +1,6 @@
 import "bootstrap/dist/css/bootstrap.min.css";
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useParams } from "react-router-dom";
 import Header from "./Header";
 import ListCard from "./components/ListCard";
 import VerticalList from "./components/VerticalList";
@@ -13,7 +13,8 @@ import ModListCard from "./components/ModListCard";
 import AddResponsibility from "./components/AddResponsibility";
 import PopUpForm from "./components/PopUpForm";
 import ListItemsIcons from "./components/ListItemsIcons";
-
+import axios from "axios";
+import Cookies from "js-cookie";
 import sidebanner from "./components/icons/sidebanner.png";
 import ashesibanner from "./components/icons/campusbanner.png";
 import editIcon from "./components/icons/editIcon.png";
@@ -25,11 +26,13 @@ import cancelc from "./components/icons/cancelc.png";
 import deleteIcon from "./components/icons/deleteIcon.png";
 import add_Icon from "./components/icons/add_Icon.png";
 import clockicon from "./components/icons/clockicon.png";
+import profile from "./components/icons/profile.png";
 import AddRequirement from "./components/AddRequirement";
+
 
 const MemberRole = () => {
   const workhours = 40;
-
+ 
   const [mode, setMode] = useState("icons");
   const [action, setAction] = useState(null);
   const [content, setContent] = useState(null);
@@ -40,8 +43,162 @@ const MemberRole = () => {
   const [PopForm, setPopForm] = useState(null);
   const [PopUpOpen, setPopUpOpen] = useState(false);
   const [PopUpFormHeader, setPopUpFormHeader] = useState("");
+  const [isMatchRequested, setIsMatchRequested] = useState(false);
+  const [addPersonIcon, setAddPersonIcon] = useState(add_Icon);
+  const {project_id} = useParams();
+
+  useEffect(() => {
+    const getMatchData = async () => {
+      const accessToken = Cookies.get('access');
+      try {
+        
+        const matchDataResponse = await axios.get(`http://127.0.0.1:5173/api/project/match/get/${project_id}/`, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        });
+  
+        console.log(matchDataResponse);
+  
+        if (matchDataResponse.status === 200) {
+          setIsMatchRequested(true);
+        } else if (matchDataResponse.status === 400) {
+          handleTokenRefresh();
+          console.error("Project not found:", matchDataResponse.status);
+        } else if (matchDataResponse.status === 403) {
+          handleTokenRefresh();
+          console.log("No permission to request RA");
+        } else {
+          console.error("Unexpected status code:", matchDataResponse.status);
+        }
+      } catch (error) {
+        console.error("Could not send request:", error.message);
+      }
+    };
+    getMatchData();
+  }, [project_id]);  
+  
+
+  const handleMatchRequest = async () => {
+    console.log(project_id);
+    try {
+      const accessToken = Cookies.get("access");
+
+      // Check if the match is already requested
+      if (isMatchRequested) {
+        console.log("Match request already sent");
+
+      } else {
+        // Make a POST request to send the match request
+        const matchResponse = await axios.post(
+          `http://127.0.0.1:5173/api/project/match/request/${project_id}/`, 
+          {},
+          {
+            headers: {
+              'Content-Type': 'application/json', 
+              'Authorization': `Bearer ${accessToken}`,
+            },
+            withCredentials: true,
+          }
+        );
+
+        if (matchResponse.status === 200) {
+        
+          setIsMatchRequested(true);
+          
+        } else if (matchResponse.status === 401) {
+          await handleTokenRefresh();  
+          console.log("back here again");        
+          console.error("Failed to send match request:", matchResponse.status);
+        } else {
+           const handleTokenRefresh = async () => {
+    try {
+      // Make a request to your backend to refresh the access token using the refresh token
+      const refreshResponse = await axios.post(
+        "http://127.0.0.1:5173/api/account/refresh/",
+        {
+          refresh: Cookies.get("refresh"),
+        }
+      );
+
+      const newAccessToken = refreshResponse.data.access;
+
+      // Update the access token in cookies
+      Cookies.set("access", newAccessToken);
+
+      // Retry the original API request with the new access token
+      await fetchData();
+    } catch (error) {
+      console.error("Error refreshing token:", error);
+    }
+  };
+  await handleTokenRefresh();
+ 
+          console.error("Failed to send match request:", matchResponse.status);
+           
+        }
+      }
+    } catch (error) {
+      console.error("Error sending match request:", error);
+    }
+  };
 
 
+  const publish = async () => {
+    const accessToken = Cookies.get('access');
+    try {
+      
+      
+      const publishResponse = await axios.post(`http://127.0.0.1:5173/api/project/visibility/change/${project_id}/`, {},
+      {
+        headers: {
+          'Content-Type': 'application/json', 
+          'Authorization': `Bearer ${accessToken}`,
+        },
+        withCredentials: true,
+      }
+      );
+
+      console.log(publishResponse);
+
+      if (publishResponse.status === 200) {
+        setIsMatchRequested(true);
+      } else if (publishResponse.status === 400){
+        handleTokenRefresh();
+        console.error("Project not found:", publishResponse.status);
+      } else if (publishResponse.status === 403){
+        handleTokenRefresh();
+        console.log("No permission to publish");
+      } else {
+        console.error("Unexpected status code:", publishResponse.status);
+      }
+    } catch (error) {
+      console.error("Could not publish request:", error.message);
+    }
+  };
+
+
+  const handleTokenRefresh = async () => {
+    try {
+      // Make a request to your backend to refresh the access token using the refresh token
+      const refreshResponse = await axios.post(
+        "http://127.0.0.1:5173/api/account/refresh/",
+        {
+          refresh: Cookies.get("refresh"),
+        }
+      );
+
+      const newAccessToken = refreshResponse.data.access;
+
+      // Update the access token in cookies
+      Cookies.set("access", newAccessToken);
+
+      // Retry the original API request with the new access token
+      await fetchData();
+    } catch (error) {
+      console.error("Error refreshing token:", error);
+    }
+  };
 
   const appsElement =
     "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed dapibus eros eu vehicula interdum. Cras nec ultricies massa. Curabitur rutrum, diam id consequat consequat";
@@ -106,6 +263,7 @@ const MemberRole = () => {
         setMode("icons");
         console.log(action);
         setIsPublished(!isPublished);
+        publish();
         console.log(isPublished);
         break;
       case "invite":
@@ -286,12 +444,12 @@ const MemberRole = () => {
             >
               <img style={{ width: "20px" }} src={publishIcon} alt="" />
             </div>,
-            <div
-              style={{ cursor: "pointer" }}
-              onClick={() => handleIconClick("invite")}
-            >
-              <img style={{ width: "25px" }} src={adduserIcon} alt="" />
-            </div>,
+           <div
+           style={{ cursor: "pointer" }}
+           onClick={() => handleMatchRequest()}
+         >
+           <img style={{ width: "25px" }} src={isMatchRequested ? profile : adduserIcon} alt="" />
+         </div>,
             <div
               style={{ cursor: "pointer" }}
               onClick={() => handleIconClick("edit")}

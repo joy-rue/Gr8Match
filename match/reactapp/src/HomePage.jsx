@@ -146,13 +146,7 @@ const HomePage = () => {
       </div>
     </Link>
   );
-  const [dataList, setDataList] = useState([
-    { id: 1, title: "Item 1", milestone: "milestone 1" },
-    // { id: 2, title: "Item 2", milestone: "milestone 2" },
-    { id: 3, title: "Item 3", milestone: "milestone 3" },
-  ]);
 
-  dataList;
 
   return (
     <div>

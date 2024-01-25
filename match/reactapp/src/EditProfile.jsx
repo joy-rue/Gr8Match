@@ -6,7 +6,10 @@ import Notification from "./components/Notification";
 import SubBanner from "./components/SubBanner";
 import SubListCard from "./components/SubListCard";
 import VerticalList from "./components/VerticalList";
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
+import { useParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
+
 
 const EditProfile = () => {
   const [ProfileName, setProfileName] = useState("");
@@ -14,7 +17,23 @@ const EditProfile = () => {
   const [Email, setEmail] = useState("");
   const [Phone, setPhone] = useState("");
   const [description, setDescription] = useState("");
+  const location = useLocation();
+  const userData = location.state;
+  
 
+  useEffect(()=>{
+    console.log(userData);
+    setProfileName(`${userData?.firstname} ${userData?.lastname}`);
+    setDepartment(userData?.degrees?.map((degree)=>{degree.major}).join(","));
+    setEmail(userData?.email);
+    setPhone(userData?.mobile_number);
+    setDescription(userData?.bio);
+  },[]
+
+
+  );
+
+  
   const handleProfileNameChange = (e) => {
     setProfileName(e.target.value);
   };
@@ -50,11 +69,7 @@ const EditProfile = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // You can handle form submission logic here
-    console.log("Profile Name:", ProfileName);
-    console.log("Start Date:", startDate);
-    console.log("End Date:", endDate);
-    console.log("Description:", description);
+    
   };
 
   return (
