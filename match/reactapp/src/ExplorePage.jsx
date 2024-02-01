@@ -18,7 +18,7 @@ const ExplorePage = () => {
   const today = moment().format("Do MMM YYYY");
   const { id } = useParams();
 
-  useEffect(() => {
+  useEffect(() => { 
     const fetchData = async () => {
       try {
         const accessToken = Cookies.get("access");
@@ -29,7 +29,7 @@ const ExplorePage = () => {
             {
               method: "GET",
               headers: {
-                Authorization: `Bearer ${accessToken}`,
+                Authorization: Bearer `${accessToken}`,
               },
             }
           );
@@ -46,11 +46,11 @@ const ExplorePage = () => {
               }));
 
               const responseProjectTeam = await axios.get(
-                `http://127.0.0.1:5173/api/project/team/get/${project.id}/`,
+                "http://127.0.0.1:5173/api/project/team/get/${project.id}/",
                 {
                   method: "GET",
                   headers: {
-                    Authorization: `Bearer ${accessToken}`,
+                    Authorization: Bearer `${accessToken}`,
                   },
                 }
               );
@@ -68,7 +68,7 @@ const ExplorePage = () => {
                 console.log(projects, "data here:");
               } else {
                 console.error(
-                  `Failed to fetch team members for project ${project.id}:`,
+                  `Failed to fetch team members for project ${project.id}`,
                   responseProjectTeam.status
                 );
               }
