@@ -8,7 +8,7 @@ const HorizontalList = ({ items, spacing,dot_separation }) => {
             <div key={index} style={{ marginRight: `${spacing}px` }}>
              {item}
             </div>
-          )) : <div style={{ marginRight: `${spacing}px` }}>
+          )) : <div style={{ marginRight:  `${spacing}px` }}>
             {items}
             </div>
           ):
