@@ -1,0 +1,14 @@
+import "bootstrap/dist/css/bootstrap.min.css";
+
+import Sidemenu from "./components/Sidemenu";
+
+const Test = () => {
+
+  return (
+    <div className="app__body">
+      <Sidemenu />,
+    </div>
+  );
+};
+
+export default Test;

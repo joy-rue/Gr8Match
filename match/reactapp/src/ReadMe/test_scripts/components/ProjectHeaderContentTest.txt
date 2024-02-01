@@ -1,0 +1,49 @@
+import "bootstrap/dist/css/bootstrap.min.css";
+import ProjectHeaderContent from "./components/ProjectHeaderContent";
+import groupprofile from "./components/icons/groupprofile.jpg";
+import { Link } from "react-router-dom";
+import editIcon from "./components/icons/editIcon.png";
+import ashesibanner from "./components/icons/campusbanner.png";
+
+const Test = () => {
+  return (
+    <div className="Test__body">
+      <ProjectHeaderContent
+        Duration={"Aug 2023 - Jun 2024"}
+        TimeLeft={"1yr 3months"}
+        Description={
+          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed dapibuseros eu vicula interdum.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed dapibuseros eu vehicula interdum."
+        }
+        profile={groupprofile}
+        Date={"12 Aug 2023"}
+        title={
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+            }}
+          >
+            <div style={{ maxWidth: "90%" }}>
+              {"Ghana Economic Index Study for people with special abilities "}
+            </div>
+            <Link to="/editproject">
+              <img
+                src={editIcon}
+                alt=""
+                style={{
+                  width: "28px",
+                  marginRight: "20px",
+                  transform: "translateY(-10px)",
+                }}
+              />
+            </Link>
+          </div>
+        }
+        Progress={24}
+        banner={ashesibanner}
+      />
+    </div>
+  );
+};
+
+export default Test;

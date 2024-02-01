@@ -60,6 +60,7 @@ class RegisterUsersView(APIView):
                     f"<p>Please change your password after logging in.</p>"
                     f"<p>Regards,<br>ARRM Team.</p>"
                 )
+<<<<<<< HEAD
                 print(user_account_details["password"])
                 sender = "projectile.webgeeks@gmail.com"
                 recipient_list = [user_account_details["email"]]
@@ -75,6 +76,20 @@ class RegisterUsersView(APIView):
                 # else:
                 #     user_creation_response[-1]["email_sent"] = "success"
                 print(user_account_details["password"])
+=======
+                sender = "projectile.webgeeks@gmail.com"
+                recipient_list = [user_account_details["email"]]
+
+                email_sent = disseminate_email(subject, message, sender, recipient_list)
+                
+                user_creation_response.append(serializer.data)
+                user_creation_response[-1]["account_status"] = "success"
+
+                if email_sent == None:
+                    user_creation_response[-1]["email_sent"] = "failed"
+                else:
+                    user_creation_response[-1]["email_sent"] = "success"
+>>>>>>> fa9007de822d3fd50ac08af696e85c7cb86ab5a1
 
             else:
                 serializer.errors["account_status"] = "failed"

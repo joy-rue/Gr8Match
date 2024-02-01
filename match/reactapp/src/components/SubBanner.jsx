@@ -4,7 +4,7 @@ import banner from "./icons/sidebanner.png";
 
 const SubBanner = () => {
   return (
-    <div>
+    <div >
       <img
         src={banner}
         alt=""
@@ -15,6 +15,7 @@ const SubBanner = () => {
           paddingRight: "1.2vw",
           backgroundColor: "white",
           borderRadius: "10px",
+          // height: "300px",
         }}
       />
     </div>

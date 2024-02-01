@@ -1,0 +1,13 @@
+import "bootstrap/dist/css/bootstrap.min.css";
+import home from "./components/icons/home.png";
+import NavOption from "./components/NavOption";
+
+const Test = () => {
+  return (
+    <div className="Test__body">
+      <NavOption Icon={home} title={"Home"} />
+    </div>
+  );
+};
+
+export default Test;

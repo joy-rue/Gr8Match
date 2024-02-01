@@ -1,0 +1,19 @@
+import "bootstrap/dist/css/bootstrap.min.css";
+import ProjectCard from "./components/ProjectCard";
+
+const Test = () => {
+  return (
+    <div className="Test__body">
+      <ProjectCard
+        key={1}
+        title={"Ghana Economic Index Study for people with special abilities"}
+        dueDate={"22 Aug 2023"}
+        progress={16}
+        milestone={"Ethnographic Research"}
+        timeleft={"2wks"}
+      />
+    </div>
+  );
+};
+
+export default Test;

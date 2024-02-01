@@ -25,14 +25,14 @@ const ApplytoProject = ({
   };
 
   return (
-      <Link
-        to={`/exploreproject/${id}`}
-        style={{
-          textDecoration: "none",
-          color: "inherit",
-          fontWeight: "inherit",
-        }}
-      >
+    <Link
+      to="/exploreproject"
+      style={{
+        textDecoration: "none" /* Remove underline */,
+        color: "inherit",
+        fontWeight: "inherit",
+      }}
+    >
       <div
         style={{
           position: "relative",
@@ -41,6 +41,7 @@ const ApplytoProject = ({
           padding: "20px",
           borderRadius: "15px",
         }}
+        className="card"
       >
         <div style={{ maxWidth: "50vw", marginTop: "5px" }}>
           <HorizontalList
@@ -59,39 +60,10 @@ const ApplytoProject = ({
               <VerticalList
                 spacing={10}
                 items={[
-                  <HorizontalList
-                    spacing={30}
-                    items={[
-                      <div style={{ fontSize: "22px", fontWeight: "500" }}>
-                        {title}{" "}
-                      </div>,
-                      <div
-                        style={{
-                          position: "absolute",
-                          right: "20px",
-                          display: "flex",
-                        }}
-                      >
-                        <button
-                          style={{
-                            border: "none",
-                            borderRadius: "5px",
-                            width: "100px",
-                            marginRight: "10px",
-                            padding: "5px 10px",
-                            fontWeight: "600",
-                            backgroundColor: "#AD3537",
-                            color: "white",
-                          }}
-                          onClick={handleApplyClick}
-                        >
-                          {applicationStatus === "applied"
-                            ? "Applied"
-                            : "Apply"}
-                        </button>
-                      </div>,
-                    ]}
-                  />,
+                  <div style={{ fontSize: "22px", fontWeight: "500" }}>
+                    {title}{" "}
+                  </div>,
+
                   <HorizontalList
                     spacing={40}
                     items={[

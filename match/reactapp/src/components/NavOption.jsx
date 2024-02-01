@@ -1,11 +1,16 @@
-import React, { ElementType } from "react";
-import "./NavOption.css";
+import React from "react";
 
-
-
-const NavOption=({ Icon, title }) =>{
+const NavOption = ({ Icon, title }) => {
   return (
-    <div className="navOption">
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        color: "black",
+        cursor: "pointer",
+      }}
+    >
       {typeof Icon === "string" ? (
         <img
           src={Icon}
@@ -19,6 +24,6 @@ const NavOption=({ Icon, title }) =>{
       <h6 className="navOption__title">{title}</h6>
     </div>
   );
-}
+};
 
 export default NavOption;

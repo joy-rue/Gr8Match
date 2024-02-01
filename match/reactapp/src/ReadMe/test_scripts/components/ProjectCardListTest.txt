@@ -1,0 +1,40 @@
+import "bootstrap/dist/css/bootstrap.min.css";
+import ProjectCardList from "./components/ProjectCardList";
+import ProjectCard from "./components/ProjectCard";
+
+const Test = () => {
+  const dataList = [
+    {
+      id: 1,
+      title: "Ghana Economic Index Study for people with special abilities",
+      milestone: "Participant Sampling",
+    },
+    // { id: 2, title: "Item 2", milestone: "milestone 2" },
+    {
+      id: 3,
+      title: "Learning Models for RISC and CISC architecture and Algorithms",
+      milestone: "Ethnographic Research",
+    },
+  ];
+  return (
+    <div className="Test__body">
+      <ProjectCardList
+        cards={[
+          ...(dataList &&
+            dataList.map((item) => (
+              <ProjectCard
+                key={item.id}
+                title={item.title}
+                dueDate={"22 Aug 2023"}
+                progress={16}
+                milestone={item.milestone}
+                timeleft={"2wks"}
+              />
+            ))),
+        ]}
+      />
+    </div>
+  );
+};
+
+export default Test;

@@ -1,0 +1,25 @@
+import "bootstrap/dist/css/bootstrap.min.css";
+import WorKExperience from "./components/WorkExperience";
+import ashesilogoblank from "./components/icons/ashesiblanklogo.png";
+
+
+const Test = () => {
+  return (
+    <div style={{ width: "60vw" }}>
+      <WorKExperience
+        active={true}
+        profile={ashesilogoblank}
+        title={"Participant Sampling"}
+        dueDate={"20th August 2023"}
+        timeleft={"2wks"}
+        People={["Clark Kent", "Superman", "Naruto Uzumaki"]}
+        description={
+          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed dapibus eros eu vehicula interdum. Cras nec ultricies massa. Curabitur rutrum, diam id consequat consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed dapibus eros eu vehicula interdum. Cras nec ultricies massa. Curabitur rutrum, diam id consequat consequat"
+        }
+        workhours={40}
+      />
+    </div>
+  );
+};
+
+export default Test;

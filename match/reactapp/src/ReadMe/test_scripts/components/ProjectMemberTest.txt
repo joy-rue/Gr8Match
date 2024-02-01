@@ -1,0 +1,18 @@
+import "bootstrap/dist/css/bootstrap.min.css";
+import ashesilogoblank from "./components/icons/ashesiblanklogo.png";
+import ProjectMember from "./components/ProjectMember";
+
+const Test = () => {
+  return (
+    <div className="Test__body">
+      <ProjectMember
+        Name={"Naruto Uzumaki"}
+        role={"Research Assistant"}
+        active={true}
+        profile={ashesilogoblank}
+      />
+    </div>
+  );
+};
+
+export default Test;

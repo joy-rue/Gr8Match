@@ -1,0 +1,17 @@
+import "bootstrap/dist/css/bootstrap.min.css";
+import TaskContent from "./components/TaskContent";
+
+const Test = () => {
+  return (
+    <div style={{ width: "60vw" }}>
+      <TaskContent
+        title={"Create research Survey Lorem ipsum dolor sit amet"}
+        dueDate={"22 Aug 2023"}
+        dateCompleted={"1 Dec 2023"}
+        completed={true}
+      />
+    </div>
+  );
+};
+
+export default Test;

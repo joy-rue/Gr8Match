@@ -1,0 +1,12 @@
+import "bootstrap/dist/css/bootstrap.min.css";
+import HomeHeader from "./components/HomeHeader";
+
+const Test = () => {
+  return (
+    <div className="app__body">
+      <HomeHeader key="homeHeader" title={"My Projects"} spacing={"470px"} />{" "}
+    </div>
+  );
+};
+
+export default Test;

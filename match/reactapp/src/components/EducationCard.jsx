@@ -2,12 +2,7 @@ import React from "react";
 import HorizontalList from "./HorizontalList";
 import VerticalList from "./VerticalList";
 
-// interface Props {
-//   Institution: string;
-//   profile: string;
-//   Award: string;
-//   Date: string;
-// }
+
 
 const ProfileTab = ({ Institution, Award, profile, Date }) => {
   return (

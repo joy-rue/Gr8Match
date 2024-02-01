@@ -1,7 +1,7 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import Header from "./Header";
+import Header from "./components/Header";
 import VerticalList from "./components/VerticalList";
 import ProjectHeaderContent from "./components/ProjectHeaderContent";
 import Notification from "./components/Notification";
@@ -60,43 +60,58 @@ const RFTaskPage = () => {
       sender: "User2",
       date: "2024-01-11",
       time: "11:30 AM",
-      message: "This comment was yesterday.",
+      message: "This comment was Thursday.",
     },
     {
       id: 3,
-      sender: "User2",
+      sender: "User1",
       date: "2024-01-12",
       time: "11:30 AM",
-      message: "This comment is today.",
+      message: "This comment is Friday.",
+    },
+    {
+      id: 4,
+      sender: "User1",
+      date: "2024-01-13",
+      time: "11:30 AM",
+      message:
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed dapibus eros eu vehicula interdum. Cras nec ultricies massa. Curabitur rutrum, diam id consequat consequat",
     },
     {
       id: 4,
       sender: "User2",
       date: "2024-01-13",
       time: "11:30 AM",
-      message: "this comment is tomorrow",
+      message: "this comment is Saturday",
     },
     {
-      id: 5,
-      sender: "User2",
-      date: "2024-01-19",
+      id: 4,
+      sender: "User1",
+      date: "2024-01-13",
       time: "11:30 AM",
-      message: "This comment is in days.",
+      message: "this comment is Saturday",
     },
-    {
-      id: 6,
-      sender: "User2",
-      date: "2024-01-24",
-      time: "11:30 AM",
-      message: "This comment is in weeks",
-    },
-    {
-      id: 7,
-      sender: "User2",
-      date: "2024-03-12",
-      time: "11:30 AM",
-      message: "This comment is in months.",
-    },
+    // {
+    //   id: 5,
+    //   sender: "User2",
+    //   date: "2024-01-19",
+    //   time: "11:30 AM",
+    //   message: "This comment is in a couple of days.",
+    // },
+    // {
+    //   id: 6,
+    //   sender: "User2",
+    //   date: "2024-01-24",
+    //   time: "11:30 AM",
+    //   message: "This comment is in weeks",
+    // },
+    // {
+    //   id: 7,
+    //   sender: "User2",
+    //   date: "2024-03-12",
+    //   time: "11:30 AM",
+    //   message: "This comment is in months.",
+    // },
   ];
 
   const notificationElement = (
@@ -469,7 +484,7 @@ const RFTaskPage = () => {
               marginRight: "10px",
             }}
           >
-            {"Research Associate "}
+            {"Create research Survey Lorem ipsum dolor sit amet"}
           </h4>
           {state === "Pending" && pendingheaderIcons}
           {state === "Completed" && completedheaderIcons}
@@ -492,7 +507,6 @@ const RFTaskPage = () => {
                       style={{
                         width: "7px",
                         height: "7px",
-                        fontSize: "12px",
                         borderRadius: "50%",
                         backgroundColor: `${stateColor}`,
                         transform: "translateY(11px)",
@@ -511,12 +525,22 @@ const RFTaskPage = () => {
               </div>,
               <div
                 style={{
+                  fontWeight: "350",
+                  fontSize: "20px",
+                  width: "150px",
+                  color: "black",
+                }}
+              >
+                1 Dec 2023
+              </div>,
+              <div
+                style={{
                   fontWeight: "500",
                   color: "#0A66C2",
                   fontSize: "20px",
                 }}
               >
-                timeleft
+                2wks
               </div>,
             ]}
           />

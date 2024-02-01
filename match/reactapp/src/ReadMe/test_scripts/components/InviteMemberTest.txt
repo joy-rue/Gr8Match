@@ -1,0 +1,114 @@
+import "bootstrap/dist/css/bootstrap.min.css";
+import PopUpForm from "./components/PopUpForm";
+import { useState } from "react";
+import AddTask from "./components/AddTask";
+import InviteMember from "./components/InviteMember";
+
+const Test = () => {
+  const [PopUpOpen, setPopUpOpen] = useState(true);
+
+  const handleSubmit = (App) => {
+    console.log("Form Submitted");
+    setPopUpOpen(false);
+  };
+
+  const OnPopUpClose = () => {
+    setPopUpOpen(false);
+  };
+
+   const [items, setItems] = useState([
+     {
+       id: 1,
+       text: "Item 1",
+       checked: false,
+       priority: true,
+       priorityValue: 70,
+     },
+     {
+       id: 2,
+       text: "Item 2",
+       checked: false,
+       priority: false,
+       priorityValue: 80,
+     },
+     {
+       id: 3,
+       text: "Item 3",
+       checked: false,
+       priority: true,
+       priorityValue: 90,
+     },
+     {
+       id: 4,
+       text: "Item 4",
+       checked: false,
+       priority: true,
+       priorityValue: 100,
+     },
+     {
+       id: 5,
+       text: "Item 5",
+       checked: false,
+       priority: false,
+       priorityValue: 1,
+     },
+     {
+       id: 6,
+       text: "Item 6",
+       checked: false,
+       priority: true,
+       priorityValue: 2,
+     },
+     {
+       id: 7,
+       text: "Item 7",
+       checked: false,
+       priority: true,
+       priorityValue: 90,
+     },
+     {
+       id: 8,
+       text: "Item 8",
+       checked: false,
+       priority: true,
+       priorityValue: 100,
+     },
+     {
+       id: 9,
+       text: "Item 9",
+       checked: false,
+       priority: false,
+     },
+     {
+       id: 10,
+       text: "Item 10",
+       checked: false,
+       priority: false,
+     },
+
+     // Add more items as needed with different checked and priority values
+   ]);
+
+  return (
+    <div className="Test__body">
+      <PopUpForm
+        isOpen={PopUpOpen}
+        title={
+          <h3
+            style={{
+              marginLeft: "-20px",
+            }}
+          >
+            Invite Member (max 5)
+          </h3>
+        }
+        PopUpForm={
+          <InviteMember members={items} handleInviteMembers={handleSubmit} />
+        }
+        onClose={OnPopUpClose}
+      />
+    </div>
+  );
+};
+
+export default Test;

@@ -2,11 +2,8 @@ import React from "react";
 import ProfileTab from "./ProfileTab";
 import ashesilogoblank from "./icons/ashesiblanklogo.png";
 import ProgressBar from "./ProgressBar";
-import ListCard from "./ListCard";
-import SubListCard from "./SubListCard";
 import VerticalList from "./VerticalList";
 import HorizontalList from "./HorizontalList";
-import MilestoneContent from "./MilestoneContent";
 import { Link } from "react-router-dom";
 
 const ProjectCard = ({project_key, title, progress, milestone, dueDate, timeleft }) => {
@@ -56,7 +53,7 @@ const ProjectCard = ({project_key, title, progress, milestone, dueDate, timeleft
                 role={
                   <ProgressBar
                     title={
-                      <div style={{marginBottom:"7px"}}>
+                      <div style={{ marginBottom: "7px" }}>
                         <HorizontalList
                           spacing={10}
                           items={[
@@ -98,13 +95,14 @@ const ProjectCard = ({project_key, title, progress, milestone, dueDate, timeleft
                       overflow: "hidden",
                       whiteSpace: "nowrap",
                       textOverflow: "ellipsis",
+                      width: "170px",
                     }}
                   >
                     {milestone.length > 20
                       ? `${milestone.substring(0, 20)}...`
                       : milestone}
                   </div>,
-                  <div>{dueDate}</div>,
+                  <div style={{ width: "100px" }}>{dueDate}</div>,
                   <div style={{ fontWeight: "500", color: "#0A66C2" }}>
                     {timeleft}
                   </div>,

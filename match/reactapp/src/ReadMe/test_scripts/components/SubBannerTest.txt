@@ -1,0 +1,12 @@
+import "bootstrap/dist/css/bootstrap.min.css";
+import SubBanner from "./components/SubBanner";
+
+const Test = () => {
+  return (
+    <div className="Test__body">
+      <SubBanner />
+    </div>
+  );
+};
+
+export default Test;

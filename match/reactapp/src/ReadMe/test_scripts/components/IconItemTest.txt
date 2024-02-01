@@ -1,0 +1,13 @@
+import "bootstrap/dist/css/bootstrap.min.css";
+import accept from "./components/icons/accept.png";
+import IconItem from "./components/IconItem";
+
+const Test = () => {
+  return (
+    <div className="app__body">
+      <IconItem icon={accept} item={"accept"} />
+    </div>
+  );
+};
+
+export default Test;

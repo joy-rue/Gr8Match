@@ -1,20 +1,15 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import AppsContent from "./components/AppsContent";
-import Header from "./Header";
+import Header from "./components/Header";
 import ListCard from "./components/ListCard";
 import ashesilogoblank from "./components/icons/ashesiblanklogo.png";
-import editIcon from "./components/icons/editIcon.png";
 import sidebanner from "./components/icons/sidebanner.png";
 import VerticalList from "./components/VerticalList";
-import ProjectHeaderContent from "./components/ProjectHeaderContent";
-import groupprofile from "./components/icons/groupprofile.jpg";
 import ashesibanner from "./components/icons/campusbanner.png";
 import MilestoneContent from "./components/MilestoneContent";
-import ProjectMember from "./components/ProjectMember";
 import HorizontalList from "./components/HorizontalList";
 import SubListCard from "./components/SubListCard";
 import Notification from "./components/Notification";
-import Textbox from "./components/Textbox";
 import { TeamEnrollment } from "./components/TeamEnrollment";
 import ProfileHeaderContent from "./components/ProfileheaderContent";
 import ProfileHeader from "./components/ProfileHeader";
@@ -23,6 +18,7 @@ import WorkExperience from "./components/WorkExperience";
 import EducationCard from "./components/EducationCard";
 import SearchBox from "./components/SearchBox";
 import ProfileTab from "./components/ProfileTab";
+<<<<<<< HEAD
 import { Link, useParams } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import AddWorkExperience from "./components/AddWorkExperience";
@@ -40,6 +36,12 @@ const ProfilePage = () => {
   const [PopUpFormHeader, setPopUpFormHeader] = useState("");
   const {id} = useParams();
   const [userData, setUserData] = useState(null);
+=======
+import React from "react";
+
+
+const ProfilePage = () => {
+>>>>>>> fa9007de822d3fd50ac08af696e85c7cb86ab5a1
 
   useEffect(() => {
     const fetchUserProfile = async () => {
@@ -105,98 +107,6 @@ const ProfilePage = () => {
     } catch (error) {
       console.error("Error refreshing token:", error);
     }
-  };
-
-    const handleSkillPopUpForm = () => {
-      setPopUpOpen(true);
-      setPopUpFormHeader("Add Skill");
-      setPopForm(<AddSkill handleAddSkill={addSkill} />);
-    };
-
-    const deleteSkill = (checkedItems) => {
-      console.log("delete Skill");
-      console.log(`delete Skill: ${checkedItems}`);
-    };
-
-    const addSkill = (Skill) => {
-      console.log("add Skill");
-      console.log(`add Skill: ${Skill}`);
-      setPopUpOpen(false);
-    };
-
-  
-      const handleInterestPopUpForm = () => {
-        setPopUpOpen(true);
-        setPopUpFormHeader("Add Interest");
-        setPopForm(<AddInterest handleAddInterest={addInterest} />);
-      };
-
-      const deleteInterest = (checkedItems) => {
-        console.log("delete Interest");
-        console.log(`delete Interest: ${checkedItems}`);
-      };
-
-      const addInterest = (Interest) => {
-        console.log("add Interest");
-        console.log(`add Interest: ${Interest}`);
-        setPopUpOpen(false);
-      };
-
-
-
-    const handleEducationPopUpForm = () => {
-      setPopUpOpen(true);
-      setPopUpFormHeader("Add Education");
-      setPopForm(<AddEducation handleAddEducation={addEducation} />);
-    };
-
-    const deleteEducation = (checkedItems) => {
-      console.log("delete Education");
-      console.log(`delete Education: ${checkedItems}`);
-    };
-
-    const addEducation = (Institution, dateAwarded, Certification) => {
-      console.log("add Education");
-      console.log(`Institution: ${Institution}`);
-      console.log(`dateAwarded: ${dateAwarded}`);
-      console.log(`Certification: ${Certification}`);
-      setPopUpOpen(false);
-    };
-
-
-  const OnPopUpClose = () => {
-    setPopUpOpen(false);
-  };
-
-  const handleWorkExperiencePopUpForm = () => {
-    setPopUpOpen(true);
-    setPopUpFormHeader("Add Work Experience");
-    setPopForm(
-      <AddWorkExperience handleAddWorkExperience={addWorkExperience} />
-    );
-  };
-
-  const deleteWorkExperience = (checkedItems) => {
-    console.log("delete WorkExperience");
-    console.log(`delete WorkExperience: ${checkedItems}`);
-  };
-
-  const addWorkExperience = (
-    WorkExperience,
-    startDate,
-    endDate,
-    description,
-    teamMember,
-    workhours
-  ) => {
-    console.log("add WorkExperience");
-    console.log(`WorkExperience: ${WorkExperience}`);
-    console.log(`startDate: ${startDate}`);
-    console.log(`endDate: ${endDate}`);
-    console.log(`description: ${description}`);
-    console.log(`Team: ${teamMember}`);
-    console.log(`Workhours: ${workhours}`);
-    setPopUpOpen(false);
   };
 
   const appsElement = (
@@ -321,12 +231,6 @@ const ProfilePage = () => {
 
   return (
     <div>
-      <PopUpForm
-        isOpen={PopUpOpen}
-        title={PopUpFormHeader}
-        PopUpForm={PopForm}
-        onClose={OnPopUpClose}
-      />
       <Header
         Page={
           <HorizontalList
@@ -348,6 +252,7 @@ const ProfilePage = () => {
                     profile={userData?.profile_picture || myprofile}
                     Date={userData?.last_login || ""}
                     title={
+<<<<<<< HEAD
                       <div
                         style={{
                           display: "flex",
@@ -368,26 +273,34 @@ const ProfilePage = () => {
                           />
                         </Link>
                       </div>
+=======
+                      <div style={{ width: "90%" }}>{"Kelvin Kofi Doe"}</div>
+>>>>>>> fa9007de822d3fd50ac08af696e85c7cb86ab5a1
                     }
                     banner={ashesibanner}
                   />,
 
+<<<<<<< HEAD
                   <ModListCard
                     items={userData?.writing_samples?.map((sample)=>{sample.title}) || []}
+=======
+                  <ListCard
+                    items={WorkExperiencecontent}
+>>>>>>> fa9007de822d3fd50ac08af696e85c7cb86ab5a1
                     title={"Work Experience"}
                     NoItemMessage={"You have no work experience"}
-                    handleAddOperation={addWorkExperience}
-                    handleDeleteOperation={deleteWorkExperience}
-                    handleAddIconClick={handleWorkExperiencePopUpForm}
                   />,
+<<<<<<< HEAD
                   <ModListCard
                     items={ userData?.degrees?.map((degree)=>degree) || []}
+=======
+                  <ListCard
+                    items={EducationContent}
+>>>>>>> fa9007de822d3fd50ac08af696e85c7cb86ab5a1
                     title={"Education"}
                     NoItemMessage={"You have no education"}
-                    handleAddOperation={addEducation}
-                    handleDeleteOperation={deleteEducation}
-                    handleAddIconClick={handleEducationPopUpForm}
                   />,
+<<<<<<< HEAD
                   <ModListCard
                     items={userData?.interests?.map((interest)=>{interest}) || []}
                     title={"Skill"}
@@ -398,11 +311,17 @@ const ProfilePage = () => {
                   />,
                   <ModListCard
                     items={userData?.interests?.map((interest)=>{interest}) || []}
+=======
+                  <ListCard
+                    items={[]}
+                    title={"Skill"}
+                    NoItemMessage={"You have no skill"}
+                  />,
+                  <ListCard
+                    items={[]}
+>>>>>>> fa9007de822d3fd50ac08af696e85c7cb86ab5a1
                     title={"Interests"}
                     NoItemMessage={"You have no interests"}
-                    handleAddOperation={addInterest}
-                    handleDeleteOperation={deleteInterest}
-                    handleAddIconClick={handleInterestPopUpForm}
                   />,
                 ]}
               />,
@@ -421,11 +340,7 @@ const ProfilePage = () => {
                       borderRadius: "10px",
                     }}
                   />,
-                  <SubListCard
-                    items={notificationcontent}
-                    title={"Notifications (3)"}
-                    NoItemMessage={"You have no notifications"}
-                  />,
+
                   <SubListCard
                     items={teammembers}
                     title={
@@ -441,11 +356,11 @@ const ProfilePage = () => {
                     }
                     NoItemMessage={"No profiles found"}
                   />,
-                  //   <SubListCard
-                  //     items={enrollmentlist}
-                  //     title={"Team Enrollment Requests"}
-                  //     NoItemMessage={"No enrollment requests placed"}
-                  //   />,
+                  <SubListCard
+                    items={notificationcontent}
+                    title={"Notifications (3)"}
+                    NoItemMessage={"You have no notifications"}
+                  />,
                 ]}
               />,
             ]}

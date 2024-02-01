@@ -1,0 +1,32 @@
+import "bootstrap/dist/css/bootstrap.min.css";
+import Notification from "./components/Notification";
+import SubListCard from "./components/SubListCard";
+
+const Test = () => {
+    const notificationElement = (
+      <Notification
+        title={"Onedrive Library"}
+        text={
+          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed dapibus eros eu vehicula interdum. Cras nec ultricies massa. Curabitur rutrum, diam id consequat consequat"
+        }
+        date={"11:23 - Aug 2023"}
+      />
+    );
+
+    const notificationcontent = [
+      notificationElement,
+      notificationElement,
+      notificationElement,
+    ];
+  return (
+    <div className="Test__body">
+      <SubListCard
+        items={notificationcontent}
+        title={"Notifications (3)"}
+        NoItemMessage={"You have no notifications"}
+      />
+    </div>
+  );
+};
+
+export default Test;

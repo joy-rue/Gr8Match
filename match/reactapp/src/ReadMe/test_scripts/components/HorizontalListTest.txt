@@ -1,0 +1,31 @@
+import "bootstrap/dist/css/bootstrap.min.css";
+import HorizontalList from "./components/HorizontalList";
+import accept from "./components/icons/accept.png";
+import decline from "./components/icons/decline.png";
+
+const Test = () => {
+  return (
+    <div className="app__body">
+      <HorizontalList
+        spacing={15}
+        items={[
+          <div style={{ width: "200px" }}>
+            this component arranges items horizontally
+          </div>,
+          <img
+            src={decline}
+            alt=""
+            style={{ width: "25px", marginTop: "10px" }}
+          />,
+          <img
+            src={accept}
+            alt=""
+            style={{ width: "25px", marginTop: "10px" }}
+          />,
+        ]}
+      />
+    </div>
+  );
+};
+
+export default Test;

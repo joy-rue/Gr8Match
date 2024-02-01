@@ -1,0 +1,30 @@
+import "bootstrap/dist/css/bootstrap.min.css";
+import ListCard from "./components/ListCard";
+import Notification from "./components/Notification";
+
+const Test = () => {
+  const notificationElement = (
+    <Notification
+      key="notification"
+      title={"Onedrive Library"}
+      text={
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed dapibus eros eu vehicula interdum. Cras nec ultricies massa. Curabitur rutrum, diam id consequat consequat"
+      }
+      date={"11:23 - Aug 2023"}
+    />
+  );
+
+  const notificationContent = Array(3).fill(notificationElement);
+
+  return (
+    <div className="Test__body">
+      <ListCard
+        items={notificationContent}
+        title={"This is a List Card, it displays a list of items"}
+        NoItemMessage={"No items to be displayed"}
+      />
+    </div>
+  );
+};
+
+export default Test;

@@ -16,11 +16,11 @@ const ListCard = forwardRef(
       onSelectItem,
       showCheckbox,
       submitOperation,
-      isViewAll,
     },
     ref
   ) => {
     const [checkedItems, setCheckedItems] = useState([]);
+    const [isViewAll, setIsViewAll] = useState(false);
 
     useEffect(() => {
       // Reset checkedItems when showCheckbox changes
@@ -46,30 +46,53 @@ const ListCard = forwardRef(
         []
       );
 
-      const checkedItemsList = checkedItemIndices.map(
-        (index) => items[index]
-      );
+      const checkedItemsList = checkedItemIndices.map((index) => items[index]);
       // console.log("Checked Items:", checkedItemsList);
-      submitOperation(checkedItemsList,action);
+      submitOperation(checkedItemsList, action);
     };
 
     useImperativeHandle(ref, () => ({
       handlePrintCheckedItems,
+      handleCheckboxChange,
     }));
 
     // Determine the number of items to display based on isViewAll
     const displayItems = isViewAll ? items : items.slice(0, 7);
 
+    const ViewAll = () => {
+      setIsViewAll(!isViewAll);
+    };
+
+    const footerContent = (
+      <div
+        style={{ color: "#0077B5", fontWeight: "500", cursor: "pointer" }}
+        onClick={() => {
+          ViewAll();
+        }}
+      >
+        {isViewAll
+          ? "View Less"
+          : `View All (${Math.max(items.length - 7, 0)} more)`}
+      </div>
+    );
+
     return (
       <div>
-        <div className="card" style={{ width: "60vw", marginLeft: "0px" }}>
+        <div
+          className="card"
+          style={{
+            width: "60vw",
+            margin: "0px",
+            paddingLeft: "30px",
+            paddingRight: "30px",
+          }}
+        >
           <ul
             className="list-group list-group-flush"
             style={{ listStyleType: "none" }}
           >
             <li
               style={{
-                paddingLeft: "30px",
                 paddingTop: "10px",
                 fontSize: "22px",
                 fontWeight: "500",
@@ -92,13 +115,13 @@ const ListCard = forwardRef(
                 className="list-group-item"
                 key={index}
                 onClick={() => {
-                  onSelectItem?.(item);
-                  showCheckbox && handleCheckboxChange(index);
+                  (!showCheckbox && onSelectItem?.(item)) ||
+                    (showCheckbox && handleCheckboxChange(index));
                 }}
                 style={{
                   padding: "10px",
                   cursor: "pointer",
-                  paddingLeft: "30px",
+                  // paddingLeft: "30px",
                   display: "flex",
                   alignItems: "center",
                 }}
@@ -124,7 +147,7 @@ const ListCard = forwardRef(
                 padding: "15px",
               }}
             >
-              {footer}
+              {footer ? footer : footerContent}
             </li>
           </ul>
         </div>

@@ -8,18 +8,20 @@ export const TeamEnrollment = ({ Name, Role, Profile }) => {
   return (
     <div>
       <HorizontalList
-        spacing={20}
+        spacing={15}
         items={[
-          <ProfileTab Name={Name} role={Role} profile={Profile} />,
+          <div style={{ width: "200px" }}>
+            <ProfileTab Name={Name} role={Role} profile={Profile} />
+          </div>,
           <img
             src={decline}
             alt=""
-            style={{ width: "30px", marginTop: "10px" }}
+            style={{ width: "25px", marginTop: "10px" }}
           />,
           <img
             src={accept}
             alt=""
-            style={{ width: "30px", marginTop: "10px" }}
+            style={{ width: "25px", marginTop: "10px" }}
           />,
         ]}
       />

@@ -1,0 +1,29 @@
+import "bootstrap/dist/css/bootstrap.min.css";
+import EducationCard from "./components/EducationCard";
+import ListCard from "./components/ListCard";
+import ashesilogoblank from "./components/icons/ashesiblanklogo.png";
+import "bootstrap/dist/css/bootstrap.min.css";
+
+const Test = () => {
+  const Educationitem = (
+    <EducationCard
+      Institution={"Ashesi University"}
+      profile={ashesilogoblank}
+      Award={"Bsc. Computer Science"}
+      Date={"20 Aug 2023"}
+    />
+  );
+
+  let content = [Educationitem, Educationitem, Educationitem];
+  return (
+    <div className="app__body">
+      <ListCard
+        items={content}
+        title={"Education"}
+        NoItemMessage={"You have no team members"}
+      />
+    </div>
+  );
+};
+
+export default Test;

@@ -14,12 +14,8 @@ const ProjectHeaderContent = ({
   profile,
   banner,
 }) => {
-
-
-
-
   return (
-    <div style={{ position: "relative" }}>
+    <div className="card" style={{ margin: "0px", position: "relative" }}>
       {/* Existing content */}
       <div
         style={{
@@ -37,14 +33,16 @@ const ProjectHeaderContent = ({
             flex: "1", // Take 1/3 of the available vertical space
           }}
         >
-          {banner && <img
-            src={banner}
-            className="card-img-top"
-            alt=""
-            style={{
-              width: "100%",
-            }}
-          />}
+          {banner && (
+            <img
+              src={banner}
+              className="card-img-top"
+              alt=""
+              style={{
+                width: "100%",
+              }}
+            />
+          )}
         </div>
 
         {/* Content */}
@@ -109,9 +107,13 @@ const ProjectHeaderContent = ({
               <HorizontalList
                 spacing={20}
                 items={[
-                  <div style={{
-                    fontSize: "14px",
-                  }}>{Description}</div>,
+                  <div
+                    style={{
+                      fontSize: "14px",
+                    }}
+                  >
+                    {Description}
+                  </div>,
                   <div
                     style={{
                       marginLeft: "40px",

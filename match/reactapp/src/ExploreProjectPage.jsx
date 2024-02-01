@@ -1,17 +1,34 @@
+<<<<<<< HEAD
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+=======
+import "bootstrap/dist/css/bootstrap.min.css";
+import Header from "./components/Header";
+import ListCard from "./components/ListCard";
+import sidebanner from "./components/icons/sidebanner.png";
+import VerticalList from "./components/VerticalList";
+import ProjectHeaderContent from "./components/ProjectHeaderContent";
+import groupprofile from "./components/icons/groupprofile.jpg";
+import ashesibanner from "./components/icons/campusbanner.png";
+>>>>>>> fa9007de822d3fd50ac08af696e85c7cb86ab5a1
 import HorizontalList from "./components/HorizontalList";
 import HomeHeader from "./components/HomeHeader";
 import Header from "./Header";
 import VerticalList from "./components/VerticalList";
 import sidebanner from "./components/icons/sidebanner.png";
 import Notification from "./components/Notification";
+<<<<<<< HEAD
 import SubListCard from "./components/SubListCard";
 import ApplytoProject from "./components/ApplytoProject";
 import ashesilogoblank from "./components/icons/ashesiblanklogo.png"
 import Cookies from "js-cookie";
 import moment from "moment";
 import { useParams } from "react-router-dom";
+=======
+import IconItem from "./components/IconItem";
+import clockicon from "./components/icons/clockicon.png";
+import React, { useState } from "react";
+>>>>>>> fa9007de822d3fd50ac08af696e85c7cb86ab5a1
 
 const ExplorePage = () => {
   const [projects, setAllProjectsData] = useState({});
