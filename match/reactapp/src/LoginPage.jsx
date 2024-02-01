@@ -6,6 +6,55 @@ import { useNavigate, Routes, Route, Link } from "react-router-dom";
 import HomePage from "./RFHomePage"; // Import HomePage
 import Cookies from "js-cookie";
 
+// const ProtectedHome = ({ token }) => {
+//   const navigate = useNavigate();
+//   useEffect(() => {
+//     setupAxiosInterceptors();
+//   }, []);
+
+//   function setupAxiosInterceptors() {
+//     axios.interceptors.request.use((config) => {
+//       const accessToken = Cookies.get("access");
+//       if (accessToken) {
+//         config.headers.Authorization = `Bearer ${accessToken}`;
+//       }
+//       return config;
+//     });
+//   }
+
+//   const handleSubmit = async (e) => {
+//     e.preventDefault();
+
+//     try {
+//       const response = await axios.post(
+//         "http://127.0.0.1:5173/api/account/login/",
+//         {
+//           email,
+//           password: pass,
+//         }
+//       );
+//       const { access, refresh } = response.data;
+//       console.log("ACCESS & TOKEN HEREEEEEEEEE:", access);
+//       // Extract tokens from response data
+//       Cookies.set("access", access, { expires: 7 });
+
+//       // Set refresh token with a 7-day expiration
+//       Cookies.set("refresh", refresh, { expires: 7 });
+//       console.log("All Cookies 600000002:", Cookies.get()); // Log all cookies
+
+//       // Use access token for authorization
+//       setupAxiosInterceptors();
+
+//       navigate("/");
+//     } catch (error) {
+//       console.error("Error:", error.message);
+//       // Implement proper error handling here
+//     }
+//   };
+
+//   return <HomePage />; // Render HomePage if authorized
+// };
+
 const ProtectedHome = ({ token }) => {
   const navigate = useNavigate();
 
@@ -24,9 +73,9 @@ const Login = (props) => {
 
   function setupAxiosInterceptors() {
     axios.interceptors.request.use((config) => {
-      const token = Cookies.get("token");
-      if (token) {
-        config.headers.Authorization = `token ${token}`;
+      const accessToken = Cookies.get("access");
+      if (accessToken) {
+        config.headers.Authorization = `Bearer ${accessToken}`;
       }
       return config;
     });
@@ -34,27 +83,57 @@ const Login = (props) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    navigate("/home");
 
-    // try {
-    //   const response = await axios.post(
-    //     "http://127.0.0.1:8000/accounts/login/",
-    //     {
-    //       email,
-    //       password: pass,
-    //     }
-    //   );
-    //   // Extract token from response data
-    //   Cookies.set("token", response.data.token, {
-    //     secure: true,
-    //     httpOnly: true,
-    //   });
-    //   navigate("/");
-    // } catch (error) {
-    //   console.error("Error:", error.message);
-    //   // Implement proper error handling here
-    // }
+    try {
+      const response = await axios.post(
+        "http://127.0.0.1:5173/api/account/login/",
+        {
+          email,
+          password: pass,
+        }
+      );
+      const { access, refresh } = response.data;
+      console.log("ACCESS & TOKEN HEREEEEEEEEE:", access);
+      // Extract tokens from response data
+      Cookies.set("access", access, { expires: 7 });
+
+      // Set refresh token with a 7-day expiration
+      Cookies.set("refresh", refresh, { expires: 7 });
+      console.log("All Cookies 600000002:", Cookies.get()); // Log all cookies
+
+      // Use access token for authorization
+      setupAxiosInterceptors();
+
+      navigate("/home");
+    } catch (error) {
+      console.error("Error:", error.message);
+      // Implement proper error handling here
+    }
   };
+
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   navigate("/home");
+
+  // try {
+  //   const response = await axios.post(
+  //     "http://127.0.0.1:8000/accounts/login/",
+  //     {
+  //       email,
+  //       password: pass,
+  //     }
+  //   );
+  //   // Extract token from response data
+  //   Cookies.set("token", response.data.token, {
+  //     secure: true,
+  //     httpOnly: true,
+  //   });
+  //   navigate("/");
+  // } catch (error) {
+  //   console.error("Error:", error.message);
+  //   // Implement proper error handling here
+  // }
+  // };
 
   return (
     <Routes>

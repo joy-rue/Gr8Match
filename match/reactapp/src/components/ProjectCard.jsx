@@ -17,7 +17,6 @@ const ProjectCard = ({ title, progress, milestone, dueDate, timeleft }) => {
       }}
     >
       <div
-        
         style={{
           backgroundColor: "white",
           paddingLeft: "30px",
@@ -54,7 +53,7 @@ const ProjectCard = ({ title, progress, milestone, dueDate, timeleft }) => {
                 role={
                   <ProgressBar
                     title={
-                      <div style={{marginBottom:"7px"}}>
+                      <div style={{ marginBottom: "7px" }}>
                         <HorizontalList
                           spacing={10}
                           items={[
@@ -96,14 +95,14 @@ const ProjectCard = ({ title, progress, milestone, dueDate, timeleft }) => {
                       overflow: "hidden",
                       whiteSpace: "nowrap",
                       textOverflow: "ellipsis",
-                      width:"200px"
+                      width: "170px",
                     }}
                   >
                     {milestone.length > 20
                       ? `${milestone.substring(0, 20)}...`
                       : milestone}
                   </div>,
-                  <div>{dueDate}</div>,
+                  <div style={{ width: "100px" }}>{dueDate}</div>,
                   <div style={{ fontWeight: "500", color: "#0A66C2" }}>
                     {timeleft}
                   </div>,

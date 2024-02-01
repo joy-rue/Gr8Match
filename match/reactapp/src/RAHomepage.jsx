@@ -10,6 +10,71 @@ import SubBanner from "./components/SubBanner";
 import ProjectCard from "./components/ProjectCard";
 
 const RAHomePage = () => {
+  const [projects, setAllProjectsData] = useState([]);
+  const today = moment().format("Do MMM YYYY");
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // Retrieve the access token from cookies
+        const accessToken = Cookies.get("access");
+
+        // Check if the access token is present
+        if (accessToken) {
+          // Make the API request using the access token
+          const response = await axios.get(
+            "http://127.0.0.1:5173/api/project/get/",
+            {
+              method: "GET",
+              headers: {
+                Authorization: `Bearer ${accessToken}`,
+              },
+            }
+          );
+
+          if (response.status === 200) {
+            const responseData = response.data;
+            setAllProjectsData(responseData);
+          } else if (response.status === 401) {
+            await handleTokenRefresh();
+          } else {
+            console.error(
+              "Failed to fetch all projects data:",
+              response.status
+            );
+          }
+        } else {
+          console.error("Access token not present");
+        }
+      } catch (error) {
+        console.error("Error parsing JSON:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const handleTokenRefresh = async () => {
+    try {
+      // Make a request to your backend to refresh the access token using the refresh token
+      const refreshResponse = await axios.post(
+        "http://127.0.0.1:5173/api/account/refresh/",
+        {
+          refresh: Cookies.get("refresh"),
+        }
+      );
+
+      const newAccessToken = refreshResponse.data.access;
+
+      // Update the access token in cookies
+      Cookies.set("access", newAccessToken);
+
+      // Retry the original API request with the new access token
+      await fetchData();
+    } catch (error) {
+      console.error("Error refreshing token:", error);
+    }
+  };
 
   const notificationElement = (
     <Notification

@@ -11,32 +11,75 @@ import Notification from "./components/Notification";
 import { Link } from "react-router-dom";
 import SubBanner from "./components/SubBanner";
 import ProjectCard from "./components/ProjectCard";
-import { useAuth } from "./AuthContext";
-import { AuthProvider } from "./AuthContext";
-import { useNavigate } from "react-router-dom";
-import sidebanner from "./components/icons/sidebanner.png";
+import Cookies from "js-cookie";
+import moment from "moment";
 
-const RFHomePage = () => {
-  const [projects, setData] = useState([]);
+const HomePage = () => {
+  const [projects, setAllProjectsData] = useState([]);
+  const today = moment().format("Do MMM YYYY");
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const response = await fetch(
-  //         "http://127.0.0.1:8000/ra/get_all_projects/"
-  //       );
-  //       if (response.ok) {
-  //         const responseData = await response.json();
-  //         console.log(responseData); // Corrected: Use console.log instead of console
-  //         setData(JSON.parse(responseData.projects));
-  //       }
-  //     } catch (error) {
-  //       console.error("Error fetching data:", error);
-  //     }
-  //   };
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // Retrieve the access token from cookies
+        const accessToken = Cookies.get("access");
 
-  //   fetchData();
-  // }, []);
+        // Check if the access token is present
+        if (accessToken) {
+          // Make the API request using the access token
+          const response = await axios.get(
+            "http://127.0.0.1:5173/api/project/get/",
+            {
+              method: "GET",
+              headers: {
+                Authorization: `Bearer ${accessToken}`,
+              },
+            }
+          );
+
+          if (response.status === 200) {
+            const responseData = response.data;
+            setAllProjectsData(responseData);
+          } else if (response.status === 401) {
+            await handleTokenRefresh();
+          } else {
+            console.error(
+              "Failed to fetch all projects data:",
+              response.status
+            );
+          }
+        } else {
+          console.error("Access token not present");
+        }
+      } catch (error) {
+        console.error("Error parsing JSON:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const handleTokenRefresh = async () => {
+    try {
+      // Make a request to your backend to refresh the access token using the refresh token
+      const refreshResponse = await axios.post(
+        "http://127.0.0.1:5173/api/account/refresh/",
+        {
+          refresh: Cookies.get("refresh"),
+        }
+      );
+
+      const newAccessToken = refreshResponse.data.access;
+
+      // Update the access token in cookies
+      Cookies.set("access", newAccessToken);
+
+      // Retry the original API request with the new access token
+      await fetchData();
+    } catch (error) {
+      console.error("Error refreshing token:", error);
+    }
+  };
 
   const notificationElement = (
     <Notification
@@ -102,17 +145,6 @@ const RFHomePage = () => {
       </div>
     </Link>
   );
-  const [dataList, setDataList] = useState([
-    {
-      id: 1,
-      title: "Ghana Economic Index Study for people with special abilities",
-      milestone: "Participant Sampling",
-    },
-    // { id: 2, title: "Item 2", milestone: "milestone 2" },
-    { id: 3, title: "Learning Models for RISC and CISC architecture and Algorithms", milestone: "Ethnographic Research" },
-  ]);
-
-  dataList;
 
   return (
     <div>
@@ -129,19 +161,32 @@ const RFHomePage = () => {
                       <HomeHeader
                         key="homeHeader"
                         title={"My Projects"}
+                        date={today}
                         spacing={"470px"}
                       />,
                       <ProjectCardList
                         cards={[
-                          ...(dataList &&
-                            dataList.map((item) => (
+                          ...(projects &&
+                            projects.map((project) => (
                               <ProjectCard
-                                key={item.id}
-                                title={item.title}
-                                dueDate={"22 Aug 2023"}
+                                project_key={project.id}
+                                title={project.title}
+                                dueDate={project.end_date}
                                 progress={16}
-                                milestone={item.milestone}
-                                timeleft={"2wks"}
+                                milestone={
+                                  project.milestones[
+                                    project.milestones.length - 1
+                                  ].milestone
+                                }
+                                timeleft={
+                                  project.end_date
+                                    ? `${Math.ceil(
+                                        (new Date(project.end_date) -
+                                          new Date()) /
+                                          (1000 * 60 * 60 * 24 * 7)
+                                      )} wks`
+                                    : " 0 wks"
+                                }
                               />
                             ))),
                           createproject,
@@ -182,4 +227,4 @@ const RFHomePage = () => {
   );
 };
 
-export default RFHomePage;
+export default HomePage;

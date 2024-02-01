@@ -7,6 +7,7 @@ const Header = ({ Page }) => {
   return (
     <div>
       <div
+        key="header"
         style={{
           backgroundColor: "#F3F2EF",
           width: "100%",
