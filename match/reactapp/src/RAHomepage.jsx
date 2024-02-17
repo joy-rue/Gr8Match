@@ -8,9 +8,13 @@ import ProjectCardList from "./components/ProjectCardList";
 import Notification from "./components/Notification";
 import SubBanner from "./components/SubBanner";
 import ProjectCard from "./components/ProjectCard";
+import moment from "moment";
+import Cookies from "js-cookie";
+import axios from "axios";
 
 const RAHomePage = () => {
   const [projects, setAllProjectsData] = useState([]);
+const [allNotifications, setAllNotifications] = useState([]);
   const today = moment().format("Do MMM YYYY");
 
   useEffect(() => {
@@ -19,10 +23,20 @@ const RAHomePage = () => {
         // Retrieve the access token from cookies
         const accessToken = Cookies.get("access");
 
-        // Check if the access token is present
-        if (accessToken) {
-          // Make the API request using the access token
+        
+        if (accessToken) {// Make the API request for all user projects and notifications using the access token
+
           const response = await axios.get(
+            "http://127.0.0.1:5173/api/project/get/",
+            {
+              method: "GET",
+              headers: {
+                Authorization: `Bearer ${accessToken}`,
+              },
+            }
+          );
+
+          const noteResponse = await axios.get(
             "http://127.0.0.1:5173/api/project/get/",
             {
               method: "GET",
@@ -43,6 +57,14 @@ const RAHomePage = () => {
               response.status
             );
           }
+
+          if (noteResponse.status === 200) {
+            const noteResponseData = noteResponse.data;
+            setAllNotifications(noteResponseData);
+          } 
+          else if (noteResponse.status === 401)await handleTokenRefresh();
+          else console.error("Failed to fetch all notifications data:",noteResponse.status);
+
         } else {
           console.error("Access token not present");
         }
@@ -56,7 +78,7 @@ const RAHomePage = () => {
 
   const handleTokenRefresh = async () => {
     try {
-      // Make a request to your backend to refresh the access token using the refresh token
+      // Make a request to the backend to refresh access token
       const refreshResponse = await axios.post(
         "http://127.0.0.1:5173/api/account/refresh/",
         {
@@ -66,8 +88,7 @@ const RAHomePage = () => {
 
       const newAccessToken = refreshResponse.data.access;
 
-      // Update the access token in cookies
-      Cookies.set("access", newAccessToken);
+            Cookies.set("access", newAccessToken);
 
       // Retry the original API request with the new access token
       await fetchData();
@@ -75,6 +96,26 @@ const RAHomePage = () => {
       console.error("Error refreshing token:", error);
     }
   };
+
+
+  if (allNotifications) { //create notifcation cards for each notification
+    for (const notification of allNotifications) {
+      const newNotifications = (
+
+        <Notification
+          key="notification"
+          title={notification.type == 'project'? 'Project Notification': 'General Notification'}
+          text={
+            notification.detail
+          }
+          date={notification.date_created}
+          //ToDo: add clickable link
+        />
+      )
+      //allNotes.push(newNotifications);
+      setAllNotifications(newNotifications) //add elipses
+    }
+  }
 
   const notificationElement = (
     <Notification
@@ -123,17 +164,29 @@ const RAHomePage = () => {
                       />,
                       <ProjectCardList
                         cards={[
-                          ...(dataList &&
-                            dataList.map((item) => (
+                          ...(projects &&
+                            projects.map((project) => (
                               <ProjectCard
-                                key={item.id}
-                                title={item.title}
-                                dueDate={"22 Aug 2023"}
+                                project_key={project.id}
+                                title={project.title}
+                                dueDate={project.end_date}
                                 progress={16}
-                                milestone={item.milestone}
-                                timeleft={"2wks"}
+                                milestone={
+                                project.milestones[
+                                  project.milestones.length - 1
+                                ].milestone
+                              }
+                                timeleft={
+                                project.end_date
+                                  ? `${Math.ceil(
+                                      (new Date(project.end_date) -
+                                        new Date()) /
+                                        (1000 * 60 * 60 * 24 * 7)
+                                    )} wks`
+                                  : " 0 wks"
+                              }
                               />
-                            ))),
+                            )))
                         ]}
                       />,
                     ]}
@@ -152,8 +205,8 @@ const RAHomePage = () => {
                             <SubBanner />,
                             <SubListCard
                               // key="subListCard"
-                              items={notificationContent}
-                              title={"Notifications (3)"}
+                              items={notificationContent} //{allNotifications}
+                              title={`Notifications ${allNotifications.length}`}
                               NoItemMessage={"You have no notifications"}
                             />,
                           ]}

@@ -18,7 +18,6 @@ import WorkExperience from "./components/WorkExperience";
 import EducationCard from "./components/EducationCard";
 import SearchBox from "./components/SearchBox";
 import ProfileTab from "./components/ProfileTab";
-<<<<<<< HEAD
 import { Link, useParams } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import AddWorkExperience from "./components/AddWorkExperience";
@@ -36,12 +35,6 @@ const ProfilePage = () => {
   const [PopUpFormHeader, setPopUpFormHeader] = useState("");
   const {id} = useParams();
   const [userData, setUserData] = useState(null);
-=======
-import React from "react";
-
-
-const ProfilePage = () => {
->>>>>>> fa9007de822d3fd50ac08af696e85c7cb86ab5a1
 
   useEffect(() => {
     const fetchUserProfile = async () => {
@@ -252,7 +245,6 @@ const ProfilePage = () => {
                     profile={userData?.profile_picture || myprofile}
                     Date={userData?.last_login || ""}
                     title={
-<<<<<<< HEAD
                       <div
                         style={{
                           display: "flex",
@@ -273,34 +265,20 @@ const ProfilePage = () => {
                           />
                         </Link>
                       </div>
-=======
-                      <div style={{ width: "90%" }}>{"Kelvin Kofi Doe"}</div>
->>>>>>> fa9007de822d3fd50ac08af696e85c7cb86ab5a1
                     }
                     banner={ashesibanner}
                   />,
 
-<<<<<<< HEAD
                   <ModListCard
                     items={userData?.writing_samples?.map((sample)=>{sample.title}) || []}
-=======
-                  <ListCard
-                    items={WorkExperiencecontent}
->>>>>>> fa9007de822d3fd50ac08af696e85c7cb86ab5a1
                     title={"Work Experience"}
                     NoItemMessage={"You have no work experience"}
                   />,
-<<<<<<< HEAD
                   <ModListCard
                     items={ userData?.degrees?.map((degree)=>degree) || []}
-=======
-                  <ListCard
-                    items={EducationContent}
->>>>>>> fa9007de822d3fd50ac08af696e85c7cb86ab5a1
                     title={"Education"}
                     NoItemMessage={"You have no education"}
                   />,
-<<<<<<< HEAD
                   <ModListCard
                     items={userData?.interests?.map((interest)=>{interest}) || []}
                     title={"Skill"}
@@ -311,15 +289,6 @@ const ProfilePage = () => {
                   />,
                   <ModListCard
                     items={userData?.interests?.map((interest)=>{interest}) || []}
-=======
-                  <ListCard
-                    items={[]}
-                    title={"Skill"}
-                    NoItemMessage={"You have no skill"}
-                  />,
-                  <ListCard
-                    items={[]}
->>>>>>> fa9007de822d3fd50ac08af696e85c7cb86ab5a1
                     title={"Interests"}
                     NoItemMessage={"You have no interests"}
                   />,

@@ -3,10 +3,13 @@ import SearchBox from "./SearchBox";
 import VerticalList from "./VerticalList";
 import HorizontalList from "./HorizontalList";
 import inviteMemberIcon from "./icons/inviteMemberIcon.png";
+import axios from "axios";
+import Cookies from "js-cookie";
 
-const InviteMember = ({ members, handleInviteMembers }) => {
+const InviteMember = ({ members, project_id }) => {
+console.log(members);
   const [items, setItems] = useState(members);
-
+console.log(members);
   const handleCheckboxChange = (id) => {
     setItems((prevItems) => {
       const updatedItems = prevItems.map((item) =>
@@ -16,16 +19,14 @@ const InviteMember = ({ members, handleInviteMembers }) => {
       // Track the number of checked items
       const checkedCount = updatedItems.filter((item) => item.checked).length;
 
-      // If more than 5 items are checked, prevent checking more
-      if (checkedCount > 5) {
+      // If more than 3 items are checked, prevent checking more
+      if (checkedCount > 3) {
         return prevItems;
       }
-
       // Explicitly sort items by priority and then checked status
       const sortedItems = updatedItems.sort((a, b) => {
         if (a.checked !== b.checked) return a.checked ? -1 : 1;
-        if (a.priority !== b.priority) return a.priority ? -1 : 1;
-        if (a.priorityValue > b.priorityValue) return a.priorityValue ? -1 : 1;
+                if (a.priorityValue > b.priorityValue) return a.priorityValue ? -1 : 1;
 
         return 0;
       });
@@ -35,20 +36,71 @@ const InviteMember = ({ members, handleInviteMembers }) => {
   };
 
   useEffect(() => {
-    // Run handleCheckboxChange automatically when the component mounts
-    handleCheckboxChange(items[0].id);
-  }, []); // The empty dependency array ensures the effect runs only once on mount
+    inviteClick();
+  }, []); 
 
-  const inviteClick = () => {
-    // Get the checked items
+  ```
+  function is called to handle the selected RA by sending invitations as website notification and via email
+  ```
+  const inviteClick = async () => {
     const checkedItems = items.filter((item) => item.checked);
+const accessToken = Cookies.get("access");
+      const nodemailer = require('nodemailer');
 
-    // Print the checked items (you can replace this with your desired logic)
-    console.log("Checked Items:", checkedItems);
+      // Gmail SMTP
+      const transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+          user: 'your_email@gmail.com',
+          pass: 'your_password'
+        }
+        });
+        try {// Make a POST request to send the invitation for each checked item
 
-    // Perform your invite logic using the checked items
-    handleInviteMembers(checkedItems);
+          for (const ra of checkedItems) {
+            console.log(ra.id);
+            const sendInvitation = await axios.post(`http://127.0.0.1:5173/api/project/invitation/invite/`,
+              {
+                user_id: checkedItems.user_id, // Use ra.id to access the ID of the current checked item
+                project_id: project_id
+              },
+              {
+                headers: {
+                  'Content-Type': 'application/json',
+                  'Authorization': `Bearer ${accessToken}`,
+                },
+                withCredentials: true,
+              }
+            );
+
+            if (sendInvitation.status === 201) {// send emails after suuccessful database entry
+              console.log(`Success status ${ra.id}`);
+              const sendInvitationEmail = async (recipientEmails, project_id) => {
+                try {
+                  // Compose email
+                  let info = await transporter.sendMail({
+                    from: 'your_email@gmail.com',
+                    to: recipientEmails.join(', '), // Join the recipient emails with commas
+                    subject: 'Invitation to join Faculty on a project',
+                    text: `You have been invited to join the project: ${project_name}. Click the link to accept.`,
+                    html: `<p>You have been invited to join project with ID ${project_id}. Click the link to accept.</p>`
+                  });
+
+                  console.log('Email sent: ' + info.response);
+                } catch (error) {
+                  console.error('Error sending email:', error);
+                }
+              };
+
+            } else {
+              console.log(`Failed to invite user ${ra.id}`);
+            }
+          }
+        } catch (error) {
+          console.error("Error sending invitations:", error);
+        }
   };
+
 
   return (
     <div style={{ padding: "10px", paddingTop: "0px" }}>

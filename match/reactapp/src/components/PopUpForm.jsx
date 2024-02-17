@@ -1,11 +1,11 @@
 import React from "react";
 import closeIcon from "./icons/closeIcon.png";
 
-const PopUpForm = ({ isOpen, PopUpForm, title, onClose }) => {
+const PopUpForm = ({ isOpen, title, PopUpFormData, onClose }) => {
   const closePopUp = () => {
     onClose(); // Invoke the onClose function
   };
-
+console.log(PopUpFormData);
   return (
     <div>
       {/* Darkened background */}
@@ -18,7 +18,7 @@ const PopUpForm = ({ isOpen, PopUpForm, title, onClose }) => {
             left: 0,
             width: "100%",
             height: "100%",
-            backgroundColor: "rgba(0, 0, 0, 0.5)", // Semi-transparent dark background
+            backgroundColor: "rgba(0, 0, 0, 0.5)",
             zIndex: 1000, // Ensure the darkened background is above other elements
           }}
         />
@@ -69,7 +69,7 @@ const PopUpForm = ({ isOpen, PopUpForm, title, onClose }) => {
               }}
             />
           </div>
-          <div style={{ maxHeight: "70vh", overflowY: "auto" }}>{PopUpForm}</div>
+          <div style={{ maxHeight: "70vh", overflowY: "auto" }}>{PopUpFormData}</div>
         </div>
       )}
     </div>

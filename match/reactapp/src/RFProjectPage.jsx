@@ -14,6 +14,7 @@ import HorizontalList from "./components/HorizontalList";
 import SubListCard from "./components/SubListCard";
 import Notification from "./components/Notification";
 import { TeamEnrollment } from "./components/TeamEnrollment";
+import Cookies from "js-cookie";
 import { Link, useNavigate } from "react-router-dom";
 import editIcon from "./components/icons/editIcon.png";
 import ModListCard from "./components/ModListCard";
@@ -22,12 +23,143 @@ import React, { useState, useEffect } from "react";
 import AddApp from "./components/AddApp";
 import AddMilestone from "./components/AddMilestone";
 import AddMemberRole from "./components/AddMemberRole";
+import axios from "axios";
+import { useParams } from "react-router-dom";
+import moment from "moment";
 
 const ProjectPage = () => {
+const { id } = useParams();
+  const [projectData, setProjectData] = useState([]);
+  const [start, setStart] = useState([]);
+  const [end, setEnd] = useState([]);
+  const [teamMembers, setTeamMembers] = useState([]);
+  const [milestonesData, setMilestoneData] = useState([]);
   const [PopForm, setPopForm] = useState(null);
   const [PopUpOpen, setPopUpOpen] = useState(false);
   const [PopUpFormHeader, setPopUpFormHeader] = useState("");
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchProjectData = async () => {
+      try {
+        const accessToken = Cookies.get('access');
+
+        if (accessToken) {
+          const response = await axios.get(`http://127.0.0.1:5173/api/project/get/${id}/`, {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          });
+          //obtain data on team members for given project
+          const teamDataResponse = await axios.get(`http://127.0.0.1:5173/api/project/team/get/${id}/`, {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          });
+
+          if (response.status === 200) {
+            const responseData = response.data;
+            setProjectData(responseData);
+            if (responseData) {
+              setStart(
+                responseData && responseData.start_date
+                  ? moment(responseData.start_date).format(" Do MMM YYYY")
+                  : "set date"
+              );
+              setEnd(
+                responseData && responseData.end_date
+                  ? moment(responseData.end_date).format(" Do MMM YYYY")
+                  : "set date"
+              );
+              setMilestoneData(responseData.milestones);
+            }
+            console.log(responseData);
+          } else if (response.status === 401) {
+            // Token might be expired, attempt token refresh
+            await handleTokenRefresh();
+            // Retry the request after token refresh
+            await fetchProjectData();
+          } else {
+            console.error('Failed to fetch project data:', response.status);
+          }
+          if (teamDataResponse.status === 200) {
+            const teamDataResponseData = teamDataResponse.data;
+            setTeamMembers(teamDataResponseData);
+
+            console.log("0000000000 TEAM DATA HERE:", teamDataResponseData);
+          } else if (teamDataResponse.status === 401) {
+            // Token might be expired, attempt token refresh
+            await handleTokenRefresh();
+            // Retry the request after token refresh
+            await fetchProjectData();
+          } else {
+            console.error('Failed to fetch project team members:', response.status);
+          }
+        } else {
+          console.error('Access token not present');
+        }
+      } catch (error) {
+        console.error('Error during fetch:', error);
+      }
+    };
+
+    fetchProjectData();
+  }, [id]);
+
+  const handleTokenRefresh = async () => {
+    try {
+      // Make a request to your backend to refresh the access token using the refresh token
+      const refreshResponse = await axios.post(
+        "http://127.0.0.1:5173/api/account/refresh/",
+        {
+          refresh: Cookies.get("refresh"),
+        }
+      );
+
+      const newAccessToken = refreshResponse.data.access;
+
+      // Update the access token in cookies
+      Cookies.set("access", newAccessToken);
+
+      // Retry the original API request with the new access token
+      await fetchData();
+    } catch (error) {
+      console.error("Error refreshing token:", error);
+    }
+  };
+  var allMilestoneTasks = [];
+
+  if (projectData && milestonesData) {
+    for (const oneMilestone of milestonesData) {
+      for (const milestoneElement of oneMilestone.tasks) {
+        let name = milestoneElement.name ? milestoneElement.name : "task";
+
+        const newMilestoneContent = (
+          <MilestoneContent
+            key={milestoneElement.id}
+            profile={ashesilogoblank}
+            title={oneMilestone.milestone}
+            dueDate={milestoneElement.due_date
+              ? moment(milestoneElement.due_date).format("Do MMM YYYY")
+              : "-- -- --"} 
+              timeleft={
+                milestoneElement.due_date
+                  ? `${Math.ceil(
+                    ((new Date(milestoneElement.due_date)) - new Date()) /
+                    (1000 * 60 * 60 * 24 * 7)
+                  )} wks`
+                  : " 0 wks"
+              }
+            People={milestoneElement.assignee ? milestoneElement.assignee : ["assignment pending.."]}
+            description={milestoneElement.description ? name + "    " + ": " + milestoneElement.description : name + " : "}
+          />
+        );
+
+        allMilestoneTasks.push(newMilestoneContent);
+        ;
+      }
+    }
+  };
 
   const viewMilestonePage = () => {
     // You can replace '/another-page' with the path you want to navigate to
@@ -35,7 +167,7 @@ const ProjectPage = () => {
   };
 
   const viewMemberRole = () => {
-    navigate("/memberrole");
+    navigate(`/member_role/${projectData.id}`);
   };
 
   const viewApp = () => {

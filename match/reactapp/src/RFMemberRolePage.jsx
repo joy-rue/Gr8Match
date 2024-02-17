@@ -1,13 +1,7 @@
 import "bootstrap/dist/css/bootstrap.min.css";
-<<<<<<< HEAD:match/reactapp/src/MemberRolePage.jsx
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import Header from "./Header";
-=======
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
 import Header from "./components/Header";
->>>>>>> fa9007de822d3fd50ac08af696e85c7cb86ab5a1:match/reactapp/src/RFMemberRolePage.jsx
 import ListCard from "./components/ListCard";
 import VerticalList from "./components/VerticalList";
 import ProjectHeaderContent from "./components/ProjectHeaderContent";
@@ -38,12 +32,7 @@ import InviteMember from "./components/InviteMember";
 import AddMemberRole from "./components/AddMemberRole";
 import EditMemberRole from "./components/EditMemberRole";
 
-<<<<<<< HEAD:match/reactapp/src/MemberRolePage.jsx
-
-const MemberRole = () => {
-=======
 const RFMemberRole = () => {
->>>>>>> fa9007de822d3fd50ac08af696e85c7cb86ab5a1:match/reactapp/src/RFMemberRolePage.jsx
   const workhours = 40;
  
   const [mode, setMode] = useState("icons");
@@ -57,8 +46,10 @@ const RFMemberRole = () => {
   const [PopUpOpen, setPopUpOpen] = useState(false);
   const [PopUpFormHeader, setPopUpFormHeader] = useState("");
   const [isMatchRequested, setIsMatchRequested] = useState(false);
+const [matchResults, setMatchResults] = useState(false);
+  const [projectData, setProjectData] = useState(false);
   const [addPersonIcon, setAddPersonIcon] = useState(add_Icon);
-  const {project_id} = useParams();
+  const { project_id } = useParams();
 
   useEffect(() => {
     const getMatchData = async () => {
@@ -74,6 +65,7 @@ const RFMemberRole = () => {
         console.log(matchDataResponse);
   
         if (matchDataResponse.status === 200) {
+setMatchResults(matchDataResponse.data.map((item) => ({ user_id: item.user_id, user_email: item.user_email, checked: false, text: item.user, priorityValue: item.score })));
           setIsMatchRequested(true);
         } else if (matchDataResponse.status === 400) {
           handleTokenRefresh();
@@ -88,20 +80,50 @@ const RFMemberRole = () => {
         console.error("Could not send request:", error.message);
       }
     };
+
+    const getProjectData = async () => {
+      const accessToken = Cookies.get('access');
+      try {
+
+        const projectDataResponse = await axios.get(`http://127.0.0.1:5173/api/project/get/${project_id}/`, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        });
+
+
+        if (projectDataResponse.status === 200) {
+          const pData = projectDataResponse.data;
+          setIsPublished(pData.visibility == "public" ? true : false);
+          setProjectData(pData);
+        } else if (projectDataResponse.status === 400) {
+          handleTokenRefresh();
+          console.error("Project not found:", matchDataResponse.status);
+        } else if (matchDataResponse.status === 403) {
+          handleTokenRefresh();
+          console.log("No permission to request RA");
+        } else {
+          console.error("Unexpected status code:", matchDataResponse.status);
+        }
+      } catch (error) {
+        console.error("Could not send request:", error.message);
+      }
+    };
+
     getMatchData();
+getProjectData();
   }, [project_id]);  
   
 
   const handleMatchRequest = async () => {
-    console.log(project_id);
-    try {
+        try {
       const accessToken = Cookies.get("access");
 
       // Check if the match is already requested
-      if (isMatchRequested) {
-        console.log("Match request already sent");
-
-      } else {
+      if (
+        // isMatchRequested
+        true
+      ) {
         // Make a POST request to send the match request
         const matchResponse = await axios.post(
           `http://127.0.0.1:5173/api/project/match/request/${project_id}/`, 
@@ -116,18 +138,17 @@ const RFMemberRole = () => {
         );
 
         if (matchResponse.status === 200) {
-        
+        setMatchResults(matchResponse.data.map((item, i) => ({ id: i, checked: false, text: item.user, priorityValue: item.score })));
           setIsMatchRequested(true);
           
+
         } else if (matchResponse.status === 401) {
           await handleTokenRefresh();  
-          console.log("back here again");        
-          console.error("Failed to send match request:", matchResponse.status);
+                    console.error("Failed to send match request:", matchResponse.status);
         } else {
            const handleTokenRefresh = async () => {
     try {
-      // Make a request to your backend to refresh the access token using the refresh token
-      const refreshResponse = await axios.post(
+            const refreshResponse = await axios.post(
         "http://127.0.0.1:5173/api/account/refresh/",
         {
           refresh: Cookies.get("refresh"),
@@ -136,8 +157,7 @@ const RFMemberRole = () => {
 
       const newAccessToken = refreshResponse.data.access;
 
-      // Update the access token in cookies
-      Cookies.set("access", newAccessToken);
+            Cookies.set("access", newAccessToken);
 
       // Retry the original API request with the new access token
       await fetchData();
@@ -156,14 +176,15 @@ const RFMemberRole = () => {
     }
   };
 
-<<<<<<< HEAD:match/reactapp/src/MemberRolePage.jsx
 
   const publish = async () => {
     const accessToken = Cookies.get('access');
     try {
       
       
-      const publishResponse = await axios.post(`http://127.0.0.1:5173/api/project/visibility/change/${project_id}/`, {},
+      const publishResponse = await axios.patch(`http://127.0.0.1:5173/api/project/visibility/change/${project_id}/`, {
+        "visibility": isPublished ? "private" : "public"
+      },
       {
         headers: {
           'Content-Type': 'application/json', 
@@ -173,14 +194,14 @@ const RFMemberRole = () => {
       }
       );
 
-      console.log(publishResponse);
+      
 
       if (publishResponse.status === 200) {
-        setIsMatchRequested(true);
-      } else if (publishResponse.status === 400){
+        setIsPublished(pData.visibility == "public" ? true : false);
+      } else if (publishResponse.status === 400) {
         handleTokenRefresh();
         console.error("Project not found:", publishResponse.status);
-      } else if (publishResponse.status === 403){
+      } else if (publishResponse.status === 403) {
         handleTokenRefresh();
         console.log("No permission to publish");
       } else {
@@ -194,8 +215,7 @@ const RFMemberRole = () => {
 
   const handleTokenRefresh = async () => {
     try {
-      // Make a request to your backend to refresh the access token using the refresh token
-      const refreshResponse = await axios.post(
+            const refreshResponse = await axios.post(
         "http://127.0.0.1:5173/api/account/refresh/",
         {
           refresh: Cookies.get("refresh"),
@@ -214,8 +234,6 @@ const RFMemberRole = () => {
     }
   };
 
-=======
->>>>>>> fa9007de822d3fd50ac08af696e85c7cb86ab5a1:match/reactapp/src/RFMemberRolePage.jsx
   const appsElement =
     "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed dapibus eros eu vehicula interdum. Cras nec ultricies massa. Curabitur rutrum, diam id consequat consequat";
 
@@ -360,7 +378,7 @@ const RFMemberRole = () => {
       case "invite":
         setMode("icons");
         console.log(action);
-        console.log("here");
+        
         handleInviteMemberPopUpForm();
         break;
       case "edit":
@@ -409,18 +427,26 @@ const RFMemberRole = () => {
     }
   };
 
-  const handleInviteMemberPopUpForm = () => {
+  
+  //ToDo: check the inviteMember script, does not get called?display members
+  const handleInviteMemberPopUpForm = async () => {
     setPopUpFormHeader(
       <h3
         style={{
           marginLeft: "-20px",
         }}
       >
-        Invite Member (max 5)
+        Invite Member (max 3)
       </h3>
     );
+
     setPopUpOpen(true);
-    setPopForm(<InviteMember members={items} />);
+    
+    console.log(PopUpOpen);
+
+    setPopForm(<InviteMember members={matchResults} project_id={project_id} project_name={p} />);
+console.log(PopUpForm);
+
   };
 
   const handleEditMemberRolePopUpForm = () => {
@@ -558,7 +584,7 @@ const RFMemberRole = () => {
             </div>,
            <div
            style={{ cursor: "pointer" }}
-           onClick={() => handleMatchRequest()}
+           onClick={() => { handleMatchRequest(); handleOperation("invite"); }}
          >
            <img style={{ width: "25px" }} src={isMatchRequested ? profile : adduserIcon} alt="" />
          </div>,
@@ -577,15 +603,18 @@ const RFMemberRole = () => {
   const openPopUp = () => {
     setPopUpOpen(true);
   };
-
+console.log(PopForm);
+  console.log(PopUpOpen);
   return (
     <div>
+{PopUpOpen && PopForm && (
       <PopUpForm
         isOpen={PopUpOpen}
         title={PopUpFormHeader}
-        PopUpForm={PopForm}
+        PopUpFormData={PopForm}
         onClose={OnPopUpClose}
       />
+)}
       <Header
         // PopUpisOpen={true}
         // PopUptitle={"HIe"}

@@ -1,6 +1,7 @@
+import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import AppsContent from "./components/AppsContent";
-import Header from "./components/Header";
+import Header from "./components/Header.jsx";
 import ListCard from "./components/ListCard";
 import ashesilogoblank from "./components/icons/ashesiblanklogo.png";
 import sidebanner from "./components/icons/sidebanner.png";
@@ -13,11 +14,119 @@ import ProjectMember from "./components/ProjectMember";
 import HorizontalList from "./components/HorizontalList";
 import SubListCard from "./components/SubListCard";
 import Notification from "./components/Notification";
+import Textbox from "./components/Textbox";
 import { TeamEnrollment } from "./components/TeamEnrollment";
-import { useNavigate } from "react-router-dom";
-import React from "react";
+import Cookies from "js-cookie";
+import { Link, useNavigate } from "react-router-dom";
+import editIcon from "./components/icons/editIcon.png";
+import axios from "axios";
+import { useParams } from "react-router-dom";
+import moment from "moment";
+import ModListCard from "./components/ModListCard";
+import PopUpForm from "./components/PopUpForm";
+import AddApp from "./components/AddApp";
+import AddMilestone from "./components/AddMilestone";
+import AddMemberRole from "./components/AddMemberRole";
 
 const RAProjectPage = () => {
+const { id } = useParams();
+  const [projectData, setProjectData] = useState([]);
+  const [start, setStart] = useState([]);
+  const [end, setEnd] = useState([]);
+  const [teamMembers, setTeamMembers] = useState([]);
+  const [milestonesData, setMilestoneData] = useState([]);
+  const [PopForm, setPopForm] = useState(null);
+  const [PopUpOpen, setPopUpOpen] = useState(false);
+  const [PopUpFormHeader, setPopUpFormHeader] = useState("");
+  
+  useEffect(() => {
+    const fetchProjectData = async () => {
+      try {
+        const accessToken = Cookies.get('access');
+
+        if (accessToken) {
+          const response = await axios.get(`http://127.0.0.1:5173/api/project/get/${id}/`, {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          });
+          //obtain data on team members for given project
+          const teamDataResponse = await axios.get(`http://127.0.0.1:5173/api/project/team/get/${id}/`, {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          });
+
+          if (response.status === 200) {
+            const responseData = response.data;
+            setProjectData(responseData);
+            if (responseData) {
+              setStart(
+                responseData && responseData.start_date
+                  ? moment(responseData.start_date).format(" Do MMM YYYY")
+                  : "set date"
+              );
+              setEnd(
+                responseData && responseData.end_date
+                  ? moment(responseData.end_date).format(" Do MMM YYYY")
+                  : "set date"
+              );
+              setMilestoneData(responseData.milestones);
+            }
+            console.log(responseData);
+          } else if (response.status === 401) {
+            // Token might be expired, attempt token refresh
+            await handleTokenRefresh();
+            // Retry the request after token refresh
+            await fetchProjectData();
+          } else {
+            console.error('Failed to fetch project data:', response.status);
+          }
+          if (teamDataResponse.status === 200) {
+            const teamDataResponseData = teamDataResponse.data;
+            setTeamMembers(teamDataResponseData);
+
+            console.log("0000000000 TEAM DATA HERE:", teamDataResponseData);
+          } else if (teamDataResponse.status === 401) {
+            // Token might be expired, attempt token refresh
+            await handleTokenRefresh();
+            // Retry the request after token refresh
+            await fetchProjectData();
+          } else {
+            console.error('Failed to fetch project team members:', response.status);
+          }
+        } else {
+          console.error('Access token not present');
+        }
+      } catch (error) {
+        console.error('Error during fetch:', error);
+      }
+    };
+
+    fetchProjectData();
+  }, [id]);
+
+  const handleTokenRefresh = async () => {
+    try {
+      // Make a request to your backend to refresh the access token using the refresh token
+      const refreshResponse = await axios.post(
+        "http://127.0.0.1:5173/api/account/refresh/",
+        {
+          refresh: Cookies.get("refresh"),
+        }
+      );
+
+      const newAccessToken = refreshResponse.data.access;
+
+      // Update the access token in cookies
+      Cookies.set("access", newAccessToken);
+
+      // Retry the original API request with the new access token
+      await fetchData();
+    } catch (error) {
+      console.error("Error refreshing token:", error);
+    }
+  };
   const navigate = useNavigate();
 
   const viewMemberRole = () => {
@@ -25,13 +134,114 @@ const RAProjectPage = () => {
   };
 
   const viewMilestonePage = () => {
-    // You can replace '/another-page' with the path you want to navigate to
-    navigate("/milestone");
+        navigate("/milestone");
   };
 
+// will later enable faculty to enter the right link
   const viewApp = () => {
     window.open("https://ashesi.instructure.com/login/canvas", "_blank");
   };
+
+  var allMilestoneTasks = [];
+
+  if (projectData && milestonesData) {
+    for (const oneMilestone of milestonesData) {
+      for (const milestoneElement of oneMilestone.tasks) {
+        let name = milestoneElement.name ? milestoneElement.name : "task";
+
+        const newMilestoneContent = (
+          <MilestoneContent
+            key={milestoneElement.id}
+            profile={ashesilogoblank}
+            title={oneMilestone.milestone}
+            dueDate={milestoneElement.due_date
+              ? moment(milestoneElement.due_date).format("Do MMM YYYY")
+              : "-- -- --"}
+            timeleft={
+              milestoneElement.due_date
+                ? `${Math.ceil(
+                  ((new Date(milestoneElement.due_date)) - new Date()) /
+                  (1000 * 60 * 60 * 24 * 7)
+                )} wks`
+                : " 0 wks"
+            }
+            People={milestoneElement.assignee ? milestoneElement.assignee : ["assignment pending.."]}
+            description={milestoneElement.description ? name + "    " + ": " + milestoneElement.description : name + " : "}
+          />
+        );
+
+        allMilestoneTasks.push(newMilestoneContent);
+        ;
+      }
+    }
+  };
+
+  const onSelectItem = () => {
+    // Redirect to the project page after the component is rendered
+    navigate(`/member_role/${id}/`);
+
+    // Your logic for selecting an item goes here
+  };
+
+  const OnPopUpClose = () => {
+    setPopUpOpen(false);
+  };
+
+  const handleAppPopUpForm = () => {
+    setPopUpOpen(true);
+    setPopUpFormHeader("Add App");
+    setPopForm(<AddApp handleAddApp={addApp} />);
+  };
+
+  const deleteApp = (checkedItems) => {
+    console.log("delete App");
+    console.log(`delete App: ${checkedItems}`);
+  };
+
+  const addApp = (App) => {
+    console.log("add App");
+    console.log(`add App: ${App}`);
+    setPopUpOpen(false);
+  };
+
+  const handleMilestonePopUpForm = () => {
+    setPopUpOpen(true);
+    setPopUpFormHeader("Add Milestone");
+    setPopForm(<AddMilestone handleAddMilestone={addMilestone} />);
+  };
+
+  const deleteMilestone = (checkedItems) => {
+    console.log("delete Milestone");
+    console.log(`delete Milestone: ${checkedItems}`);
+  };
+
+  const addMilestone = (Title, startDate, endDate, description, teamMember) => {
+    console.log("add Milestone");
+    console.log(`add Milestone: ${Title}`);
+    console.log(`add Milestone: ${startDate}`);
+    console.log(`add Milestone: ${endDate}`);
+    console.log(`add Milestone: ${description}`);
+    console.log(`add Milestone: ${teamMember}`);
+    setPopUpOpen(false);
+  };
+
+  const handleMemberRolePopUpForm = () => {
+    setPopUpOpen(true);
+    setPopUpFormHeader("Add Member Role");
+    setPopForm(<AddMemberRole handleAddMemberRole={addMemberRole} />);
+  };
+
+  const deleteMemberRole = (checkedItems) => {
+    console.log("delete MemberRole");
+    console.log(`delete MemberRole: ${checkedItems}`);
+  };
+
+  const addMemberRole = (MemberRole) => {
+    console.log("add MemberRole");
+    console.log(`add MemberRole: ${MemberRole}`);
+    setPopUpOpen(false);
+  };
+
 
   const appsElement = (
     <AppsContent
@@ -125,6 +335,12 @@ const RAProjectPage = () => {
 
   return (
     <div>
+<PopUpForm
+        isOpen={PopUpOpen}
+        title={PopUpFormHeader}
+        PopUpForm={PopForm}
+        onClose={OnPopUpClose}
+      />
       <Header
         Page={
           <HorizontalList
@@ -134,18 +350,43 @@ const RAProjectPage = () => {
                 spacing={20}
                 items={[
                   <ProjectHeaderContent
-                    Duration={"Aug 2023 - Jun 2024"}
-                    TimeLeft={"1yr 3months"}
+                    Duration={`${start} - ${end}`}
+                    TimeLeft={
+                      projectData &&
+                        projectData.start_date &&
+                        projectData.end_date
+                        ? `${Math.ceil(
+                          (new Date(projectData.end_date) - new Date(projectData.start_date)) / (1000 * 60 * 60 * 24 * 7)
+                        )} wks` : " 0 wks"
+                    }
                     Description={
-                      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed dapibuseros eu vicula interdum.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed dapibuseros eu vehicula interdum."
+                      projectData
+                        ? projectData.description
+                        : "No project Description"
                     }
                     profile={groupprofile}
-                    Date={"12 Aug 2023"}
+                    Date={moment().format(' Do MMM YYYY')}
                     title={
+<div
+                        style={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                        }}
+                      >
                       <div style={{ maxWidth: "90%" }}>
-                        {
-                          "Ghana Economic Index Study for people with special abilities "
-                        }
+                        {projectData ? projectData.title : "No Title"}
+                        </div>
+                        <Link to={`/editproject/${id}`} >
+                          <img
+                            src={editIcon}
+                            alt=""
+                            style={{
+                              width: "28px",
+                              marginRight: "20px",
+                              transform: "translateY(-10px)",
+                            }}
+                          />
+                        </Link>
                       </div>
                     }
                     Progress={24}
